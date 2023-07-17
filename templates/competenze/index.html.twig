@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}Competenze {% endblock %}
+
+{% block body %}
+
+
+    <h1>Lista delle competenze </h1>
+
+
+        {% for competenze in competenzes %}
+
+              <div class="row text-left align-left">
+              <div class="col-md-1"> {{ competenze.id }}</div>
+              <div class="col-md-2"> {{ competenze.titolo }}</div>
+              <div class="col-md-8"> {{ competenze.descrizione }}</div>
+
+
+
+        {% else %}
+            <div>
+                <p>no records found</p>
+            </div>
+        {% endfor %}
+
+{% endblock %}

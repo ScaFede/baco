@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Conoscenze{% endblock %}
+
+{% block body %}
+    <h1>Create new Conoscenze</h1>
+
+    {{ include('conoscenze/_form.html.twig') }}
+
+    <a href="{{ path('app_conoscenze_index') }}">back to list</a>
+{% endblock %}

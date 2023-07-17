@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conoscenze{% endblock %}
+
+{% block body %}
+    <h1>Conoscenze</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ conoscenze.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ conoscenze.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ conoscenze.description }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ conoscenze.status ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ conoscenze.type }}</td>
+            </tr>
+            <tr>
+                <th>CreateAt</th>
+                <td>{{ conoscenze.createAt ? conoscenze.createAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_conoscenze_index') }}">back to list</a>
+
+    <a href="{{ path('app_conoscenze_edit', {'id': conoscenze.id}) }}">edit</a>
+
+    {{ include('conoscenze/_delete_form.html.twig') }}
+{% endblock %}
