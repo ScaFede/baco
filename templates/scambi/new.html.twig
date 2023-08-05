@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Scambi{% endblock %}
+
+{% block body %}
+    <h1>Create new Scambi</h1>
+
+    {{ include('scambi/_form.html.twig') }}
+
+    <a href="{{ path('app_scambi_index') }}">back to list</a>
+{% endblock %}

@@ -24,6 +24,9 @@ use Symfony\Component\Form\Extension\Core\Type\{PasswordType, RepeatedType};
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Form\{FormBuilderInterface, FormEvent, FormEvents};
 
+
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+
 // use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 // use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 // use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -85,6 +88,10 @@ class UserCrudController extends AbstractCrudController
           AssociationField::new('competenzeRel')->autocomplete(),
           AssociationField::new('CompetenzeBisRel')->autocomplete(),
           Field::new('nickname'),
+          ImageField::new('avatar')
+            ->setBasePath('uploads/avatar')
+            ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
+            ->setUploadDir('public/uploads/avatar'),
           //Field::new('password')->onlyOnForms(),
           Field::new('password')->setFormType(RepeatedType::class)
             ->setFormTypeOptions([

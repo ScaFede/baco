@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Scambi{% endblock %}
+
+{% block body %}
+    <h1>Edit Scambi</h1>
+
+    {{ include('scambi/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_scambi_index') }}">back to list</a>
+
+    {{ include('scambi/_delete_form.html.twig') }}
+{% endblock %}

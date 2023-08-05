@@ -11,7 +11,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[Vich\Uploadable]
+
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -47,11 +54,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: CompetenzeBis::class, mappedBy: 'UserRelation')]
     private Collection $CompetenzeBisRel;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageFile = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avatar = null;
+
+    #[ORM\ManyToMany(targetEntity: Scambi::class, mappedBy: 'userTarget')]
+    private Collection $ScambiUser;
+
+    // NOTE: This is not a mapped field of entity metadata, just a simple property.
+  //  #[Vich\UploadableField(mapping: 'bacouploader', fileNameProperty: 'imageName', size: 'imageSize')]
+  //  private ?File $imageFile = null;
+
     public function __construct()
     {
         $this->competenzeRel = new ArrayCollection();
         $this->createAt = new \DateTimeImmutable();
         $this->CompetenzeBisRel = new ArrayCollection();
+        $this->ScambiUser = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -221,6 +245,90 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $imageName): static
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?string
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?string $imageFile): static
+    {
+        $this->imageFile = $imageFile;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): static
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+
+
+
+      public function getAvatarUrl(): ?string
+      {
+          if (!$this->avatar) {
+              return null;
+          }
+
+          if (strpos($this->avatar, '/') !== false) {
+              return $this->avatar;
+          }
+
+          return sprintf('/uploads/avatars/%s', $this->avatar);
+      }
+
+      /**
+       * @return Collection<int, Scambi>
+       */
+      public function getScambiUser(): Collection
+      {
+          return $this->ScambiUser;
+      }
+
+      public function addScambiUser(Scambi $scambiUser): static
+      {
+          if (!$this->ScambiUser->contains($scambiUser)) {
+              $this->ScambiUser->add($scambiUser);
+              $scambiUser->addUserTarget($this);
+          }
+
+          return $this;
+      }
+
+      public function removeScambiUser(Scambi $scambiUser): static
+      {
+          if ($this->ScambiUser->removeElement($scambiUser)) {
+              $scambiUser->removeUserTarget($this);
+          }
+
+          return $this;
+      }
+
+
+
+
+
 
 
 }

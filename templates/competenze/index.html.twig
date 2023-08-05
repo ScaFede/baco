@@ -9,12 +9,30 @@
 
         {% for competenze in competenzes %}
 
-              <div class="row text-left align-left">
+
+              <div class="row d-flex justify-content-between">
               <div class="col-md-1"> {{ competenze.id }}</div>
               <div class="col-md-2"> {{ competenze.titolo }}</div>
+              <div class="col-md-2"> {{competenze.setTitolo('Nuovo Titolo')}}</div>
               <div class="col-md-8"> {{ competenze.descrizione }}</div>
+              <div class="col-md-8"> {{ competenze.userRel }}</div>
+
+              <div class="d-flex justify-content-between">
+
+              <a href=" {{ path('app_scambi_new',  {'statusString': competenze.titolo} )}}" class="btn btn-primary"
+              data-focus-mouse="false">Proponi scambio</a>
 
 
+                     <a class="text-white" href="{{ ea_url()
+                                    .setController('App\\Controller\\Admin\\CompetenzeCrudController')
+                                    .setAction('edit')
+                                    .setEntityId(competenze.id)
+                                    .set('competenze.status', FALSE)
+                                }}">
+                                                     <span class="fa fa-edit">Edit</span>
+                                                 </a>
+
+                </div>
 
         {% else %}
             <div>

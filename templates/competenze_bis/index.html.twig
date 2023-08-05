@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CompetenzeBis index{% endblock %}
+
+{% block body %}
+    <h1>Lista delle competenze Bis</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titolo</th>
+                <th>Descrizione</th>
+                <th>User Relation 1</th>
+                <th>User Relation 2</th>
+                <th>StatusActive</th>
+                <th>CreateAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for competenze_bi in competenze_bis %}
+            <tr>
+                <td>{{ competenze_bi.id }}</td>
+                <td>{{ competenze_bi.Titolo }}</td>
+                <td>{{ competenze_bi.Descrizione }}</td>
+
+
+                {% for user in competenze_bi.userRelation %}
+
+                <td>{{ user }}
+
+                <a href=" {{ path('app_scambi_new', { 'userTarget' : user } )}}" class="btn btn-primary"
+                data-focus-mouse="false">Proponi scambio</a>
+                </td>
+
+                  {% endfor %}
+
+                <td>{{ competenze_bi.StatusActive ? 'Yes' : 'No' }}</td>
+                <td>{{ competenze_bi.CreateAt ? competenze_bi.CreateAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_competenze_bis_show', {'id': competenze_bi.id}) }}">show</a>
+                    <a href="{{ path('app_competenze_bis_edit', {'id': competenze_bi.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_competenze_bis_new') }}">Create new</a>
+{% endblock %}

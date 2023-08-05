@@ -12,6 +12,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
+
+//TODO use EasyCorp\Bundle\EasyAdminBundle\Config\Crud; https://symfony.com/bundles/EasyAdminBundle/current/actions.html
+
+
 class CompetenzeCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -33,5 +37,8 @@ class CompetenzeCrudController extends AbstractCrudController
             Field::new('createAt'),
         ];
     }
+
+
+
 
 }

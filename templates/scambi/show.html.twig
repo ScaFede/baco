@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Scambi{% endblock %}
+
+{% block body %}
+    <h1>Scambi</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ scambi.id }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ scambi.status ? scambi.status|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ scambi.createdAt ? scambi.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>StatusString</th>
+                <td>{{ scambi.statusString }}</td>
+            </tr>
+            <tr>
+                <th>FromUser</th>
+                <td>{{ scambi.fromUser }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_scambi_index') }}">back to list</a>
+
+    <a href="{{ path('app_scambi_edit', {'id': scambi.id}) }}">edit</a>
+
+    {{ include('scambi/_delete_form.html.twig') }}
+{% endblock %}

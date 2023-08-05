@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Scambi index{% endblock %}
+
+{% block body %}
+    <h1>Scambi index</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Status</th>
+                <th>CreatedAt</th>
+                <th>StatusString</th>
+                <th>FromUser</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for scambi in scambis %}
+            <tr>
+                <td>{{ scambi.id }}</td>
+                <td>{{ scambi.status ? scambi.status|join(', ') : '' }}</td>
+                <td>{{ scambi.createdAt ? scambi.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ scambi.statusString }}</td>
+                <td>{{ scambi.fromUser }}</td>
+                <td>
+                    <a href="{{ path('app_scambi_show', {'id': scambi.id}) }}">show</a>
+                    <a href="{{ path('app_scambi_edit', {'id': scambi.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_scambi_new') }}">Create new</a>
+{% endblock %}

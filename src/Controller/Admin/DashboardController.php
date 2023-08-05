@@ -15,6 +15,7 @@ use App\Entity\Comment;
 use App\Entity\User;
 use App\Entity\Competenze;
 use App\Entity\CompetenzeBis;
+use App\Entity\Scambi;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -118,6 +119,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Competenze', 'fas fa-list', Competenze::class);
         yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
         yield MenuItem::linkToCrud('CompetenzeBis', 'fa fa-list', CompetenzeBis::class);
+        yield MenuItem::linkToCrud('Scambi', 'fa fa-solid fa-shuffle', Scambi::class);
 
 
         return [
