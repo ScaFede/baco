@@ -19,8 +19,8 @@ class Scambi
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $status = [];
+  //  #[ORM\Column(type: Types::ARRAY)]
+  //  private array $status = [];
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'ScambiUser')]
     private Collection $userTarget;

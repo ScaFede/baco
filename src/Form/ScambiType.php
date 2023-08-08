@@ -12,7 +12,9 @@ class ScambiType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('status')
+      /*  ->add('status', HiddenType::class, [
+           'attr' => ['hidden' => true],
+       ])*/
             ->add('createdAt')
             ->add('statusString')
             ->add('fromUser')

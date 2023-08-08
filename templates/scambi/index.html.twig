@@ -19,7 +19,6 @@
         {% for scambi in scambis %}
             <tr>
                 <td>{{ scambi.id }}</td>
-                <td>{{ scambi.status ? scambi.status|join(', ') : '' }}</td>
                 <td>{{ scambi.createdAt ? scambi.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ scambi.statusString }}</td>
                 <td>{{ scambi.fromUser }}</td>

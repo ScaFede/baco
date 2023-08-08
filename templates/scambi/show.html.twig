@@ -11,21 +11,27 @@
                 <th>Id</th>
                 <td>{{ scambi.id }}</td>
             </tr>
+
+            <tr>
+                <th>Creato il</th>
+                <td>{{ scambi.createdAt ? scambi.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+            </tr>
             <tr>
                 <th>Status</th>
-                <td>{{ scambi.status ? scambi.status|join(', ') : '' }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ scambi.createdAt ? scambi.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>StatusString</th>
                 <td>{{ scambi.statusString }}</td>
             </tr>
             <tr>
-                <th>FromUser</th>
+                <th>Da id utente</th>
                 <td>{{ scambi.fromUser }}</td>
+            </tr>
+            <tr>
+                <th>Destinatario scambio</th>
+
+              {% for usero in scambi.userTarget %}
+                              <td>{{ usero }}</td>
+              {% endfor %}
+
+
             </tr>
         </tbody>
     </table>
