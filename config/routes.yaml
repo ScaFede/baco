@@ -3,3 +3,14 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+    # config/routes.yaml
+#app_user_profile:
+#    path: '/user/{username}'
+#    controller: App\Controller\UserController::profile
+
+app_user_profile:
+    path: '/user/{id}'
+    controller: App\Controller\UserController::profile
+    requirements:
+        id: \d+  # Questo assicura che id sia interpretato come intero
