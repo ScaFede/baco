@@ -17,6 +17,9 @@ use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+
 
 
 #[Route('/scambi')]
@@ -26,10 +29,12 @@ class ScambiController extends AbstractController
 
 
     private EntityManagerInterface $entityManager;
+    private MailerInterface $mailer;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager,  MailerInterface $mailer)
     {
         $this->entityManager = $entityManager;
+        $this->mailer = $mailer;
     }
 
 
@@ -71,7 +76,7 @@ class ScambiController extends AbstractController
 
 
     #[Route('/new', name: 'app_scambi_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ScambiRepository $scambiRepository): Response
+    public function new(Request $request, ScambiRepository $scambiRepository, MailerInterface $mailer): Response
     {
         $scambi = new Scambi();
 
@@ -142,7 +147,7 @@ class ScambiController extends AbstractController
 
       // Imposta il campo statusString in base al tempo di creazione
       $currentTime = new \DateTime();
-   $timeLimit = (clone $scambi->getCreatedAt())->modify('+30 days'); // Data di scadenza dopo 30 giorni
+      $timeLimit = (clone $scambi->getCreatedAt())->modify('+30 days'); // Data di scadenza dopo 30 giorni
 
      if ($currentTime > $timeLimit) {
          $scambi->setStatusString('Scaduto');
@@ -160,7 +165,26 @@ class ScambiController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $scambiRepository->save($scambi, true);
+
+
+//test invio email
+if ($userTarget) {
+    $email = (new Email())
+        ->from('federica@brixel.it')
+        ->to($userTarget->getEmail())
+//        ->to('federica.scalzi@gmail.com')
+        ->subject('Hai una nuova richiesta di scambio')
+        ->html('La tua richiesta di scambio è stata confermata. Controlla la tua pagina personale per ulteriori dettagli.');
+
+    dump($email); // Debug: visualizza l'oggetto email creato
+//    $this->mailer->send($email);
+    $mailer->send($email);
+
+    dump('Email inviata correttamente'); // Debugging output
+}
+
 
             return $this->redirectToRoute('app_scambi_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -168,7 +192,7 @@ class ScambiController extends AbstractController
         return $this->renderForm('scambi/new.html.twig', [
             'scambi' => $scambi,
             'form' => $form,
-            //'setUserTarget' => $scambi->$myut
+            'userTarget' => $userTarget
         ]);
     }
 
