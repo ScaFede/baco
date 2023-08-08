@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Scambi;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\User;
+
 
 /**
  * @extends ServiceEntityRepository<Scambi>
@@ -38,6 +40,27 @@ class ScambiRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+//implemento metodo per cercare scambi
+    public function findProposteInviate(User $user): array
+   {
+       return $this->createQueryBuilder('s')
+           ->andWhere('s.fromUser = :user')
+           ->setParameter('user', $user)
+           ->getQuery()
+           ->getResult();
+   }
+
+
+   public function findProposteRicevute(User $user): array
+   {
+       return $this->createQueryBuilder('s')
+           ->join('s.userTarget', 'u')
+           ->andWhere('u = :user')
+           ->setParameter('user', $user)
+           ->getQuery()
+           ->getResult();
+   }
 
 //    /**
 //     * @return Scambi[] Returns an array of Scambi objects
