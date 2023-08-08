@@ -13,12 +13,24 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Core\User\UserInterface\UserInterface;
 use App\Entity\User;
+use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 #[Route('/scambi')]
 class ScambiController extends AbstractController
 {
 
 
+
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
 
 
@@ -63,8 +75,6 @@ class ScambiController extends AbstractController
     {
         $scambi = new Scambi();
 
-
-
         //Thankssss https://symfony.com/doc/current/security.html#fetching-the-user-object
 
         // usually you'll want to make sure the user is authenticated first,
@@ -94,18 +104,41 @@ class ScambiController extends AbstractController
 
         */
 
-        $myuserTarget = new User();
+       //$myuserTarget = new User();
+       $myut = $request->query->get('userTarget');
+       // Supponendo che il tuo repository utente si chiami UserRepository
 
-        $myut = $request->query->get('userTarget');
-        //$myut = $request->request->get('userTarget');
+      $userRepository = $this->entityManager->getRepository(User::class);
+      $userTarget = $userRepository->findOneBy(['nickname' => $myut]);
+
+       if ($userTarget) {
+           $scambi->addUserTarget($userTarget);
+       }
+
+    /*  var_dump($myut);
+
+      $my_new_user = $this->entityManager->getRepository('User:User')
+      ->find($myut);
+
+      $my_new_user = $this->em->getRepository(User::class)->findOneBy(['username'=>$myut]);
+      $scambi->addUserTarget($my_new_user);
+
+        $myut = $request->request->get('userTarget');
+       $scambi->$myuserTarget->addUserTarget($myut);
 
 
-//        $scambi->$myuserTarget->addUserTarget($request->query->get('userTarget'));
-        $scambi->$myuserTarget->addUserTarget($myut);
+
+       $scambi->$myuserTarget->addUserTarget($request->query->get('userTarget'));
           //$scambi->$myuserTarget->addUserTarget('fedesca');
-      //  $scambi->addUserTarget($request->query->get('userTarget'));
+        $scambi->addUserTarget($request->query->get('userTarget'));
 
-      //  $scambi->addUserTarget($myuserTarget);
+        $scambi->addUserTarget($myuserTarget);
+      */
+
+      /*  $form = $this->createForm(ScambiType::class, $scambi, [
+          'userTarget' => $myut,
+      ]);*/
+
 
       // Imposta il campo statusString in base al tempo di creazione
       $currentTime = new \DateTime();
@@ -119,7 +152,11 @@ class ScambiController extends AbstractController
 
 
 
-        $form = $this->createForm(ScambiType::class, $scambi);
+
+
+
+      $form = $this->createForm(ScambiType::class, $scambi);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
