@@ -12,6 +12,14 @@
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
+
+        {{ form_row(registrationForm.description) }}
+        {{ form_row(registrationForm.avatar) }} 
+        {{ form_row(registrationForm.competenzeBisRel) }} {# Campo per la selezione delle competenze #}
+
+        {{ form_row(registrationForm.nickname, {
+          label: 'Nickname'
+      }) }} {# Campo nickname obbligatorio #}
         {{ form_row(registrationForm.agreeTerms) }}
 
         <button type="submit" class="btn">Register</button>
