@@ -26,15 +26,20 @@
                 <td>{{ competenze_bi.Descrizione }}</td>
 
 
-                {% for user in competenze_bi.userRelation %}
 
-                <td>{{ user }}
 
+                <td>
+                  {% for user in competenze_bi.userRelation %}
+
+                  
+                  <a href="{{ path('app_user_profile', {'id': user.id}) }}">{{ user.nickname }}</a>
                 <a href=" {{ path('app_scambi_new', { 'userTarget' : user } )}}" class="btn btn-primary"
                 data-focus-mouse="false">Proponi scambio</a>
-                </td>
 
                   {% endfor %}
+                </td>
+
+
 
                 <td>{{ competenze_bi.StatusActive ? 'Yes' : 'No' }}</td>
                 <td>{{ competenze_bi.CreateAt ? competenze_bi.CreateAt|date('Y-m-d H:i:s') : '' }}</td>
