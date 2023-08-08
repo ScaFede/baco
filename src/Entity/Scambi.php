@@ -30,9 +30,7 @@ class Scambi
 
     #[ORM\Column(length: 255)]
 //    private ?string $statusString = null;
-
-    private string $statusString = 'started';
-    //  private ?string $statusString = 'started';
+    private string $statusString = '';
 
     #[ORM\Column]
     private int $fromUser = 1;
@@ -46,22 +44,8 @@ class Scambi
         $this->userTarget = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
 
-
-      //  $tokenStorage = $this->container->get('security.token_storage')->getToken();
-      //  $fede_user = $this->security->getUser();
-        //$this->fromUser = $fede_user;
         $string = '';
 
-      if(50 < 45 ){
-          $string = 'iniziato';
-        } else {
-          $string = 'scaduto';
-        }
-
-        $this->statusString = $string;
-
-        /*$myUser = $this->security->getUser();*/
-    //    $this->fromUser->security->getUser();
     }
 
     public function getId(): ?int
@@ -69,22 +53,6 @@ class Scambi
         return $this->id;
     }
 
-    public function getStatus(): array
-    {
-        return $this->status;
-    }
-
-    public function setStatus(array $status): static
-    {
-      /*  $this->status = $status;
-
-        return $this;
-        return array_unique($status);
-*/
-        $this->status = $status;
-      /*  $status[] = 'started';*/
-        return $this;
-    }
 
     /**
      * @return Collection<int, User>
@@ -135,15 +103,6 @@ class Scambi
     }
 
 
-
-    //try custom fede
-
-
-    public function getStString(): string
-    {
-        $prefix = ($this->statusString == 'started') ? ' lol ' : (($this->statusString != 'started') ? '+' : '-');
-        return sprintf('%s %d', $prefix, abs($this->statusString));
-    }
 
     public function getFromUser(): ?int
     {

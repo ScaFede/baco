@@ -107,6 +107,18 @@ class ScambiController extends AbstractController
 
       //  $scambi->addUserTarget($myuserTarget);
 
+      // Imposta il campo statusString in base al tempo di creazione
+      $currentTime = new \DateTime();
+   $timeLimit = (clone $scambi->getCreatedAt())->modify('+30 days'); // Data di scadenza dopo 30 giorni
+
+     if ($currentTime > $timeLimit) {
+         $scambi->setStatusString('Scaduto');
+     } else {
+         $scambi->setStatusString('Iniziato');
+     }
+
+
+
         $form = $this->createForm(ScambiType::class, $scambi);
         $form->handleRequest($request);
 
