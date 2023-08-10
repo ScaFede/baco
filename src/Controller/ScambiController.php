@@ -37,6 +37,89 @@ class ScambiController extends AbstractController
         $this->mailer = $mailer;
     }
 
+    #[Route('/{id}/confirm', name: 'app_scambi_confirm', methods: ['POST'])]
+    public function confirm(Request $request, Scambi $scambi, ScambiRepository $scambiRepository): Response
+{
+    dump('Funziono confirm?');
+    // Verifica se la richiesta è una richiesta POST
+     if (!$request->isMethod('POST')) {
+         throw $this->createAccessDeniedException();
+     }
+
+     // Verifica che l'utente autenticato sia uno dei partecipanti allo scambio
+     $user = $this->getUser();
+     if (!$scambi->getUserSender() === $user && !$scambi->getUserTarget()->contains($user)) {
+         throw $this->createAccessDeniedException();
+     }
+
+     // Imposta la conferma per l'utente attuale
+  /*   if ($scambi->getUserSender() === $user) {
+         $scambi->setConfermaSender(true);
+     } elseif ($scambi->getUserTarget()->contains($user)) {
+         $scambi->setConfermaTarget(true);
+     }
+*/
+     // Verifica se entrambi gli utenti hanno confermato lo scambio
+/*   if ($scambi->isConfermaSender() && $scambi->isConfermaTarget()) {
+       $scambi->setScambioConfermato(true);
+       $scambiRepository->save($scambi);
+   }*/
+
+
+   // Imposta la conferma per l'utente mittente (utente autenticato)
+      if ($scambi->getUserSender() === $user) {
+          $scambi->setConfermaSender(true);
+          $scambiRepository->save($scambi);
+      }
+
+    return $this->redirectToRoute('app_scambi_index');
+}
+
+#[Route('/{id}/confirm_sender', name: 'app_scambi_confirm_sender', methods: ['GET'])]
+public function confirmSender(Scambi $scambio, ScambiRepository $scambiRepository): Response
+{
+    $user = $this->getUser();
+
+    // Verifica che l'utente autenticato sia il mittente dello scambio
+    if ($scambio->getUserSender() === $user) {
+        $scambio->setConfermaSender(true);
+        $scambiRepository->save($scambio, true); // Salva i cambiamenti nel database
+
+          // Verifica se entrambi confermaSender e confermaTarget sono true
+        if ($scambio->isConfermaSender() && $scambio->isConfermaTarget()) {
+            $this->incrementScambiConclusi($user); // Incrementa il numero di scambi conclusi per l'utente
+        }
+    }
+
+    return $this->redirectToRoute('app_scambi_index');
+}
+
+#[Route('/{id}/confirm_target', name: 'app_scambi_confirm_target', methods: ['GET'])]
+public function confirmTarget(Scambi $scambio, ScambiRepository $scambiRepository): Response
+{
+    $user = $this->getUser();
+
+    // Verifica che l'utente autenticato sia il destinatario dello scambio
+    if ($scambio->getUserTarget()->contains($user)) {
+        $scambio->setConfermaTarget(true);
+        $scambiRepository->save($scambio, true); // Salva i cambiamenti nel database
+
+        // Verifica se entrambi confermaSender e confermaTarget sono true
+        if ($scambio->isConfermaSender() && $scambio->isConfermaTarget()) {
+            $this->incrementScambiConclusi($user); // Incrementa il numero di scambi conclusi per l'utente
+        }
+    }
+
+    return $this->redirectToRoute('app_scambi_index');
+}
+
+  private function incrementScambiConclusi(User $user): void
+  {
+      $scambiConclusi = $user->getScambiConclusi();
+      $user->setScambiConclusi($scambiConclusi + 1);
+      $this->entityManager->flush();
+  }
+
 
 
     #[Route('/', name: 'app_scambi_index', methods: ['GET'])]
@@ -44,9 +127,60 @@ class ScambiController extends AbstractController
     {
 
 
+        // Recupera l'utente autenticato
+        $user = $this->getUser();
+
+        // Recupera gli scambi avviati o ricevuti dall'utente loggato
+        $scambi = $scambiRepository->findScambiByUser($user);
+
+        $proposteInviate = $scambiRepository->findProposteInviate($user);
+        $proposteRicevute = $scambiRepository->findProposteRicevute($user);
+
+
+        foreach ($scambi as $scambio) {
+          if ($scambio->isConfermaSender() && $scambio->isConfermaTarget()) {
+              $scambio->setStatusString('Concluso');
+
+              // Incrementa il numero di scambi conclusi per entrambi gli utenti
+              $sender = $scambio->getUserSender();
+              $targetUsers = $scambio->getUserTarget();
+
+              if ($sender) {
+                  $sender->setScambiConclusi($sender->getScambiConclusi() + 1);
+              }
+
+              foreach ($targetUsers as $targetUser) {
+                  $targetUser->setScambiConclusi($targetUser->getScambiConclusi() + 1);
+              }
+
+          } elseif ($scambio->isConfermaSender() || $scambio->isConfermaTarget()) {
+              $scambio->setStatusString('In attesa');
+          } elseif (!$scambio->isConfermaSender() && !$scambio->isConfermaTarget()) {
+              $currentTime = new \DateTime();
+              $timeLimit = (clone $scambio->getCreatedAt())->modify('+60 days');
+
+              if ($currentTime > $timeLimit) {
+                  $scambio->setStatusString('Scaduto');
+              } else {
+                  $scambio->setStatusString('Iniziato');
+              }
+          }
+        }
+
+
+
+
+
         return $this->render('scambi/index.html.twig', [
             'scambis' => $scambiRepository->findAll(),
+            'proposteInviate' => $proposteInviate,
+            'proposteRicevute' => $proposteRicevute,
         ]);
+
+
+
+
+
 
     }
 
@@ -80,6 +214,13 @@ class ScambiController extends AbstractController
     {
         $scambi = new Scambi();
 
+        // Imposta l'utente mittente
+       $userSender = $this->getUser();
+       $scambi->setUserSender($userSender);
+
+
+
+
         //Thankssss https://symfony.com/doc/current/security.html#fetching-the-user-object
 
         // usually you'll want to make sure the user is authenticated first,
@@ -96,7 +237,7 @@ class ScambiController extends AbstractController
         //return new Response('Well hi there '.$user->getId());
 
         //$current_user = $this->getUser()->getId();
-        $scambi->setFromUser($user->getId());
+      //  $scambi->setFromUser($user->getId());
 
         //https://127.0.0.1:8000/scambi/new?userTarget=utentesic
 
@@ -120,30 +261,6 @@ class ScambiController extends AbstractController
            $scambi->addUserTarget($userTarget);
        }
 
-    /*  var_dump($myut);
-
-      $my_new_user = $this->entityManager->getRepository('User:User')
-      ->find($myut);
-
-      $my_new_user = $this->em->getRepository(User::class)->findOneBy(['username'=>$myut]);
-      $scambi->addUserTarget($my_new_user);
-
-        $myut = $request->request->get('userTarget');
-       $scambi->$myuserTarget->addUserTarget($myut);
-
-
-
-       $scambi->$myuserTarget->addUserTarget($request->query->get('userTarget'));
-          //$scambi->$myuserTarget->addUserTarget('fedesca');
-        $scambi->addUserTarget($request->query->get('userTarget'));
-
-        $scambi->addUserTarget($myuserTarget);
-      */
-
-      /*  $form = $this->createForm(ScambiType::class, $scambi, [
-          'userTarget' => $myut,
-      ]);*/
-
 
       // Imposta il campo statusString in base al tempo di creazione
       $currentTime = new \DateTime();
@@ -157,9 +274,6 @@ class ScambiController extends AbstractController
 
 
 
-
-
-
       $form = $this->createForm(ScambiType::class, $scambi);
 
         $form->handleRequest($request);
@@ -170,7 +284,8 @@ class ScambiController extends AbstractController
 
 
 //test invio email
-if ($userTarget) {
+//if ($userTarget) {
+
     $email = (new Email())
         ->from('federica@brixel.it')
         ->to($userTarget->getEmail())
@@ -178,12 +293,12 @@ if ($userTarget) {
         ->subject('Hai una nuova richiesta di scambio')
         ->html('La tua richiesta di scambio è stata confermata. Controlla la tua pagina personale per ulteriori dettagli.');
 
-    dump($email); // Debug: visualizza l'oggetto email creato
 //    $this->mailer->send($email);
     $mailer->send($email);
 
+
     dump('Email inviata correttamente'); // Debugging output
-}
+//}
 
 
             return $this->redirectToRoute('app_scambi_index', [], Response::HTTP_SEE_OTHER);

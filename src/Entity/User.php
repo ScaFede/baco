@@ -66,6 +66,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Scambi::class, mappedBy: 'userTarget')]
     private Collection $ScambiUser;
 
+    #[ORM\OneToMany(mappedBy: 'userSender', targetEntity: Scambi::class)]
+    private Collection $scambiUserSender;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $scambiConclusi = null;
+
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
   //  #[Vich\UploadableField(mapping: 'bacouploader', fileNameProperty: 'imageName', size: 'imageSize')]
   //  private ?File $imageFile = null;
@@ -76,6 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createAt = new \DateTimeImmutable();
         $this->CompetenzeBisRel = new ArrayCollection();
         $this->ScambiUser = new ArrayCollection();
+        $this->scambiUserSender = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -321,6 +328,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
           if ($this->ScambiUser->removeElement($scambiUser)) {
               $scambiUser->removeUserTarget($this);
           }
+
+          return $this;
+      }
+
+      /**
+       * @return Collection<int, Scambi>
+       */
+      public function getScambiUserSender(): Collection
+      {
+          return $this->scambiUserSender;
+      }
+
+      public function addScambiUserSender(Scambi $scambiUserSender): static
+      {
+          if (!$this->scambiUserSender->contains($scambiUserSender)) {
+              $this->scambiUserSender->add($scambiUserSender);
+              $scambiUserSender->setUserSender($this);
+          }
+
+          return $this;
+      }
+
+      public function removeScambiUserSender(Scambi $scambiUserSender): static
+      {
+          if ($this->scambiUserSender->removeElement($scambiUserSender)) {
+              // set the owning side to null (unless already changed)
+              if ($scambiUserSender->getUserSender() === $this) {
+                  $scambiUserSender->setUserSender(null);
+              }
+          }
+
+          return $this;
+      }
+
+      public function getScambiConclusi(): ?int
+      {
+          return $this->scambiConclusi;
+      }
+
+      public function setScambiConclusi(?int $scambiConclusi): static
+      {
+          $this->scambiConclusi = $scambiConclusi;
 
           return $this;
       }

@@ -79,9 +79,9 @@ class UserController extends AbstractController
         $proposteRicevute = $scambiRepository->findProposteRicevute($user);
 
         return $this->render('user/profile.html.twig', [
-            'user' => $user,
-            'proposteInviate' => $proposteInviate,
-            'proposteRicevute' => $proposteRicevute,
+          'user' => $user,
+          'proposteInviate' => $proposteInviate,
+          'proposteRicevute' => $proposteRicevute,
         ]);
     }
 

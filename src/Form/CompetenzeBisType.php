@@ -6,6 +6,9 @@ use App\Entity\CompetenzeBis;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Categorie;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 class CompetenzeBisType extends AbstractType
 {
@@ -17,6 +20,12 @@ class CompetenzeBisType extends AbstractType
             ->add('StatusActive')
             ->add('CreateAt')
             ->add('UserRelation')
+           ->add('categorieRelation', EntityType::class, [
+               'class' => Categorie::class,
+               'choice_label' => 'nome',
+               'multiple' => true,
+               'expanded' => false
+           ])
         ;
     }
 
