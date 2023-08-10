@@ -3,14 +3,15 @@
 {% block title %}Scambi index{% endblock %}
 
 {% block body %}
-    <h1>Scambi index</h1>
+    <h1>Scambi </h1>
+
+
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Status</th>
-                <th>CreatedAt</th>
-                <th>StatusString</th>
+                <th>Data</th>
+                <th>Stato</th>
                 <th>FromUser</th>
                 <th>actions</th>
             </tr>
@@ -19,7 +20,7 @@
         {% for scambi in scambis %}
             <tr>
                 <td>{{ scambi.id }}</td>
-                <td>{{ scambi.createdAt ? scambi.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ scambi.createdAt ? scambi.createdAt|date('d/m/Y H:i:s') : '' }}</td>
                 <td>{{ scambi.statusString }}</td>
                 <td>{{ scambi.fromUser }}</td>
                 <td>
@@ -34,6 +35,79 @@
         {% endfor %}
         </tbody>
     </table>
+
+
+
+
+
+
+    <h2>Scambi Avviati</h2>
+    <ul>
+        {% for scambio in proposteInviate %}
+            <li>Scambio {{ scambio.id }} con:
+                <ul>
+                    {% for user in scambio.userTarget %}
+                        <li><a href="{{ path('app_user_profile', {'id': user.id}) }}">{{ user.nickname }}</a> |
+
+
+                        Stato della scambio:
+
+                        {% if scambio.confermaSender and scambio.confermaTarget %}
+                            Scambio Confermato
+                        {% elseif scambio.confermaSender %}
+                          <i>  In attesa di conferma da altro utente</i>
+                        {% else %}
+                            <form method="get" action="{{ path('app_scambi_confirm', {'id': scambio.id}) }}">
+                                <a href="{{ path('app_scambi_confirm_sender', {'id': scambio.id}) }}">Scambio avvenuto</a>
+                            </form>
+                        {% endif %}
+
+
+
+
+
+
+
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Proposte di scambio ricevute</h2>
+    <ul>
+        {% for scambio in proposteRicevute %}
+            <li>Scambio {{ scambio.id }} del {{   scambio.createdAt ? scambio.createdAt|date('d/m/Y H:i:s') : ''              }} da:
+                <a href="{{ path('app_user_profile', {'id': scambio.userSender.id}) }}">{{ scambio.userSender.nickname }}</a> |
+
+
+
+                {% if scambio.confermaSender and scambio.confermaTarget %}
+                    <strong>Bene! Scambio Confermato!</strong>
+                {% elseif scambio.confermaTarget %}
+                    <i>In attesa di conferma da altro utente</i>
+                {% else %}
+                    <form method="get" action="{{ path('app_scambi_confirm', {'id': scambio.id}) }}">
+                        <a class="btn btn-success btn-sm" href="{{ path('app_scambi_confirm_target', {'id': scambio.id}) }}">Cliica qui per confermare lo scambio avvenuto</a>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <a href="{{ path('app_scambi_new') }}">Create new</a>
 {% endblock %}

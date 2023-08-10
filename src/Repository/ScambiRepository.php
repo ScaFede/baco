@@ -45,7 +45,8 @@ class ScambiRepository extends ServiceEntityRepository
     public function findProposteInviate(User $user): array
    {
        return $this->createQueryBuilder('s')
-           ->andWhere('s.fromUser = :user')
+           //->andWhere('s.fromUser = :user')
+           ->andWhere('s.userSender = :user')
            ->setParameter('user', $user)
            ->getQuery()
            ->getResult();
@@ -61,6 +62,17 @@ class ScambiRepository extends ServiceEntityRepository
            ->getQuery()
            ->getResult();
    }
+
+
+   public function findScambiByUser(User $user): array
+{
+    return $this->createQueryBuilder('s')
+        ->andWhere(':user MEMBER OF s.userTarget OR s.userSender = :user')
+        ->setParameter('user', $user)
+        ->getQuery()
+        ->getResult();
+}
+
 
 //    /**
 //     * @return Scambi[] Returns an array of Scambi objects

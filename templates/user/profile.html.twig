@@ -20,6 +20,11 @@
       <p>No avatar</p>
   {% endif %}
 
+
+  <div>
+      Numero di Scambi Conclusi: {{ user.scambiConclusi }}
+  </div>
+
   {% if user.CompetenzeBisRel is defined and user.CompetenzeBisRel|length > 0  %}
 
     <h2>Competenze</h2>
@@ -35,7 +40,9 @@
         {% if app.user and app.user.id == user.id %}
 
         {% if proposteInviate is defined %}
+
         <h2>Proposte di scambio inviate:</h2>
+
             <ul>
                 {% for proposta in proposteInviate %}
 
@@ -51,13 +58,17 @@
                 {% endfor %}
             </ul>
 
+
             {% endif %}
 
-            <h2>Proposte di scambio ricevute:</h2>
+
+          <h2>Proposte di scambio ricevute:</h2>
                 <ul>
+
                     {% for proposta in proposteRicevute %}
-                        <li>{{ proposta.id }} dall'utente {{ proposta.fromUser }} | Stato della proposta:{{ proposta.statusString }} </li>
+                        <li>Il giorno {{ proposta.id }} dall'utente <a href="{{ path('app_user_profile', {'id': proposta.userSender.id}) }}">{{ proposta.userSender.nickname }}</a> | Stato della proposta:{{ proposta.statusString }} </li>
                     {% endfor %}
+
                 </ul>
 
                 {% endif %}

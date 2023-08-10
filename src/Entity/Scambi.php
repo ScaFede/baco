@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Entity\User;
 
 use Symfony\Bundle\SecurityBundle\Security;
 
@@ -34,6 +34,20 @@ class Scambi
 
     #[ORM\Column]
     private int $fromUser = 1;
+
+//    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'scambiUserSender')]
+    #[ORM\ManyToOne(inversedBy: 'scambiUserSender')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $userSender = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $scambioConfermato = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $confermaSender = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $confermaTarget = null;
 
 
 
@@ -116,6 +130,71 @@ class Scambi
         return $this;
     }
 
+    public function getUserSender(): ?User
+    {
+        return $this->userSender;
+    }
+
+    public function setUserSender(?User $userSender): static
+    {
+        $this->userSender = $userSender;
+
+        return $this;
+    }
+
+    public function isScambioConfermato(): ?bool
+    {
+        return $this->scambioConfermato;
+    }
+
+    public function setScambioConfermato(?bool $scambioConfermato): static
+    {
+        $this->scambioConfermato = $scambioConfermato;
+
+        return $this;
+    }
+
+
+
+
+    public function isConfirmedByBothUsers(): bool
+    {
+        return $this->isScambioConfermato() && $this->getUserSender()->hasConfirmed() && $this->allUserTargetsConfirmed();
+    }
+
+    private function allUserTargetsConfirmed(): bool
+    {
+        foreach ($this->getUserTarget() as $userTarget) {
+            if (!$userTarget->hasConfirmed()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function isConfermaSender(): ?bool
+    {
+        return $this->confermaSender;
+    }
+
+    public function setConfermaSender(?bool $confermaSender): static
+    {
+        $this->confermaSender = $confermaSender;
+
+        return $this;
+    }
+
+    public function isConfermaTarget(): ?bool
+    {
+        return $this->confermaTarget;
+    }
+
+    public function setConfermaTarget(?bool $confermaTarget): static
+    {
+        $this->confermaTarget = $confermaTarget;
+
+        return $this;
+    }
 
 
 
