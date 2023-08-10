@@ -31,10 +31,14 @@ class CompetenzeBis
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'CompetenzeBisRel')]
     private Collection $UserRelation;
 
+    #[ORM\ManyToMany(targetEntity: Categorie::class, mappedBy: 'competenzeRelation')]
+    private Collection $categorieRelation;
+
     public function __construct()
     {
         $this->UserRelation = new ArrayCollection();
          $this->CreateAt = new \DateTimeImmutable();
+         $this->categorieRelation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,5 +120,32 @@ class CompetenzeBis
 
     public function __toString() {
         return $this->Titolo;
+    }
+
+    /**
+     * @return Collection<int, Categorie>
+     */
+    public function getCategorieRelation(): Collection
+    {
+        return $this->categorieRelation;
+    }
+
+    public function addCategorieRelation(Categorie $categorieRelation): static
+    {
+        if (!$this->categorieRelation->contains($categorieRelation)) {
+            $this->categorieRelation->add($categorieRelation);
+            $categorieRelation->addCompetenzeRelation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategorieRelation(Categorie $categorieRelation): static
+    {
+        if ($this->categorieRelation->removeElement($categorieRelation)) {
+            $categorieRelation->removeCompetenzeRelation($this);
+        }
+
+        return $this;
     }
 }

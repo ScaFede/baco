@@ -39,6 +39,33 @@ class CompetenzeBisRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByCategory($categoryId)
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->leftJoin('c.categorieRelation', 'cat') // Associazione in CompetenzeBis
+            ->andWhere('cat.id = :categoryId')
+            ->setParameter('categoryId', $categoryId)
+            ->getQuery();
+
+        return $qb->getResult();
+    }
+
+
+
+    public function findBySearchTerm(string $searchTerm): array
+      {
+          $qb = $this->createQueryBuilder('c');
+
+          if ($searchTerm) {
+              $qb->andWhere($qb->expr()->orX(
+                  $qb->expr()->like('c.Titolo', ':searchTerm'),
+                  $qb->expr()->like('c.Descrizione', ':searchTerm')
+              ))
+              ->setParameter('searchTerm', '%' . $searchTerm . '%');
+          }
+
+          return $qb->getQuery()->getResult();
+      }
 //    /**
 //     * @return CompetenzeBis[] Returns an array of CompetenzeBis objects
 //     */

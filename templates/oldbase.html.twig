@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <!-- <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous"> -->
+
+        <link rel="stylesheet" href="{{ asset('css/bootstrap-italia.min.css')}}">
+        <link rel="text/plain"  href="{{ asset('css/bootstrap-italia.min.css.map')}}">
+        <link rel="stylesheet" href="{{ asset('css/fedestyle.css')}}">
+        <!-- <link rel="stylesheet" href="/css/fedestyle.css"> -->
+
+            {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body class="container">
+
+
+      <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+  <a href="{{ path('app_homepage') }}" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+BaCo    </a>
+
+  <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+    <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+    <li><a href="{{ path('app_competenze_bis_index') }}" class="nav-link px-2 link-dark">Conoscenze</a></li>
+    <li><a href="{{ path('app_scambi_index') }}" class="nav-link px-2 link-dark">Scambi</a></li>
+    <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
+    <li><a href="#" class="nav-link px-2 link-dark">Progetto</a></li>
+  </ul>
+
+  <div class="col-md-3 text-end">
+
+    <!-- Controlla se l'utente è autenticato -->
+    {% if app.user %}
+
+        <span><a href="{{ path('app_user_profile', {'id': app.user.id}) }}">Ciao, {{ app.user.nickname }}!</span></a><a href="{{ path('app_logout') }}" type="button" class="btn btn-outline-primary me-2">Logout</a>
+    {% else %}
+        <a href="{{ path('app_login') }}" type="button" class="btn btn-outline-primary me-2">Login</a>
+        <a href="{{ path('app_register') }}" type="button" class="btn btn-primary">Registrati</a>
+
+    {% endif %}
+
+  <!--  <a href="{{ path('app_login') }}" type="button" class="btn btn-outline-primary me-2">Login</a>-->
+  </div>
+</header>
+
+  {% block body %}{% endblock %}
+
+
+    </body>
+</html>
