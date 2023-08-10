@@ -27,8 +27,9 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-      //  return parent::index();
-      return $this->render('admin/index.html.twig');
+        //return parent::index();
+      //  return $this->render('competenze_bis/index.html.twig');
+       return $this->render('admin/index.html.twig'); //Redirect in admin per autenticati
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
@@ -123,7 +124,7 @@ class DashboardController extends AbstractDashboardController
 
 
         return [
-           MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+          MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
 
            MenuItem::section('Blog'),
            MenuItem::linkToCrud('Categories', 'fa fa-tags', Category::class),
