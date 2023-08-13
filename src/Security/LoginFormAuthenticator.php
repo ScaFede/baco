@@ -47,8 +47,23 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-         return new RedirectResponse($this->urlGenerator->generate('admin'));
+        // return new RedirectResponse($this->urlGenerator->generate('admin'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+
+        /* Thanks https://stackoverflow.com/questions/26021600/sonata-user-bundle-admin-bundle-admin-redirect-after-login */
+
+       $userRoles = $token->getUser()->getRoles();
+          if (in_array('ROLE_ADMIN', $userRoles)) {
+             $url = $this->urlGenerator->generate('admin');
+         } elseif (in_array('ROLE_USER', $userRoles)) {
+             $url = $this->urlGenerator->generate('app_competenze_bis_index');
+         }  else {
+        // Gestire altri ruoli se necessario
+        $url = $this->urlGenerator->generate('homepage');
+        }
+         return new RedirectResponse( $url );
+
+
     }
 
     protected function getLoginUrl(Request $request): string
