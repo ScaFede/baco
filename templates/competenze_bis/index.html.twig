@@ -56,7 +56,7 @@
                             {% endfor %}
                         </div>
 
-                        <div class="card-text">
+                      {#  <div class="card-text">
                             <strong>Utenti con competenza:</strong>
                             {% for user in competenze_bi.userRelation %}
                                 <a href="{{ path('app_user_profile', {'id': user.id}) }}">{{ user.nickname }}</a>
@@ -64,7 +64,7 @@
                                    class="btn btn-primary"
                                    data-focus-mouse="false">Proponi scambio</a>
                             {% endfor %}
-                        </div>
+                        </div> #}
 
                         <div class="card-text">
                             <strong>Status:</strong> {{ competenze_bi.StatusActive ? 'Active' : 'Inactive' }}

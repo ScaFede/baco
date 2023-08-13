@@ -1,7 +1,53 @@
-label.required {
+/* label.required {
 	border: 2px solid red;
-}
+} */
+
 
 /* .h1, h1{
   color: red;
 } */
+:root {
+  --baco-accent-color: #7c4dff;
+}
+
+body {
+	font-family: 'Lato', sans-serif;
+	color: #191919;
+	background-color: #f0edf6 !important;
+}
+
+h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
+	font-family: 'Josefin Sans';
+
+}
+
+.btn-primary {
+	color: #fff;
+	background-color: var(--baco-accent-color);
+	border-color: var(--baco-accent-color);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075);
+}
+
+.card .card-body .card-text {
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
+}
+
+.chip .chip-label, .cmp-breadcrumbs .breadcrumb-container .breadcrumb .breadcrumb-item a, .accordion-button {
+	color: var(--baco-accent-color);
+}
+
+.chip:not(.chip-disabled) {
+	border-color:  var(--baco-accent-color)	;
+}
+
+.it-header-slim-wrapper {
+	background:  var(--baco-accent-color);
+}
+
+
+.it-header-slim-wrapper .it-header-slim-wrapper-content .it-header-slim-right-zone button, .it-header-slim-wrapper .it-header-slim-wrapper-content .it-header-slim-right-zone .it-access-top-wrapper > a, .it-header-slim-wrapper .it-header-slim-wrapper-content .header-slim-right-zone button, .it-header-slim-wrapper .it-header-slim-wrapper-content .header-slim-right-zone .it-access-top-wrapper > a {
+	background: #643dd1;
+	padding-top: 7.5px;
+	padding-bottom: 7.5px;
+}

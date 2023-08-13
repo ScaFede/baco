@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CompetenzeBis{% endblock %}
+
+{% block body %}
+    <h1>CompetenzeBis</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ competenze_bi.id }}</td>
+            </tr>
+            <tr>
+                <th>Titolo</th>
+                <td>{{ competenze_bi.Titolo }}</td>
+            </tr>
+            <tr>
+                <th>Descrizione</th>
+                <td>{{ competenze_bi.Descrizione }}</td>
+            </tr>
+            <tr>
+                <th>StatusActive</th>
+                <td>{{ competenze_bi.StatusActive ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>CreateAt</th>
+                <td>{{ competenze_bi.CreateAt ? competenze_bi.CreateAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_competenze_bis_index') }}">back to list</a>
+
+    <a href="{{ path('app_competenze_bis_edit', {'id': competenze_bi.id}) }}">edit</a>
+
+    {{ include('competenze_bis/_delete_form.html.twig') }}
+{% endblock %}

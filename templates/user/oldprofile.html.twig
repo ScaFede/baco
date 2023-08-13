@@ -1,0 +1,76 @@
+{# templates/user/profile.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Profilo utente - {{ user.nickname }}{% endblock %}
+
+{% block body %}
+    <h1>Profilo di {{ user.nickname }}</h1>
+
+    <p>Email: {{ user.email }}</p>
+
+    {% if user.description is defined %}
+      <h3>Descrizione</h3>
+      <p> {{ user.description }}</p>
+  {% endif %}
+
+  {% if user.getAvatarUrl() %}
+      <img src="{{ asset('uploads/avatar/' ~ user.avatar) }}" class="avatar" alt="Avatar">
+  {% else %}
+      <p>No avatar</p>
+  {% endif %}
+
+
+  <div>
+      Numero di Scambi Conclusi: {{ user.scambiConclusi }}
+  </div>
+
+  {% if user.CompetenzeBisRel is defined and user.CompetenzeBisRel|length > 0  %}
+
+    <h2>Competenze</h2>
+        <ul>
+            {% for competenza in user.CompetenzeBisRel %}
+                <li>{{ competenza }}</li>
+            {% endfor %}
+        </ul>
+  {% endif %}
+
+
+        {# Mostra le proposte di scambio inviate solo all'utente autenticato #}
+        {% if app.user and app.user.id == user.id %}
+
+        {% if proposteInviate is defined %}
+
+        <h2>Proposte di scambio inviate:</h2>
+
+            <ul>
+                {% for proposta in proposteInviate %}
+
+
+                    <li>Proposta {{ proposta.id }} per gli utenti:
+                    <ul>
+                        {% for user in proposta.userTarget %}
+                            <li><a href="{{ path('app_user_profile', {'id': user.id}) }}">{{ user.nickname }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                {% endfor %}
+            </ul>
+
+
+            {% endif %}
+
+
+          <h2>Proposte di scambio ricevute:</h2>
+                <ul>
+
+                    {% for proposta in proposteRicevute %}
+                        <li>Il giorno {{ proposta.id }} dall'utente <a href="{{ path('app_user_profile', {'id': proposta.userSender.id}) }}">{{ proposta.userSender.nickname }}</a> | Stato della proposta:{{ proposta.statusString }} </li>
+                    {% endfor %}
+
+                </ul>
+
+                {% endif %}
+
+{% endblock %}
