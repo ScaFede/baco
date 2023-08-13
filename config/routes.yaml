@@ -14,3 +14,7 @@ app_user_profile:
     controller: App\Controller\UserController::profile
     requirements:
         id: \d+  # Questo assicura che id sia interpretato come intero
+
+import_cities:
+    path: /import-cities
+    controller: App\Controller\CittaController::importCities

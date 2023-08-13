@@ -76,6 +76,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $scambiConclusi = null;
 
+    #[ORM\ManyToOne(inversedBy: 'userRel')]
+    private ?Citta $cittaRel = null;
+
+    // #[ORM\Column(length: 255, nullable: true)]
+    // private ?string $city = null;
+
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
   //  #[Vich\UploadableField(mapping: 'bacouploader', fileNameProperty: 'imageName', size: 'imageSize')]
   //  private ?File $imageFile = null;
@@ -374,6 +380,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
       public function setScambiConclusi(?int $scambiConclusi): static
       {
           $this->scambiConclusi = $scambiConclusi;
+
+          return $this;
+      }
+
+      // public function getCity(): ?string
+      // {
+      //     return $this->city;
+      // }
+      //
+      // public function setCity(?string $city): static
+      // {
+      //     $this->city = $city;
+      //
+      //     return $this;
+      // }
+
+      public function getCittaRel(): ?Citta
+      {
+          return $this->cittaRel;
+      }
+
+      public function setCittaRel(?Citta $cittaRel): static
+      {
+          $this->cittaRel = $cittaRel;
 
           return $this;
       }
