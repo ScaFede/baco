@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\UploadHandler;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class RegistrationController extends AbstractController
 {
@@ -32,10 +33,42 @@ class RegistrationController extends AbstractController
 
 
             // Handle avatar upload
-            $uploadHandler = $this->get('vich_uploader.upload_handler');
+          /*  $uploadHandler = $this->get('vich_uploader.upload_handler');
            if ($user->getAvatar()) {
                $uploadHandler->upload($user, 'avatar');
-           }
+           }*/
+
+
+          /** @var UploadedFile $brochureFile */
+          $avatarFile = $form->get('avatar')->getData();
+
+          // this condition is needed because the 'brochure' field is not required
+          // so the PDF file must be processed only when a file is uploaded
+          if ($avatarFile) {
+              $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
+              // this is needed to safely include the file name as part of the URL
+              //$safeFilename = $slugger->slug($originalFilename);
+            //  $newFilename = $safeFilename.'-'.uniqid().'.'.$avatarFile->guessExtension();
+
+              // Move the file to the directory where brochures are stored
+              try {
+                  $avatarFile->move(
+                      $this->getParameter('avatar_directory'),
+                      $originalFilename
+                  );
+              } catch (FileException $e) {
+                  // ... handle exception if something happens during file upload
+              }
+
+              // updates the 'avatarFilename' property to store the PDF file name
+              // instead of its contents
+              $user->setAvatar($originalFilename);
+          }
+
+
+
+
+
 
             $entityManager->persist($user);
             $entityManager->flush();

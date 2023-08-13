@@ -61,6 +61,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $imageFile = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    /**
+   * @ORM\Column(length: 255, nullable: true)
+   * @Vich\UploadableField(mapping="user_avatars", fileNameProperty="avatar")
+   */
     private ?string $avatar = null;
 
     #[ORM\ManyToMany(targetEntity: Scambi::class, mappedBy: 'userTarget')]

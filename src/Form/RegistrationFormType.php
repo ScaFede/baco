@@ -15,6 +15,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 use App\Entity\CompetenzeBis;
 
 class RegistrationFormType extends AbstractType
@@ -46,10 +48,25 @@ class RegistrationFormType extends AbstractType
                       ])
 
 
-          /*  ->add('avatar', VichFileType::class, [
+           ->add('avatar', FileType::class, [
                   'label' => 'Avatar',
+                  'mapped' => false,
                   'required' => false,
-              ])*/
+
+                  'constraints' => [
+                                     new File([
+                                         'maxSize' => '1024k',
+                                        /*'mimeTypes' => [
+                                             'application/pdf',
+                                             'application/x-pdf',
+                                         ],*/
+                                        // 'mimeTypesMessage' => 'Please upload a valid PDF document',
+                                     ])
+                                 ],
+
+
+
+              ])
 
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
