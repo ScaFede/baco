@@ -18,3 +18,9 @@ app_user_profile:
 import_cities:
     path: /import-cities
     controller: App\Controller\CittaController::importCities
+
+app_user_edit:
+    path: '/user/{id}/edit'
+    controller: App\Controller\UserController::edit
+    requirements:
+        id: \d+

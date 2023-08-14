@@ -1,0 +1,25 @@
+{#  {{ form_start(form) }} #}
+{#     {{ form_widget(form) }}  #}
+{#  {{ form_end(form) }}  #}
+
+
+{{ form_start(form) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.nickname) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.CompetenzeBisRel) }}
+    {{ form_row(form.cittaRel) }}
+    {{ form_row(form.avatar) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+
+{{ form_end(form) }}
+
+<!-- Visualizza i campi non gestiti -->
+<div>
+    <p>Scambi Conclusi: {{ user.scambiConclusi }}</p>
+    <p>Competenze Bis Rel:
+        {% for competenza in user.CompetenzeBisRel %}
+            {{ competenza.titolo }}
+        {% endfor %}
+    </p>
+</div>

@@ -18,6 +18,8 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
 use App\Entity\CompetenzeBis;
+use App\Entity\Citta;
+
 
 class RegistrationFormType extends AbstractType
 {
@@ -43,9 +45,18 @@ class RegistrationFormType extends AbstractType
                           'label' => 'Competenze',
                           'choice_label' => 'titolo', // Campo da mostrare nelle opzioni
                           'multiple' => true,
-                          'expanded' => true,
+                          'expanded' => false,
                           'required' => false,
                       ])
+
+          ->add('cittaRel', EntityType::class, [
+            'class' => Citta::class,
+            'label' => 'Città di provenienza',
+            'choice_label' => 'nome', // Il campo da mostrare nelle opzioni
+            'multiple' => false, // Seleziona una sola città
+            'required' => false,
+
+        ])
 
 
            ->add('avatar', FileType::class, [

@@ -1,43 +1,56 @@
 {% extends 'base.html.twig' %}
-{% block title %}Utenti {% endblock %}
+
+{% block title %}User index{% endblock %}
 
 {% block body %}
+    <h1>User index</h1>
 
-
-    <h1>Lista degli utenti </h1>
-
-
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>Nickname</th>
+                <th>Description</th>
+                <th>CreateAt</th>
+                <th>CittaRel</th>
+                <th>Competenze</th>
+                <th>Avatar</th>
+                <th>ScambiConclusi</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
         {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.nickname }}</td>
+                <td>{{ user.description }}</td>
+                <td>{{ user.createAt ? user.createAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.cittaRel}}</td>
+                <td>  {% for competenza in user.CompetenzeBisRel %}
+                      {{ competenza.titolo }}
+                  {% endfor %}</td>
 
-              <div class="row d-flex justify-content-start">
-              <div class="col id"> {{ user.id }}</div>
-              <div class="col">
-                <div class="avatar">
-                  <img src=" {{ asset('uploads/avatar/' ~  user.avatar )    }}" alt="avatar user">
-                </div>
-              </div>
-              <div class="col nn"> {{ user.nickname }}</div>
-              <div class="col em"> {{ user.email }}</div>
-              <div class="col desc"> {{ user.description }}</div>
-{% for competenza in user.competenzeRel %}
-<div class="col comp"> {{ competenza.titolo }}</div>
-  {% endfor %}
-
-  <a href="" class="btn btn-primary"
-  data-focus-mouse="false">Proponi scambio</a>
-
-
-
-
-              <div class="d-flex justify-content-between">
-
-
-                </div>
-
+                <td>{{ user.avatar }}</td>
+                <td>{{ user.scambiConclusi }}</td>
+                <td>
+                    <a href="{{ path('app_user_profile', {'id': user.id}) }}">show</a>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                </td>
+            </tr>
         {% else %}
-            <div>
-                <p>no records found</p>
-            </div>
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
         {% endfor %}
+        </tbody>
+    </table>
 
+    <a href="{{ path('app_user_new') }}">Create new</a>
 {% endblock %}

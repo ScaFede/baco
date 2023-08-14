@@ -12,9 +12,18 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\UploadHandler;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Entity\CompetenzeBis;
 
 class RegistrationController extends AbstractController
 {
+
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UploadHandler $uploadHandler): Response
     {
@@ -67,6 +76,19 @@ class RegistrationController extends AbstractController
 
 
 
+          //CompetenzeBis Rel
+          // Rimuovi competenze associate all'utente se presenti nel form
+          foreach ($user->getCompetenzeBisRel() as $competenza) {
+              $competenza->addUserRelation($user);
+          }
+
+          // Rimuovi competenze non associate all'utente se presenti nel form
+          $competenzeToRemove = $this->entityManager->getRepository(CompetenzeBis::class)->findAll();
+          foreach ($competenzeToRemove as $competenza) {
+              if (!$user->getCompetenzeBisRel()->contains($competenza)) {
+                  $competenza->removeUserRelation($user);
+              }
+          }
 
 
 

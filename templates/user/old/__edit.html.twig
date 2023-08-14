@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>Edit User</h1>
+
+    {{ form_start(editForm) }}
+        {{ form_row(editForm.email) }}
+        {{ form_row(editForm.nickname) }}
+        {{ form_row(editForm.description) }}
+        {{ form_row(editForm.roles) }}
+        {# ... Other fields of the user entity ... #}
+
+        <button type="submit">Save Changes</button>
+    {{ form_end(editForm) }}
+
+    <a href="{{ path('app_user_profile', {'id': user.id}) }}">Back to Profile</a>
+{% endblock %}

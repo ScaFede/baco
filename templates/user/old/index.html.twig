@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}Utenti {% endblock %}
+
+{% block body %}
+
+
+    <h1>Lista degli utenti </h1>
+
+
+        {% for user in users %}
+
+              <div class="row d-flex justify-content-start">
+              <div class="col id"> {{ user.id }}</div>
+              <div class="col">
+                <div class="avatar">
+                  <img src=" {{ asset('uploads/avatar/' ~  user.avatar )    }}" alt="avatar user">
+                </div>
+              </div>
+              <div class="col nn"> {{ user.nickname }}</div>
+              <div class="col em"> {{ user.email }}</div>
+              <div class="col desc"> {{ user.description }}</div>
+{% for competenza in user.competenzeRel %}
+<div class="col comp"> {{ competenza.titolo }}</div>
+  {% endfor %}
+
+  <a href="" class="btn btn-primary"
+  data-focus-mouse="false">Proponi scambio</a>
+
+
+
+
+              <div class="d-flex justify-content-between">
+
+
+                </div>
+
+        {% else %}
+            <div>
+                <p>no records found</p>
+            </div>
+        {% endfor %}
+
+{% endblock %}
