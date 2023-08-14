@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\CompetenzeBis;
 use App\Form\CompetenzeBisType;
 use App\Repository\CompetenzeBisRepository;
+use App\Repository\CittaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 //use App\Form\CompetenzeType;
 use App\Form\CategorieType;
 use App\Entity\Categorie;
+use App\Entity\Citta;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CategorieRepository;
@@ -35,10 +37,13 @@ class CompetenzeBisController extends AbstractController
 
 
     #[Route('/', name: 'app_competenze_bis_index', methods: ['GET'])]
-    public function index(CompetenzeBisRepository $competenzeBisRepository, CategorieRepository $categorieRepository, Request $request): Response
+    public function index(CompetenzeBisRepository $competenzeBisRepository, CategorieRepository $categorieRepository,  CittaRepository $cittaRepository, Request $request): Response
     {
         $categories = $categorieRepository->findAll(); // Recupera tutte le categorie
         $selectedCategoryId = $request->query->get('category'); // ID category
+
+        $cities = $cittaRepository->findAll(); // Recupera tutte le città
+        $selectedCityId = $request->query->get('city'); // ID città
 
         //$searchTerm = $request->query->get('search');
         $searchTerm = $request->query->get('search', ''); // '' assegna stringa vuota se il parametro è null
@@ -48,7 +53,9 @@ class CompetenzeBisController extends AbstractController
             $competenze_bis = $competenzeBisRepository->findBySearchTerm($searchTerm);
         } elseif ($selectedCategoryId) { // Competenze con filtro per categoria
             $competenze_bis = $competenzeBisRepository->findByCategory($selectedCategoryId);
-        } else {
+        } elseif ($selectedCityId) { // Competenze con filtro per città
+            $competenze_bis = $competenzeBisRepository->findByCity($selectedCityId);
+        }else {
             $competenze_bis = $competenzeBisRepository->findAll();
         }
 
@@ -56,6 +63,7 @@ class CompetenzeBisController extends AbstractController
           //  'competenze_bis' => $competenzeBisRepository->findAll(),
             'competenze_bis' => $competenze_bis,
             'categories' => $categories,
+            'cities' => $cities,
         ]);
     }
 

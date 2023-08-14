@@ -66,6 +66,21 @@ class CompetenzeBisRepository extends ServiceEntityRepository
 
           return $qb->getQuery()->getResult();
       }
+
+
+      public function findByCity($cityId)
+      {
+          $qb = $this->createQueryBuilder('c')
+              ->leftJoin('c.UserRelation', 'u')
+              ->leftJoin('u.cittaRel', 'ci')
+              ->where('ci.id = :cityId')
+              ->setParameter('cityId', $cityId)
+              ->getQuery();
+
+          return $qb->getResult();
+      }
+
+
 //    /**
 //     * @return CompetenzeBis[] Returns an array of CompetenzeBis objects
 //     */

@@ -66,11 +66,14 @@
 
                 <!-- <a href="{{ path('app_user_profile', {'id': app.user.id}) }}">Ciao, {{ app.user.nickname }}!</a> -->
                     <a class="btn btn-primary btn-icon btn-sm" href="{{ path('app_user_profile', {'id': app.user.id}) }}" title="Accedi all'area personale" aria-label="Accedi all'area personale" data-focus-mouse="false">
-                      <span class="rounded-icon">
-                        <svg class="icon icon-primary">
-                          <use xlink:href="/bootstrap-italia/dist/svg/sprites.svg#it-user"></use>
-                        </svg>
-                      </span>
+                      {% if app.user.avatar %}
+                          {% set avatarPath = asset('uploads/avatar/' ~ app.user.avatar) %}
+                          <span class="rounded-icon avatar">
+                              <img src="{{ avatarPath }}" class="border rounded-circle icon-white" alt="Avatar di {{ app.user.nickname }}">
+                          </span>
+
+                      {% endif %}
+
                       <span class="d-none d-lg-block">{{ app.user.nickname }}</span>
                     </a>
                     <a href="{{ path('app_logout') }}" type="button" class="btn btn-outline me-2 btn-sm">Esci</a>

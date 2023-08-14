@@ -51,3 +51,48 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 	padding-top: 7.5px;
 	padding-bottom: 7.5px;
 }
+
+
+.card-grid-2 {
+	border-radius: 8px;
+	border: 1px solid #E0E6F7;
+	overflow: hidden;
+	margin-bottom: 24px;
+	position: relative;
+	background: #F8FAFF;
+}
+
+.card-block-info {
+	display: inline-block;
+	width: 100%;
+	padding: 5px 10px 20px 10px;
+}
+
+.card-grid-2-image-left {
+	padding: 30px 20px 15px 20px;
+	display: flex;
+	position: relative;
+}
+
+.card-grid-2-image-rd {
+	padding: 0px 15px 0px 0px;
+	display: inline-block;
+	width: 30%;
+	min-width: 115px;
+	max-width: 115px;
+}
+
+ .card-block-info {
+	padding: 0px 20px 30px 20px;
+	position: relative;
+}
+
+.rounded-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 12px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #fff;
+}
