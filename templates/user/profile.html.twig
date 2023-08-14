@@ -97,7 +97,8 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                       <button class="accordion-button pb-10 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-one" aria-expanded="true" aria-controls="collapse-one">
                         INDICE DELLA PAGINA
                         <svg class="icon icon-xs right">
-                          <use href="../assets/bootstrap-italia/dist/svg/sprites.svg#it-expand"></use>
+
+                          <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-expand') }}"></use>
                         </svg>
                       </button>
                     </span>
@@ -178,7 +179,8 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
               <div class="card card-teaser shadow rounded ">
                 <svg class="icon d-none" aria-hidden="true">
-                  <use xlink:href="../assets/bootstrap-italia/dist/svg/sprites.svg#it-telephone"></use>
+
+                  <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-check-circle') }}"></use>
                 </svg>
 
                 <div class="card-body">
@@ -219,9 +221,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                         <div class="mb-4">
 
                           <div class="card card-teaser shadow rounded">
-                            <svg class="icon" aria-hidden="true">
-                              <use xlink:href="../assets/bootstrap-italia/dist/svg/sprites.svg#it-telephone"></use>
-                            </svg>
+
 
                             <div class="card-body">
                               <h3 class="card-title h5">Proposta {{ proposta.id }} del {{ proposta.createdAt ? proposta.createdAt|date('d/m/Y H:i') }}  per l'utente
@@ -299,9 +299,6 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                         <div class="mb-4">
 
                           <div class="card card-teaser shadow rounded">
-                            <svg class="icon" aria-hidden="true">
-                              <use xlink:href="../assets/bootstrap-italia/dist/svg/sprites.svg#it-telephone"></use>
-                            </svg>
 
                             <div class="card-body">
                               <h3 class="card-title h5">Proposta {{ proposta.id }} del {{ proposta.createdAt ? proposta.createdAt|date('d/m/Y H:i') }} dall'utente

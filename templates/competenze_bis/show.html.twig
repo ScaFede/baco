@@ -37,7 +37,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
           {% for competenza in competenze_bi.categorieRelation %}
             <li>
-              <a class="chip chip-simple" href="#">
+              <a class="chip chip-simple" href="{{ path('app_categorie_show', {'id': competenza.id}) }}">
                   <span class="chip-label">{{ competenza.nome }}</span>
               </a>
             </li>
@@ -73,7 +73,8 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                       <button class="accordion-button pb-10 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-one" aria-expanded="true" aria-controls="collapse-one">
                         INDICE DELLA PAGINA
                         <svg class="icon icon-xs right">
-                          <use href="../assets/bootstrap-italia/dist/svg/sprites.svg#it-expand"></use>
+
+                          <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-expand') }}"></use>
                         </svg>
                       </button>
                     </span>
@@ -127,7 +128,8 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
           <div class="card card-teaser shadow rounded">
             <svg class="icon" aria-hidden="true">
-              <use xlink:href="../assets/bootstrap-italia/dist/svg/sprites.svg#it-telephone"></use>
+
+              <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-user') }}"></use>
             </svg>
 
             <div class="card-body">
@@ -183,12 +185,14 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
               <ul class="contact-list p-0">
                 <li><a class="list-item" href="#">
                     <svg class="icon icon-primary icon-sm" aria-hidden="true">
-                      <use href="../assets/bootstrap-italia/dist/svg/sprites.svg#it-help-circle"></use>
+
+                      <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-help-circle') }}"></use>
                     </svg><span>Leggi le domande frequenti</span></a></li>
 
                 <li><a class="list-item" href="#" data-element="contacts">
                     <svg class="icon icon-primary icon-sm" aria-hidden="true">
-                      <use href="../assets/bootstrap-italia/dist/svg/sprites.svg#it-mail"></use>
+
+                      <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-mail') }}"></use>
                     </svg><span>Richiedi assistenza</span></a></li>
 
 

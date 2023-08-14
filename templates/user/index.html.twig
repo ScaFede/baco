@@ -3,7 +3,84 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+    <h1>BaCo Community</h1>
+
+<div class="row">
+  {% for user in users %}
+    <div class="col-md-4 mb-4">
+      <div class="card card-bg card-big rounded shadow">
+        <div class="card-body">
+
+                      <div class="card-grid-2-image-left">
+
+
+
+                            {% if user.avatar %}
+                                {% set avatarPath = asset('uploads/avatar/' ~ user.avatar) %}
+
+                                <div class="avatar size-xxl">
+                                  <a href="{{ path('app_user_profile', {'id': user.id}) }}">
+                                  <img alt="avatar image {{ user.nickname }}" src="{{ avatarPath }}">
+                                  </a>
+                                </div>
+                            {% endif %}
+
+
+
+                        <div class="card-profile pt-10">
+                          <a href="{{ path('app_user_profile', {'id': user.id}) }}">
+                            <h5 class="card-title">{{ user.nickname }}</h5></a><span class="font-xs color-text-mutted">{{ user.email }}</span>
+                          <div class="rate-reviews-small pt-5">
+                            <span class="ml-10 color-text-mutted font-xs">{{ user.scambiConclusi }}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card-block-info">
+                        <p class="card-text">{{ user.description }}</p>
+                        <div class="card-2-bottom card-2-bottom-candidate mt-30">
+
+
+                        <ul class="d-flex flex-wrap gap-1 mt-2">
+                          {% for competenza in user.CompetenzeBisRel %}
+                          <li>
+                            <a class="chip chip-simple" href="{{ path('app_competenze_bis_show', {'id': competenza.id}) }}" data-focus-mouse="false">
+                              <span class="chip-label">{{ competenza.titolo }}</span>
+                            </a>
+                          </li>
+                          {% endfor %}
+
+                      </ul>
+
+
+                        </div>
+
+
+                        {% if user.cittaRel %}
+                        <div class="align-items-center justify-content-center mt-15">
+                          <div class="row">
+                            <div class="col-12">
+                                <svg class="icon icon-sm"><use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-map-marker') }}"></use></svg>{{ user.cittaRel}}
+                          </div>
+                          </div>
+                        </div>
+                        {% endif %}
+
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+
+        {% endfor %}
+
+</div>
+
+
+
+
+
+
+
 
     <table class="table">
         <thead>
