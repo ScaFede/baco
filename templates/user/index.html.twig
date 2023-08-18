@@ -29,15 +29,18 @@
 
                         <div class="card-profile pt-10">
                           <a href="{{ path('app_user_profile', {'id': user.id}) }}">
-                            <h5 class="card-title">{{ user.nickname }}</h5></a><span class="font-xs color-text-mutted">{{ user.email }}</span>
+                            <h5 class="card-title">{{ user.nickname }}</h5></a>
+                            {% if app.user %}
+                            <span class="font-xs color-text-mutted">{{ user.email }}</span>
+                            {% endif %}
                           <div class="rate-reviews-small pt-5">
-                            <span class="ml-10 color-text-mutted font-xs">{{ user.scambiConclusi }}</span>
+                              <svg class="icon icon-sm"><use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-check-circle') }}"></use></svg><span class="ml-10 color-text-mutted font-xs">Scambi conclusi: {{ user.scambiConclusi }}</span>
                           </div>
                         </div>
                       </div>
 
                       <div class="card-block-info">
-                        <p class="card-text">{{ user.description }}</p>
+                        <p class="card-text">{{ user.description | slice(0, 100) | length < 100 ? user.description : user.description | slice(0, 100) ~ '...' }}</p>
                         <div class="card-2-bottom card-2-bottom-candidate mt-30">
 
 
@@ -67,6 +70,13 @@
                         {% endif %}
 
                       </div>
+                      <a class="read-more" href="{{ path('app_user_profile', {'id': user.id}) }}">
+                        <span class="text">Guarda il profilo</span>
+                        <svg class="icon">
+                          <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-arrow-right') }} "></use>
+                        </svg>
+                      </a>
+
                     </div>
                   </div>
                   </div>
