@@ -1,0 +1,90 @@
+<div class="form-group cmp-input mb-0">
+  <div class="select-wrapper">
+    <!-- <label for="defaultSelect">Città di riferimento</label> -->
+    <select id="defaultSelect">
+      <option value="">{{ field_label(registrationForm.competenzeBisRel) }}</option>
+      {% for label, value in field_choices(registrationForm.competenzeBisRel) %}
+      <option value="{{ value }}">{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
+
+
+
+
+                {# {{ form_row(registrationForm.email) }} #}
+                {#   {{ form_row(registrationForm.plainPassword, {
+                  label: 'Password'
+                }) }} #}
+                {#  {{ form_row(registrationForm.description) }} #}
+              {#  {{ form_row(registrationForm.avatar) }}  #}
+              {#  {{ form_row(registrationForm.competenzeBisRel) }} #}
+                {# {{ form_row(registrationForm.cittaRel) }} #}
+
+                {# {{ form_row(registrationForm.nickname, {
+                  label: 'Nickname'
+                }) }} {# Campo nickname obbligatorio #} #}
+                <div class="form-check">
+                  {#  {{ form_row(registrationForm.agreeTerms) }} #}
+                </div>
+
+                <button type="submit" class="btn">Register</button>
+
+                ---
+                <select id="defaultSelect">
+                  <option value="">{{ field_label(registrationForm.cittaRel) }}</option>
+
+                  {% for label, value in field_choices(registrationForm.cittaRel) %}
+                  <option value="{{ value }}">{{ label }}</option>
+                  {% endfor %}
+                </select>
+
+                <label for="{{ registrationForm.competenzeBisRel.vars.id }}">{{ field_label(registrationForm.competenzeBisRel) }}</label>
+                <select id="{{ registrationForm.competenzeBisRel.vars.id }}" class="custom-select" name="{{ registrationForm.competenzeBisRel.vars.full_name }}[]" multiple>
+                    <option value="">{{ field_label(registrationForm.competenzeBisRel) }}</option>
+                    {% for label, value in field_choices(registrationForm.competenzeBisRel) %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+
+                --- login
+
+                {#
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    {% if app.user %}
+                        <div class="mb-3">
+                            Il tuo utente è loggato come {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                        </div>
+                    {% endif %}
+
+                    <h1 class="h3 mb-3 font-weight-normal">Accedi</h1>
+                    <label for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                    <label for="inputPassword">Password</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+
+
+                      {#  Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                        See https://symfony.com/doc/current/security/remember_me.html #}
+
+                        <div class="checkbox mb-3">
+                            <label>
+                                <input type="checkbox" name="_remember_me"> Remember me
+                            </label>
+                        </div>
+
+
+                    <button class="btn btn-lg btn-primary" type="submit">
+                        Sign in
+                    </button>
+
+                </form> #}

@@ -75,6 +75,10 @@ class UserType extends AbstractType
                 'choice_label' => 'nome', // Il campo da mostrare nelle opzioni
                 'multiple' => false, // Seleziona una sola città
                 'required' => false,
+                'query_builder' => function (\Doctrine\ORM\EntityRepository $er) {
+                  return $er->createQueryBuilder('c')
+                      ->orderBy('c.nome', 'ASC'); // Ordina in modo alfabetico
+              },
 
             ])
           /*  ->add('ScambiUser', null, [
