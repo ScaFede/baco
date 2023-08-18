@@ -13,15 +13,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\UploadHandler;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Entity\CompetenzeBis;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class RegistrationController extends AbstractController
 {
+
+
+
 
     private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
+
     }
 
     #[Route('/register', name: 'app_register')]
@@ -39,6 +44,13 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
+              $loginLink = $this->generateUrl('app_login');
+
+              $this->addFlash('success', sprintf('La registrazione è stata completata con successo. Fai il login con l\'email inserita in fase di registrazione
+              e inizia a scambiare nella BaCo Community!', $loginLink));
+              return $this->redirectToRoute('app_competenze_bis_index'); // Reindirizza all'elenco delle competenze
+
 
 
             // Handle avatar upload
