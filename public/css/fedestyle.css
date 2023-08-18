@@ -96,3 +96,83 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 	align-items: center;
 	background-color: #fff;
 }
+
+#registration_form_competenzeBisRel {
+  height: 10rem;
+}
+.select-wrapper select option {
+	font-size: 1rem;
+	/* border-bottom: 1px solid #eaeaea; */
+}
+
+.avatar img {
+	width: 128px;
+	height: 128px;
+}
+
+/* input check */
+/*
+.form-check input:checked {
+  background-color: #06c;
+  border-color: #06c;
+}
+.form-check input[type="checkbox"] {
+  border-radius: .25em;
+}
+.form-check input {
+  float: left;
+  margin-left: -1.5em;
+}
+.form-check input {
+  width: 1em;
+  height: 1em;
+  margin-top: .25em;
+  vertical-align: top;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: 1px solid rgba(0,0,0,.25);
+    border-top-color: rgba(0, 0, 0, 0.25);
+    border-right-color: rgba(0, 0, 0, 0.25);
+    border-bottom-color: rgba(0, 0, 0, 0.25);
+    border-left-color: rgba(0, 0, 0, 0.25);
+  appearance: none;
+  print-color-adjust: exact;
+}
+
+.form-check label + input[type="checkbox"], .form-check label + input[type="radio"] {
+  position: relative;
+  padding-left: 36px;
+  cursor: pointer;
+  display: inline-block;
+  height: 32px;
+  line-height: 32px;
+  font-size: 1rem;
+  user-select: none;
+  margin-bottom: .5rem;
+}
+.form-check  label::after, .form-check  label::before {
+  content: "";
+  left: 0;
+  position: absolute;
+  transition: .2s ease-out;
+  z-index: 1;
+  border-style: solid;
+  border-width: 2px;
+}
+
+.form-check label::before {
+  top: 0;
+  width: 17px;
+  height: 17px;
+  border: 1px solid #e6e9f2;
+    border-top-color: rgb(230, 233, 242);
+    border-right-color: rgb(230, 233, 242);
+    border-bottom-color: rgb(230, 233, 242);
+    border-left-color: rgb(230, 233, 242);
+  border-radius: 1px;
+  margin: 2px 5px;
+  transform: rotateZ(37deg);
+  transform-origin: 100% 100%;
+} */
