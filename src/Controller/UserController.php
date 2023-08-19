@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\ScambiRepository;
 use Vich\UploaderBundle\Handler\UploadHandler;
 use App\Entity\CompetenzeBis;
+use App\Entity\UserConoscenzeImage;
+
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -98,6 +100,34 @@ class UserController extends AbstractController
               // updates the 'avatarFilename' property to store the PDF file name
               // instead of its contents
               $user->setAvatar($originalFilename);
+          }
+
+
+      //uploads images competenze
+      $uploadedImages = $form['conoscenzeImages']->getData();
+
+            foreach ($uploadedImages as $uploadedImage) {
+              if ($uploadedImage) {
+                  $conoscenzeImage = new UserConoscenzeImage();
+                  $conoscenzeImage->setUser($user);
+
+                  $originalFilename = pathinfo($uploadedImage->getClientOriginalName(), PATHINFO_FILENAME);
+                //  $newFilename = $originalFilename.'-'.uniqid().'.'.$uploadedImage->guessExtension();
+
+                  try {
+                      $uploadedImage->move(
+                          $this->getParameter('conoscenze_images_directory'),
+                          $originalFilename
+                          //$newFilename
+                      );
+                  } catch (FileException $e) {
+                      // Handle exception
+                  }
+
+                  $conoscenzeImage->setImageName($originalFilename);
+
+                  $entityManager->persist($conoscenzeImage);
+              }
           }
 
 

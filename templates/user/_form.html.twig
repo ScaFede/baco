@@ -10,7 +10,13 @@
     {{ form_row(form.CompetenzeBisRel) }}
     {{ form_row(form.cittaRel) }}
     {{ form_row(form.avatar) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_widget(form.conoscenzeImages,
+      {
+          label: 'Carica immagini delle tue competenze (max 6)',
+            attr: {'class': 'custom-file-input'}
+      }
+      ) }}
+    <button class="btn">{{ button_label|default('Salva') }}</button>
 
 {{ form_end(form) }}
 

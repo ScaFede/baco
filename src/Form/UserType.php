@@ -14,6 +14,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Citta;
 use App\Entity\CompetenzeBis;
 use App\Entity\Scambi;
+use App\Entity\UserConoscenzeImage;
+
 
 
 class UserType extends AbstractType
@@ -81,6 +83,20 @@ class UserType extends AbstractType
               },
 
             ])
+
+
+
+            ->add('conoscenzeImages', FileType::class, [
+               'label' => 'Carica immagini delle competenze (max 6)',
+               'required' => false,
+               'multiple' => true,
+               'mapped' => false,
+               'attr' => [
+                   'accept' => 'image/*',
+               ],
+           ])
+
+
           /*  ->add('ScambiUser', null, [
                   'mapped' => false,
               ])

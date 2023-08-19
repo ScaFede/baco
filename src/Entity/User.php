@@ -79,6 +79,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'userRel')]
     private ?Citta $cittaRel = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserConoscenzeImage::class)]
+    private Collection $userConoscenzeImages;
+
     // #[ORM\Column(length: 255, nullable: true)]
     // private ?string $city = null;
 
@@ -93,6 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->CompetenzeBisRel = new ArrayCollection();
         $this->ScambiUser = new ArrayCollection();
         $this->scambiUserSender = new ArrayCollection();
+        $this->userConoscenzeImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -409,7 +413,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
       }
 
 
+      /**
+       * @return Collection<int, UserConoscenzeImage>
+       */
+      public function getUserConoscenzeImages(): Collection
+      {
+          return $this->userConoscenzeImages;
+      }
 
+      public function addUserConoscenzeImage(UserConoscenzeImage $userConoscenzeImage): static
+      {
+          if (!$this->userConoscenzeImages->contains($userConoscenzeImage)) {
+              $this->userConoscenzeImages->add($userConoscenzeImage);
+              $userConoscenzeImage->setUser($this);
+          }
+
+          return $this;
+      }
+
+      public function removeUserConoscenzeImage(UserConoscenzeImage $userConoscenzeImage): static
+      {
+          if ($this->userConoscenzeImages->removeElement($userConoscenzeImage)) {
+              // set the owning side to null (unless already changed)
+              if ($userConoscenzeImage->getUser() === $this) {
+                  $userConoscenzeImage->setUser(null);
+              }
+          }
+
+          return $this;
+      }
 
 
 

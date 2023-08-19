@@ -165,9 +165,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
       </article>
 
 
-
-
-
+      {% if user.CompetenzeBisRel is not empty %}
       <article id="conoscenze" class="it-page-section mb-5">
         <h2 class="mb-3">Conoscenze</h2>
 
@@ -200,17 +198,47 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
 
-
       </article>
+      {% endif  %}
+
+{% if user.userConoscenzeImages is not empty %}
+      <article  class="it-page-section mb-5" id="gallery">
+        <h2 class="mb-3">Gallery</h2>
+
+        <div class="it-carousel-wrapper it-carousel-landscape-abstract-three-cols it-full-carousel it-standard-image splide" data-bs-carousel-splide>
+          <div class="splide__track">
+            <ul class="splide__list">
+              {% for conoscenzaImage in user.userConoscenzeImages %}
+                <li class="splide__slide">
+                  <div class="it-single-slide-wrapper">
+                    <div class="card-wrapper">
+                      <div class="card card-img no-after">
+                        <div class="img-responsive-wrapper">
+                          <div class="img-responsive">
+                            <div class="img-wrapper">
+                              <img src="{{ asset('uploads/conoscenze/' ~ conoscenzaImage.imageName) }}" title="{{conoscenzaImage.imageName}}" alt="{{conoscenzaImage.imageName}}">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </article>
+      {% endif %}
 
 
-      <article id="avviati" class="it-page-section mb-5">
 
 
         {# Mostra le proposte di scambio inviate solo all'utente autenticato #}
         {% if app.user and app.user.id == user.id %}
 
         {% if proposteInviate is defined %}
+        <article id="avviati" class="it-page-section mb-5">
 
         <h2>Scambio avviati</h2>
 
@@ -266,6 +294,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
 
+        </article>
 
 
             {% endif %}
@@ -278,17 +307,16 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
 
-      </article>
 
 
 
-      <article id="ricevute" class="it-page-section mb-5">
 
 
         {# Mostra le proposte di scambio ricevute solo all'utente autenticato #}
         {% if app.user and app.user.id == user.id %}
 
         {% if proposteRicevute is defined %}
+        <article id="ricevute" class="it-page-section mb-5">
 
         <h2>Proposte Ricevute</h2>
 
@@ -341,9 +369,9 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
 
-
-            {% endif %}
+        </article>
           {% endif %}
+        {% endif %}
 
 
 
@@ -352,7 +380,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
 
-      </article>
+
 
 
 

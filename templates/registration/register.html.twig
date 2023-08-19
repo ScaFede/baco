@@ -138,6 +138,21 @@
                                 <div class="invalid-feedback">{{ form_errors(registrationForm.avatar) }}</div>
                             </div>
 
+                            <div class="form-group cmp-input mb-0">
+                                <div class="custom-file">
+                                    {{ form_widget(registrationForm.conoscenzeImages,
+                                      {
+                                          label: 'Carica immagini delle tue competenze (max 6)',
+                                            attr: {'class': 'custom-file-input'}
+                                      }
+                                      ) }}
+                                </div>
+                                <div class="form-text cmp-input__text">Carica immagini che dimostrano le tue competenze (max 6).</div>
+                            </div>
+
+
+
+
 
                             <div class="form-group cmp-input mb-0">
                               <div class="form-check">

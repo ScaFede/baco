@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Handler\UploadHandler;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Entity\CompetenzeBis;
+use App\Entity\UserConoscenzeImage;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class RegistrationController extends AbstractController
@@ -45,12 +46,6 @@ class RegistrationController extends AbstractController
                 )
             );
 
-              $loginLink = $this->generateUrl('app_login');
-
-              $this->addFlash('success', sprintf('La registrazione è stata completata con successo. Fai il login con l\'email inserita in fase di registrazione
-              e inizia a scambiare nella BaCo Community!', $loginLink));
-              return $this->redirectToRoute('app_competenze_bis_index'); // Reindirizza all'elenco delle competenze
-
 
 
             // Handle avatar upload
@@ -60,11 +55,10 @@ class RegistrationController extends AbstractController
            }*/
 
 
-          /** @var UploadedFile $brochureFile */
+          /** @var UploadedFile $avatarFile */
           $avatarFile = $form->get('avatar')->getData();
 
-          // this condition is needed because the 'brochure' field is not required
-          // so the PDF file must be processed only when a file is uploaded
+
           if ($avatarFile) {
               $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
               // this is needed to safely include the file name as part of the URL
@@ -87,6 +81,35 @@ class RegistrationController extends AbstractController
           }
 
 
+          //uploads images competenze
+      $uploadedImages = $form['conoscenzeImages']->getData();
+
+
+            foreach ($uploadedImages as $uploadedImage) {
+              if ($uploadedImage) {
+                  $conoscenzeImage = new UserConoscenzeImage();
+                  $conoscenzeImage->setUser($user);
+
+                  $originalFilename = pathinfo($uploadedImage->getClientOriginalName(), PATHINFO_FILENAME);
+                //  $newFilename = $originalFilename.'-'.uniqid().'.'.$uploadedImage->guessExtension();
+
+                  try {
+                      $uploadedImage->move(
+                          $this->getParameter('conoscenze_images_directory'),
+                          $originalFilename
+                          //$newFilename
+                      );
+                  } catch (FileException $e) {
+                      // Handle exception
+                  }
+
+                  $conoscenzeImage->setImageName($originalFilename);
+
+                  $entityManager->persist($conoscenzeImage);
+              }
+          }
+
+
 
           //CompetenzeBis Rel
           // Rimuovi competenze associate all'utente se presenti nel form
@@ -104,11 +127,26 @@ class RegistrationController extends AbstractController
 
 
 
+
+          /*  $loginLink = $this->generateUrl('app_login');
+
+            $this->addFlash('success', sprintf('La registrazione è stata completata con successo. Fai il login con l\'email inserita in fase di registrazione
+            e inizia a scambiare nella BaCo Community!', $loginLink));
+            return $this->redirectToRoute('app_competenze_bis_index'); // Reindirizza all'elenco delle competenze */
+
+
+
+
+
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('admin');
+
+            $this->addFlash('success', sprintf('La registrazione è stata completata con successo. Fai il login con l\'email inserita in fase di registrazione
+            e inizia a scambiare nella BaCo Community!'));
+            return $this->redirectToRoute('app_competenze_bis_index');
+            //return $this->redirectToRoute('admin');
         }
 
         return $this->render('registration/register.html.twig', [
