@@ -15,6 +15,11 @@ app_user_profile:
     requirements:
         id: \d+  # Questo assicura che id sia interpretato come intero
 
+app_faq:
+  path: /faq
+  controller: App\Controller\FaqController::faq
+
+
 import_cities:
     path: /import-cities
     controller: App\Controller\CittaController::importCities

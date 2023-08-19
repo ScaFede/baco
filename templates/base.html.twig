@@ -37,7 +37,7 @@
       <div class="row">
         <div class="col-12">
           <div class="it-header-slim-wrapper-content">
-            <a class="d-none d-lg-block navbar-brand" href="{{ path('app_homepage') }}">BaCo</a>
+            <a class="d-none d-lg-block navbar-brand" href="{{ path('app_competenze_bis_index') }}">BaCo</a>
             <div class="nav-mobile">
               <nav aria-label="Navigazione secondaria">
                 <a class="it-opener d-lg-none" data-bs-toggle="collapse" href="#menuC1" role="button" aria-expanded="false" aria-controls="menuC1">
@@ -51,8 +51,8 @@
                     <li><a class="dropdown-item list-item" href="{{ path('app_competenze_bis_index') }}">Competenze</a></li>
                     <!-- <li><a class="list-item" href="{{ path('app_scambi_index') }}" aria-current="page">Scambi</a></li> -->
                     <li><a class="list-item " href="{{ path('app_user_index') }}" aria-current="page">Community</a></li>
-                    <li><a class="dropdown-item list-item" href="#">Progetto</a></li>
-                    <li><a class="list-item active" href="#" aria-current="page">Faq</a></li>
+                  {#   <li><a class="dropdown-item list-item" href="#">Progetto</a></li> #}
+                    <li><a class="list-item active" href="{{ path('app_faq') }}" aria-current="page">Faq</a></li>
                   </ul>
                 </div>
               </nav>

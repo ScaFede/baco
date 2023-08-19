@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FAQ - Comuni Italiani{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+  <h1 class="display-4 text-center mb-5">Domande frequenti su BaCo</h1>
+
+  <div class="accordion" id="">
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="heading1c">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1c" aria-expanded="true" aria-controls="collapse1c">
+          1. Cos'è BaCo e come funziona?
+        </button>
+      </h2>
+      <div id="collapse1c" class="accordion-collapse collapse show" role="region" aria-labelledby="heading1c">
+        <div class="accordion-body">
+          BaCo è una piattaforma online dedicata allo scambio di conoscenze tra designer di ogni settore. Attraverso BaCo, puoi condividere le tue esperienze, porre domande, rispondere ad altre domande e partecipare a discussioni riguardanti il mondo del design.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="heading2c">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2c" aria-expanded="false" aria-controls="collapse2c">
+          2. Posso condividere i miei progetti su BaCo?
+        </button>
+      </h2>
+      <div id="collapse2c" class="accordion-collapse collapse" role="region" aria-labelledby="heading2c">
+        <div class="accordion-body">
+          Certamente! BaCo ti consente di condividere i tuoi progetti di design con una community di appassionati. Puoi caricare immagini, documenti o presentazioni relative ai tuoi progetti e ricevere feedback e opinioni dagli altri membri.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="heading3c">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3c" aria-expanded="false" aria-controls="collapse3c">
+          3. Quali argomenti di design sono coperti su BaCo?
+        </button>
+      </h2>
+      <div id="collapse3c" class="accordion-collapse collapse" role="region" aria-labelledby="heading3c">
+        <div class="accordion-body">
+          BaCo copre una vasta gamma di argomenti di design, tra cui design grafico, design industriale, design degli interni, architettura e molto altro. Puoi trovare discussioni su tendenze, tecniche avanzate, strumenti software e condividere la tua passione con altri esperti del settore.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="heading4c">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4c" aria-expanded="false" aria-controls="collapse4c">
+          4. Come posso iniziare su BaCo?
+        </button>
+      </h2>
+      <div id="collapse4c" class="accordion-collapse collapse" role="region" aria-labelledby="heading4c">
+        <div class="accordion-body">
+          Per iniziare su BaCo, visita il nostro sito web e crea un account gratuito. Una volta registrato, potrai esplorare le discussioni, condividere i tuoi progetti e partecipare alle conversazioni. Ricorda di rispettare le regole della community e di condividere con sincerità e passione.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
