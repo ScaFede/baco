@@ -49,6 +49,12 @@ class Scambi
     #[ORM\Column(nullable: true)]
     private ?bool $confermaTarget = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ScambiUserTargetRel')]
+    private ?CompetenzeBis $userTargetCompetenzaRel = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ScambiUserSenderRel')]
+    private ?CompetenzeBis $userSenderCompetenzaRel = null;
+
 
 
     public function __construct()
@@ -192,6 +198,30 @@ class Scambi
     public function setConfermaTarget(?bool $confermaTarget): static
     {
         $this->confermaTarget = $confermaTarget;
+
+        return $this;
+    }
+
+    public function getUserTargetCompetenzaRel(): ?CompetenzeBis
+    {
+        return $this->userTargetCompetenzaRel;
+    }
+
+    public function setUserTargetCompetenzaRel(?CompetenzeBis $userTargetCompetenzaRel): static
+    {
+        $this->userTargetCompetenzaRel = $userTargetCompetenzaRel;
+
+        return $this;
+    }
+
+    public function getUserSenderCompetenzaRel(): ?CompetenzeBis
+    {
+        return $this->userSenderCompetenzaRel;
+    }
+
+    public function setUserSenderCompetenzaRel(?CompetenzeBis $userSenderCompetenzaRel): static
+    {
+        $this->userSenderCompetenzaRel = $userSenderCompetenzaRel;
 
         return $this;
     }

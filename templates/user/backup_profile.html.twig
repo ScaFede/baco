@@ -153,11 +153,11 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
     <section class="col-lg-8 it-page-sections-container border-light">
       <article id="cos-e" class="it-page-section mb-5" data-audio="">
         <h2 class="mb-3">Chi sono</h2>
-
+        <p class="">
         {% if user.description is defined %}
           <p> {{ user.description }}</p>
       {% endif %}
-
+        </p>
 
 
 
@@ -255,6 +255,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
         <h2>Scambio avviati</h2>
 
+            <ul>
                 {% for proposta in proposteInviate|reverse %}
 
 
@@ -281,32 +282,55 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                            {% endif %}
 
                               <div class="card-text">
-                              <p>Status scambio:   {{ proposta.statusString }} </p>
+                                <p>Status scambio:
 
 
+                              {#  {% if proposta.confermaSender and proposta.confermaTarget %}
+                                    Scambio Confermato
+                                {% elseif proposta.confermaSender %}
+                                  <i>  In attesa di conferma da altro utente</i>
+                                {% else %}
 
-                              {% if proposta.statusString == 'Iniziato' and proposta.scambioConfermato is null %}
-                              <i>  In attesa di che {% for user in proposta.userTarget %}  {{ user.nickname }}  {% endfor %} accetti la tua proposta</i>
-                              {% elseif proposta.statusString == 'In attesa' %}
-                              <form method="post"  action="{{ path('app_scambi_confirm', {'id': proposta.id}) }}" id="conferma-{{proposta.id}}">
-                                  <input type="hidden" name="confirmTargetId" value="{{ proposta.id }}">
-                                  <button type="submit" class="btn btn-success btn-xs mt-3">Conferma di scambiare la tua competenza {{proposta.userSenderCompetenzaRel}}</button>
-                              </form>
-                              {% elseif proposta.statusString == 'Confermato'  %}
-                                  {% if proposta.confermaSender is not null  %}
-                                  <i>Scambio confermato!</i>
-                                  <p>Grazie, attendiamo la conferma dell'altro utente</p>
-                                  {% elseif proposta.confermaSender is null %}
-                                    <form method="get" action="{{ path('app_scambi_confirm_sender', {'id': proposta.id}) }}" id="concludi-{{proposta.id}}">
-                                        <button type="submit" class="btn btn-primary btn-xs mt-3">Dichiara concluso lo scambio</button>
+                                    <form method="get" action="{{ path('app_scambi_confirm', {'id': proposta.id}) }}">
+                                        <a class="btn btn-success btn-xs mt-3" href="{{ path('app_scambi_confirm_target', {'id': proposta.id}) }}">Confermare lo scambio!</a>
                                     </form>
-                                  {% endif %}
-                            {% elseif proposta.statusString == 'Concluso' %}
-                            <i>Scambio concluso, bene!</i>
-                            {% elseif proposta.statusString == 'Rifiutato' %}
-                            <i>L'utente ha rifiutato lo scambio</i>
+                                {% endif %}
+                          #}
+
+
+
+
+
+                                {% if proposta.scambioConfermato is null and proposta.userTargetCompetenzaRel is null and proposta.confermaTarget is null and proposta.confermaSender is null %}
+                                <form method="post"  action="{{ path('app_scambi_confirm', {'id': proposta.id}) }}">
+                                    <input type="hidden" name="confirmTargetId" value="{{ proposta.id }}">
+                                    <button type="submit" class="btn btn-success btn-xs mt-3">Conferma scambio!</button>
+                                </form>
+
+                                {% elseif proposta.scambioConfermato is null and proposta.userTargetCompetenzaRel and proposta.confermaTarget is null and proposta.confermaSender is null and proposta.scambioConfermato is null %}
+                                    <i>  In attesa di che {% for user in proposta.userTarget %}  {{ user.nickname }}  {% endfor %} accetti la tua proposta</i>
+                                {% elseif proposta.scambioConfermato %}
+                                  Scambio confermato!
+                              {# {% if proposta.createdAt|date_modify('+48 hours') <= "now" %} #}
+                                   {% if proposta.confermaSender %}
+                                       {% if proposta.confermaTarget %}
+                                           <p>Scambio concluso, bene!</p>
+                                       {% else %}
+                                           <p>Grazie, attendiamo la conferma dell'altro utente</p>
+                                       {% endif %}
+                                   {% else %}
+                                       <form method="get" action="{{ path('app_scambi_confirm_sender', {'id': proposta.id}) }}">
+                                           <button type="submit" class="btn btn-primary btn-xs mt-3">Dichiara concluso lo scambio</button>
+                                       </form>
+                                   {% endif %}
+                            {#   {% else %}
+                                   <p>Scambio confermato, attendi almeno 48 ore prima di dichiararlo concluso.</p>
+                               {% endif %} #}
+                           {% elseif proposta.statusString == 'Rifiutato' %}
+                                   <p>Mi spiace, proposta rifiutata. Prova ancora.</p>
                             {% endif %}
 
+                              </p>
 
 
                               </div>
@@ -328,8 +352,8 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
         </article>
 
 
-        {% endif %}
-      {% endif %}
+            {% endif %}
+          {% endif %}
 
 
 
@@ -347,10 +371,11 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
         {% if app.user and app.user.id == user.id %}
 
         {% if proposteRicevute is defined %}
-        <article class="it-page-section mb-5" id="proposte-ricevute">
+        <article id="ricevute" class="it-page-section mb-5">
 
         <h2>Proposte Ricevute</h2>
 
+            <ul>
                 {% for proposta in proposteRicevute|reverse %}
 
 
@@ -374,78 +399,155 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                                {% endif %}
 
 
-                              <div class="card-text" >
-                                <p>Status scambio:   {{ proposta.statusString }} </p>
+                              <div class="card-text" id="proposte-ricevute">
+                                <p>Status scambio:
 
-                                {% if proposta.statusString == 'Iniziato' and proposta.userTargetCompetenzaRel %}
-                                <button type="button" class="btn btn-success btn-xs mt-3" data-bs-toggle="modal" data-bs-target="#acceptModal-{{proposta.id}}">
-                                    Accetta Scambio
-                                </button>
-                                <form id="reject-form-{{proposta.id}}" method="post" action="{{ path('app_scambi_confirm', {'id': proposta.id}) }}">
-                                    <button type="submit" class="btn btn-danger btn-xs mt-3" name="confirm" value="reject">Rifiuta scambio</button>
-                                </form>
-                                {% elseif proposta.statusString == 'In attesa' %}
-                                <p>In attesa che l'altro utente confermi lo scambio.</p>
-                                {% elseif proposta.statusString == 'Confermato' %}
-                                    {% if proposta.confermaTarget is not null  %}
-                                    <i>Scambio confermato!</i>
-                                    <p>Grazie, attendiamo la conferma dell'altro utente</p>
+
+                              {#  {% if proposta.confermaSender and proposta.confermaTarget %}
+                                    Scambio Confermato
+                                {% elseif proposta.confermaTarget %}
+                                  <i>  In attesa di conferma da altro utente</i>
+                                {% else %}
+
+                                    <form method="get" action="{{ path('app_scambi_confirm', {'id': proposta.id}) }}">
+                                        <a class="btn btn-success btn-xs mt-3" href="{{ path('app_scambi_confirm_sender', {'id': proposta.id}) }}">Clicca qui per confermare lo scambio avvenuto</a>
+                                    </form>
+                                {% endif %}
+                                #}
+                                </p>
+
+
+
+
+
+                                {% if proposta.statusString == 'Rifiutato' %}
+                                    <p>Mi spiace, proposta rifiutata. Prova ancora.</p>
+                                {% elseif proposta.scambioConfermato %}
+                                    {% if proposta.userSenderCompetenzaRel is null %}
+                                      <p>In attesa che l'altro utente confermi il completamento dello scambio.</p>
                                     {% elseif proposta.confermaTarget is null  %}
-                                      <form method="get" action="{{ path('app_scambi_confirm_target', {'id': proposta.id}) }}" id="concludi-{{proposta.id}}">
-                                          <button type="submit" class="btn btn-primary btn-xs mt-3">Dichiara concluso lo scambio</button>
-                                      </form>
+                                     <p>Scambio confermato! Conferma la tua parte conclusa:</p>
+                                     <form method="get" action="{{ path('app_scambi_confirm_target', {'id': proposta.id}) }}">
+                                         <button type="submit" class="btn btn-primary btn-xs mt-3">Conferma conclusione</button>
+                                     </form>
+                                     {% elseif proposta.confermaTarget and proposta.confermaSender %}
+                                      Scambio concluso, bene!
+
+                                     {% else %}
+                                    </p>Scambio conlcuso. Appena l'altro utente confermerà il tuo counter avrà + 1</p>
+                                     {% endif %}
+                               {% elseif proposta.scambioConfermato is null %}
+                                 <p>Status: In attesa di conferma o rifiuto da parte tua.</p>
+
+                                 {# Per il flash message relativo alla proposta avviata #}
+                                 {% for flashMessage in app.flashes('proposta_success') %}
+                                     <div class="alert alert-success">
+                                         {{ flashMessage }}
+                                     </div>
+                                 {% endfor %}
+
+                                 {% if proposta.statusString == 'Iniziato' %}
+                                 <button type="button" class="btn btn-success btn-xs mt-3" data-bs-toggle="modal" data-bs-target="#acceptModal">
+                                     Accetta Scambio
+                                 </button>
+                                 <form method="post" action="{{ path('app_scambi_confirm', {'id': proposta.id}) }}">
+                                     <button type="submit" class="btn btn-danger btn-xs mt-3" name="confirm" value="reject">Rifiuta scambio</button>
+                                 </form>
+                                 {% endif %}
+                               {% endif %}
+
+
+
+
+
+{#
+                                     {% if proposta.scambioConfermato is null and proposta.confermaTarget is null and proposta.confermaSender is null %}
+                                               <button type="button" class="btn btn-success btn-xs mt-3" data-bs-toggle="modal" data-bs-target="#acceptModal">
+                                                   Accetta Scambio
+                                               </button>
+                                               <form method="post" action="{{ path('app_scambi_confirm', {'id': proposta.id}) }}">
+                                                   <button type="submit" class="btn btn-danger btn-xs mt-3" name="confirm" value="reject">Rifiuta scambio</button>
+                                               </form>
+                                  {% elseif proposta.statusString == 'Rifiutato' %}
+
+                                            Mi spiace, scambio rifiutato. Prova con un'altro scambio
+                                  {% elseif proposta.scambioConfermato %}
+                                    {% if proposta.confermaTarget %}
+                                        {% if proposta.confermaSender %}
+                                            <p>Scambio concluso, bene!</p>
+                                        {% else %}
+                                            <p>Grazie, attendiamo la conferma dell'altro utente</p>
+                                        {% endif %}
+                                    {% else %}
+                                        <form method="get" action="{{ path('app_scambi_confirm_target', {'id': proposta.id}) }}">
+                                            <button type="submit" class="btn btn-primary btn-xs mt-3">Dichiara concluso lo scambio</button>
+                                        </form>
                                     {% endif %}
-                                {% elseif proposta.statusString == 'Concluso' %}
-                                <i>Scambio concluso, bene!</i>
-                                {% elseif proposta.statusString == 'Rifiutato' %}
-                                <i>Hai rifiutato questo scambio</i>
+                                {% elseif proposta.userSenderCompetenzaRel %}
+                                    <p>In attesa che l'altro utente confermi lo scambio con la competenza selezionata: {{ proposta.userSenderCompetenzaRel.Titolo }}</p>
                                 {% endif %}
 
 
+#}
+
+{#
+          {% if proposta.confermaSender and proposta.confermaTarget %}
+          Scambio Concluso
+      {% elseif proposta.confermaTarget %}
+    <i> In attesa di conferma da altro utente</i>
+    {% elseif proposta.userSenderCompetenzaRel %}
+        <p>In attesa che l'altro utente confermi lo scambio con la competenza selezionata: {{ proposta.userSenderCompetenzaRel.Titolo }}</p>
+    {% else %}
+       {% if proposta.statusString == 'Avviato' %}
+         Scambio Avviato
+     {% elseif proposta.statusString == 'Rifiutato' %}
+         Scambio Rifiutato
+     {% elseif proposta.confermaSender and proposta.confermaTarget %}
+         Scambio Confermato
+     {% elseif proposta.confermaTarget %}
+         <i> In attesa di conferma da altro utente</i>
+     {% else %}
+     #}
 
 
 
-                             {# Per il flash message relativo alla proposta avviata
-                             {% for flashMessage in app.flashes('proposta_success') %}
-                                 <div class="alert alert-success">
-                                     {{ flashMessage }}
-                                 </div>
-                             {% endfor %}#}
 
+        {# <form method="post" action="{{ path('app_scambi_confirm', {'id': proposta.id}) }}">
+             <button type="submit" class="btn btn-success btn-xs mt-3" name="confirm" value="accept"  data-bs-toggle="modal" data-bs-target="#acceptModal">Accetta scambio</button>
+         </form>
+        <form method="post" action="{{ path('app_scambi_save_competenza', {'id': proposta.id}) }}" id="acceptForm">
+          <button type="submit" class="btn btn-success btn-xs mt-3" name="confirm" value="accept">Accetta scambio</button>
+      </form> #}
 
-
-
-
-
+    {# {% endif %} #}
 
 
 
      {# Modal Test#}
-     <div class="modal fade" id="acceptModal-{{proposta.id}}" tabindex="-1" aria-labelledby="acceptModalLabel-{{proposta.id}}" aria-hidden="true">
+     <div class="modal fade" id="acceptModal" tabindex="-1" aria-labelledby="acceptModalLabel" aria-hidden="true">
          <div class="modal-dialog">
              <div class="modal-content">
                  <div class="modal-header">
-                     <h5 class="modal-title" id="acceptModalLabel-{{proposta.id}}">Seleziona competenza da scambiare</h5>
+                     <h5 class="modal-title" id="acceptModalLabel">Seleziona competenza da scambiare</h5>
                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                  </div>
                  <div class="modal-body">
                      <p>Seleziona la competenza che desideri scambiare:</p>
-                     <form id="acceptForm-{{proposta.id}}" method="post" action="{{ path('app_scambi_save_competenza', {'id': proposta.id}) }}">
+                     <form id="acceptForm" method="post" action="{{ path('app_scambi_save_competenza', {'id': proposta.id}) }}">
                          {{ csrf_token('save_competenza') }}
 
-                         <select id="competenzaSelect-{{proposta.id}}" name="competenza" class="form-select">
+                         <select id="competenzaSelect" name="competenza" class="form-select">
                           {% for competenza in proposta.userSender.CompetenzeBisRel %}
                               <option value="{{ competenza.id }}">{{ competenza.Titolo }}</option>
                           {% endfor %}
                       </select>
 
                          <button type="submit" class="btn btn-primary">Salva</button>
-                        </form>
-                  </div>
-              </div>
-               <div class="modal-footer">
-                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-               </div>
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                 </div>
              </div>
          </div>
 
@@ -465,6 +567,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
                 {% endfor %}
+
 
 
 

@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Scambi{% endblock %}
+{% block title %}Nuova proposta di scambio{% endblock %}
 
 {% block body %}
-    <h1>Confermi di mandare una richiesta di scambio a {{ userTarget }} ?</td></h1>
+    <h1>Confermi di mandare una richiesta di scambio a {{ userTarget }} per la sua competenza {{ scambi.userTargetCompetenzaRel.Titolo }} ?</td></h1>
 
     <p>Il sistema invierà una mail all'utente selezionato, potrai sempre controllare l'elenco delle
     proposte di scambio dalla tua pagina personale</p>
     {{ include('scambi/_form.html.twig') }}
 
-    <a href="{{ path('app_scambi_index') }}">back to list</a>
+    <a href="{{ path('app_user_nickname', {'username': userTarget}) }}">Torna indietro</a>
 {% endblock %}

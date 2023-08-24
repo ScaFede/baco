@@ -33,6 +33,20 @@
 
 
             </tr>
+          {% if scambi.userTargetCompetenzaRel is not null %}
+            <tr>
+              <th>Utente target competenza</th>
+              <td>{{ scambi.userTargetCompetenzaRel.Titolo }}</td>
+            </tr>
+          {% endif %}
+          
+          {% if scambi.userSenderCompetenzaRel is not null %}
+            <tr>
+              <th>Utente sender competenza</th>
+              <td>{{ scambi.userSenderCompetenzaRel.Titolo }}</td>
+            </tr>
+          {% endif %}
+
         </tbody>
     </table>
 

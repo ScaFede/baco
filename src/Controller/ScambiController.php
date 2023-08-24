@@ -19,7 +19,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-
+use App\Entity\CompetenzeBis;
+use App\Repository\CompetenzeBisRepository;
 
 
 #[Route('/scambi')]
@@ -40,11 +41,10 @@ class ScambiController extends AbstractController
     #[Route('/{id}/confirm', name: 'app_scambi_confirm', methods: ['POST'])]
     public function confirm(Request $request, Scambi $scambi, ScambiRepository $scambiRepository): Response
 {
-    dump('Funziono confirm?');
     // Verifica se la richiesta è una richiesta POST
-     if (!$request->isMethod('POST')) {
+    /* if (!$request->isMethod('POST')) {
          throw $this->createAccessDeniedException();
-     }
+     }*/
 
      // Verifica che l'utente autenticato sia uno dei partecipanti allo scambio
      $user = $this->getUser();
@@ -52,47 +52,109 @@ class ScambiController extends AbstractController
          throw $this->createAccessDeniedException();
      }
 
-     // Imposta la conferma per l'utente attuale
-  /*   if ($scambi->getUserSender() === $user) {
-         $scambi->setConfermaSender(true);
-     } elseif ($scambi->getUserTarget()->contains($user)) {
-         $scambi->setConfermaTarget(true);
-     }
-*/
-     // Verifica se entrambi gli utenti hanno confermato lo scambio
-/*   if ($scambi->isConfermaSender() && $scambi->isConfermaTarget()) {
+
+      if ($scambi && $scambi->getUserSender() === $user) {
        $scambi->setScambioConfermato(true);
-       $scambiRepository->save($scambi);
-   }*/
+       $scambi->setStatusString('Confermato');
+       $scambiRepository->save($scambi, true); // Salva i cambiamenti nel database
+   }
 
+/*
+      if ($request->get('confirm') === 'reject') {
+        $scambi->setStatusString('Rifiutato');
+        $scambi->setScambioConfermato(false);
+        $scambiRepository->save($scambi, true);
 
-   // Imposta la conferma per l'utente mittente (utente autenticato)
-      if ($scambi->getUserSender() === $user) {
-          $scambi->setConfermaSender(true);
-          $scambiRepository->save($scambi);
-      }
+}*/
+    //  if ($request->request->has('reject')) {
+        if ($request->get('confirm') === 'reject') {
+           // Aggiorna lo stato a "Rifiutato" nella tua entità PropostaScambio
+          $scambi->setStatusString('Rifiutato');
+          $scambi->setScambioConfermato(false);
+          $scambiRepository->save($scambi, true);
+          $this->entityManager->flush();
+
+          dump($request->get('confirm'));
+          die();
+          //  $this->addFlash('success', 'Scambio rifiutato con successo.');
+       }
+
 
     return $this->redirectToRoute('app_scambi_index');
 }
 
+#[Route('/{id}/reject', name: 'app_scambi_reject', methods: ['POST'])]
+public function reject(Request $request, Scambi $scambio, ScambiRepository $scambiRepository): Response
+{
+  /*  if (!$request->isMethod('POST')) {
+        throw $this->createAccessDeniedException();
+    }
+
+    $user = $this->getUser();
+    if (!$scambio->getUserSender() === $user && !$scambio->getUserTarget()->contains($user)) {
+        throw $this->createAccessDeniedException();
+    }*/
+
+    $scambio->setStatusString('Rifiutato');
+    $scambio->setScambioConfermato(false);
+    $scambiRepository->save($scambio, true);
+
+    return $this->redirectToRoute('app_scambi_index');
+}
+
+
 #[Route('/{id}/confirm_sender', name: 'app_scambi_confirm_sender', methods: ['GET'])]
-public function confirmSender(Scambi $scambio, ScambiRepository $scambiRepository): Response
+public function confirmSender(Scambi $scambio, ScambiRepository $scambiRepository, CompetenzeBisRepository $competenzeRepository): Response
 {
     $user = $this->getUser();
 
     // Verifica che l'utente autenticato sia il mittente dello scambio
     if ($scambio->getUserSender() === $user) {
         $scambio->setConfermaSender(true);
-        $scambiRepository->save($scambio, true); // Salva i cambiamenti nel database
 
           // Verifica se entrambi confermaSender e confermaTarget sono true
         if ($scambio->isConfermaSender() && $scambio->isConfermaTarget()) {
-            $this->incrementScambiConclusi($user); // Incrementa il numero di scambi conclusi per l'utente
+            $this->incrementScambiConclusi($user, $scambio, $scambiRepository); // Incrementa il numero di scambi conclusi per l'utente
+            $scambio->setStatusString('Concluso');
         }
+
+        $scambiRepository->save($scambio, true); // Salva i cambiamenti nel database
+        $this->entityManager->flush();
+
+
+
     }
 
     return $this->redirectToRoute('app_scambi_index');
 }
+
+#[Route('/{id}/save_competenza', name: 'app_scambi_save_competenza', methods: ['POST'])]
+public function saveCompetenza(Request $request, Scambi $scambio, ScambiRepository $scambiRepository, CompetenzeBisRepository $competenzeRepository): Response
+{
+    $user = $this->getUser();
+    $userId = $user->getId();
+
+    //prendi dall'url la competenza selezionata dello user target
+   $competenzaId = $request->request->get('competenza');
+   $competenzeRepository =  $this->entityManager->getRepository(CompetenzeBis::class);
+   $competenzaSender = $competenzeRepository->find(['id' => $competenzaId]);
+    if ($competenzaSender) {
+         $scambio->setUserSenderCompetenzaRel($competenzaSender);
+         $scambio->setStatusString('In attesa');
+         $scambiRepository->save($scambio, true);
+
+          $this->entityManager->flush();
+
+      //    $this->addFlash('proposta_success', 'Proposta avviata con successo!');
+    }
+
+  dump($competenzaSender);
+//  die();
+    //return new Response('Proposta avviata  con successo!');
+    //return $this->redirectToRoute('app_scambi_index');
+    return $this->redirectToRoute('app_user_profile', ['id' => $userId, '_fragment' => 'proposte-ricevute']);
+}
+
 
 #[Route('/{id}/confirm_target', name: 'app_scambi_confirm_target', methods: ['GET'])]
 public function confirmTarget(Scambi $scambio, ScambiRepository $scambiRepository): Response
@@ -102,28 +164,36 @@ public function confirmTarget(Scambi $scambio, ScambiRepository $scambiRepositor
     // Verifica che l'utente autenticato sia il destinatario dello scambio
     if ($scambio->getUserTarget()->contains($user)) {
         $scambio->setConfermaTarget(true);
-        $scambiRepository->save($scambio, true); // Salva i cambiamenti nel database
 
         // Verifica se entrambi confermaSender e confermaTarget sono true
         if ($scambio->isConfermaSender() && $scambio->isConfermaTarget()) {
-            $this->incrementScambiConclusi($user); // Incrementa il numero di scambi conclusi per l'utente
+            $this->incrementScambiConclusi($user, $scambio, $scambiRepository); // Incrementa il numero di scambi conclusi per l'utente
+            $scambio->setStatusString('Concluso');
         }
+
+        $scambiRepository->save($scambio, true); // Salva i cambiamenti nel database
+      $this->entityManager->flush();
     }
 
     return $this->redirectToRoute('app_scambi_index');
 }
 
-  private function incrementScambiConclusi(User $user): void
+  private function incrementScambiConclusi(User $user, Scambi $scambio, ScambiRepository $scambiRepository): void
   {
       $scambiConclusi = $user->getScambiConclusi();
       $user->setScambiConclusi($scambiConclusi + 1);
+
+      if ($scambio->isConfermaSender() && $scambio->isConfermaTarget()) {
+          $scambio->setStatusString('Concluso');
+      }
+
       $this->entityManager->flush();
   }
 
 
 
-    #[Route('/', name: 'app_scambi_index', methods: ['GET'])]
-    public function index(ScambiRepository $scambiRepository): Response
+    #[Route('/', name: 'app_scambi_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, ScambiRepository $scambiRepository): Response
     {
 
 
@@ -159,6 +229,8 @@ public function confirmTarget(Scambi $scambio, ScambiRepository $scambiRepositor
               $currentTime = new \DateTime();
               $timeLimit = (clone $scambio->getCreatedAt())->modify('+60 days');
 
+              //inviare la mail di conferma scambio dopo tot gg
+
               if ($currentTime > $timeLimit) {
                   $scambio->setStatusString('Scaduto');
               } else {
@@ -166,6 +238,21 @@ public function confirmTarget(Scambi $scambio, ScambiRepository $scambiRepositor
               }
           }
         }
+
+
+
+    /*   >>>>>>>>>>>
+      if ($request->isMethod('POST')) {
+              $confirmTargetId = $request->request->get('confirmTargetId');
+              if ($confirmTargetId) {
+                  $scambio = $scambiRepository->find($confirmTargetId);
+                  if ($scambio && $scambio->getUserTarget()->contains($user)) {
+                      $scambio->setScambioConfermato(true);
+                      $scambiRepository->save($scambio, true); // Salva i cambiamenti nel database
+                  }
+              }
+          } */
+
 
 
 
@@ -210,7 +297,7 @@ public function confirmTarget(Scambi $scambio, ScambiRepository $scambiRepositor
 
 
     #[Route('/new', name: 'app_scambi_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ScambiRepository $scambiRepository, MailerInterface $mailer): Response
+    public function new(Request $request, ScambiRepository $scambiRepository, MailerInterface $mailer, CompetenzeBisRepository $competenzeRepository ): Response
     {
         $scambi = new Scambi();
 
@@ -251,27 +338,43 @@ public function confirmTarget(Scambi $scambio, ScambiRepository $scambiRepositor
         */
 
        //$myuserTarget = new User();
-       $myut = $request->query->get('userTarget');
-       // Supponendo che il tuo repository utente si chiami UserRepository
+      $myut = $request->query->get('userTarget');
 
       $userRepository = $this->entityManager->getRepository(User::class);
       $userTarget = $userRepository->findOneBy(['nickname' => $myut]);
 
+    //  dump($userTarget->getEmail());
+    //  die();
+
        if ($userTarget) {
            $scambi->addUserTarget($userTarget);
        }
+
+       //prendi dall'url la competenza selezionata dello user target
+      $competenzaId = $request->query->get('competenza');
+      $competenzeRepository =  $this->entityManager->getRepository(CompetenzeBis::class);
+      $competenzaTarget = $competenzeRepository->find(['id' => $competenzaId]);
+       if ($competenzaTarget) {
+            $scambi-> setUserTargetCompetenzaRel($competenzaTarget);
+       }
+
+
+       //  echo 'comeptenza' . dump($competenzaId);
+       //  echo '<br>user' . dump($userTarget);
+       // die();
+
 
 
       // Imposta il campo statusString in base al tempo di creazione
       $currentTime = new \DateTime();
       $timeLimit = (clone $scambi->getCreatedAt())->modify('+30 days'); // Data di scadenza dopo 30 giorni
 
-     if ($currentTime > $timeLimit) {
-         $scambi->setStatusString('Scaduto');
-     } else {
-         $scambi->setStatusString('Iniziato');
-     }
-
+     // if ($currentTime > $timeLimit) {
+     //     $scambi->setStatusString('Scaduto');
+     // } else {
+     //     $scambi->setStatusString('Iniziato');
+     // }
+     $scambi->setStatusString('Iniziato');
 
 
       $form = $this->createForm(ScambiType::class, $scambi);
@@ -289,19 +392,19 @@ public function confirmTarget(Scambi $scambio, ScambiRepository $scambiRepositor
     $email = (new Email())
         ->from('federica@brixel.it')
         ->to($userTarget->getEmail())
-//        ->to('federica.scalzi@gmail.com')
+      //  ->to('federica.scalzi@gmail.com')
         ->subject('Hai una nuova richiesta di scambio')
         ->html('La tua richiesta di scambio è stata confermata. Controlla la tua pagina personale per ulteriori dettagli.');
 
 //    $this->mailer->send($email);
     $mailer->send($email);
-
+  //  dump($userTarget->getEmail());
 
     dump('Email inviata correttamente'); // Debugging output
 //}
 
 
-            return $this->redirectToRoute('app_scambi_index', [], Response::HTTP_SEE_OTHER);
+          //  return $this->redirectToRoute('app_scambi_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('scambi/new.html.twig', [

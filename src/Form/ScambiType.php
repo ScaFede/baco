@@ -17,19 +17,20 @@ class ScambiType extends AbstractType
       /*  ->add('status', HiddenType::class, [
            'attr' => ['hidden' => true],
        ])*/
-            ->add('createdAt')
-            ->add('statusString')
+          //  ->add('createdAt')
+          //  ->add('statusString')
            /*->add('statusString', null, [
                 'required'   => false,
                 'empty_data' => 'John Doe',
             ])*/
-            ->add('fromUser')
+          //  ->add('fromUser')
 //            ->add('userTarget')
 
           /*   ->add('userTarget', TextType::class, [
                 'data' => $options['userTarget'],
             ]);*/
-            ->add('userTarget')
+          //  ->add('userTarget')
+          //  ->add('userTargetCompetenzaRel')
 
           /* per campi nascosti
             ->add('status', HiddenType::class, [

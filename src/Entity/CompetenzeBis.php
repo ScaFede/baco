@@ -34,11 +34,19 @@ class CompetenzeBis
     #[ORM\ManyToMany(targetEntity: Categorie::class, mappedBy: 'competenzeRelation')]
     private Collection $categorieRelation;
 
+    #[ORM\OneToMany(mappedBy: 'userTargetCompetenzaRel', targetEntity: Scambi::class)]
+    private Collection $ScambiUserTargetRel;
+
+    #[ORM\OneToMany(mappedBy: 'userSenderCompetenzaRel', targetEntity: Scambi::class)]
+    private Collection $ScambiUserSenderRel;
+
     public function __construct()
     {
         $this->UserRelation = new ArrayCollection();
          $this->CreateAt = new \DateTimeImmutable();
          $this->categorieRelation = new ArrayCollection();
+         $this->ScambiUserTargetRel = new ArrayCollection();
+         $this->ScambiUserSenderRel = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +152,66 @@ class CompetenzeBis
     {
         if ($this->categorieRelation->removeElement($categorieRelation)) {
             $categorieRelation->removeCompetenzeRelation($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scambi>
+     */
+    public function getScambiUserTargetRel(): Collection
+    {
+        return $this->ScambiUserTargetRel;
+    }
+
+    public function addScambiUserTargetRel(Scambi $scambiUserTargetRel): static
+    {
+        if (!$this->ScambiUserTargetRel->contains($scambiUserTargetRel)) {
+            $this->ScambiUserTargetRel->add($scambiUserTargetRel);
+            $scambiUserTargetRel->setUserTargetCompetenzaRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScambiUserTargetRel(Scambi $scambiUserTargetRel): static
+    {
+        if ($this->ScambiUserTargetRel->removeElement($scambiUserTargetRel)) {
+            // set the owning side to null (unless already changed)
+            if ($scambiUserTargetRel->getUserTargetCompetenzaRel() === $this) {
+                $scambiUserTargetRel->setUserTargetCompetenzaRel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scambi>
+     */
+    public function getScambiUserSenderRel(): Collection
+    {
+        return $this->ScambiUserSenderRel;
+    }
+
+    public function addScambiUserSenderRel(Scambi $scambiUserSenderRel): static
+    {
+        if (!$this->ScambiUserSenderRel->contains($scambiUserSenderRel)) {
+            $this->ScambiUserSenderRel->add($scambiUserSenderRel);
+            $scambiUserSenderRel->setUserSenderCompetenzaRel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScambiUserSenderRel(Scambi $scambiUserSenderRel): static
+    {
+        if ($this->ScambiUserSenderRel->removeElement($scambiUserSenderRel)) {
+            // set the owning side to null (unless already changed)
+            if ($scambiUserSenderRel->getUserSenderCompetenzaRel() === $this) {
+                $scambiUserSenderRel->setUserSenderCompetenzaRel(null);
+            }
         }
 
         return $this;

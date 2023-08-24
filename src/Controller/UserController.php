@@ -171,13 +171,20 @@ class UserController extends AbstractController
 
 
     //from old
-    #[Route('/user/{username}', name: 'app_user_nickname')]
+    #[Route('user/{username}', name: 'app_user_nickname')]
     public function nickname(string $username, ScambiRepository $scambiRepository): Response
 
     {
         $userRepository = $this->managerRegistry->getRepository(User::class);
 
-        $user = $userRepository->findOneBy(['nickname' => $username]);
+
+        if (is_numeric($username)) {
+                $user = $userRepository->find($username); // Cerca l'utente per ID
+            } else {
+                $user = $userRepository->findOneBy(['nickname' => $username]); // Cerca l'utente per nickname
+            }
+
+        //$user = $userRepository->findOneBy(['nickname' => $username]);
 
         if (!$user) {
             throw $this->createNotFoundException('Utente non trovato');

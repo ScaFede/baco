@@ -139,43 +139,16 @@
                             </div>
 
                             <div class="form-group cmp-input mb-0">
-                                <div class="custom-file" id="conoscenze-images-input">
+                                <div class="custom-file">
                                     {{ form_widget(registrationForm.conoscenzeImages,
                                       {
                                           label: 'Carica immagini delle tue competenze (max 6)',
-                                          attr: {'class': 'custom-file-input', 'multiple': 'multiple', 'id': 'conoscenze-images-input'}
+                                            attr: {'class': 'custom-file-input'}
                                       }
                                       ) }}
-
-
                                 </div>
-
                                 <div class="form-text cmp-input__text">Carica immagini che dimostrano le tue competenze (max 6).</div>
-
-                                <p class="mt-2"><strong>Immagini caricate</strong></p>
-                                <div class="image-preview">
-                                    <!-- Placeholder per l'anteprima delle immagini -->
-                                </div>
-
                             </div>
-
-
-
-                            <script>
-                                document.getElementById('conoscenze-images-input').addEventListener('change', function(event) {
-                                    const previewContainer = document.querySelector('.image-preview');
-                                    previewContainer.innerHTML = '';
-
-                                    const files = event.target.files;
-                                    for (const file of files) {
-                                        const img = document.createElement('img');
-                                        img.src = URL.createObjectURL(file);
-                                        img.alt = 'Image Preview';
-                                        img.className = 'uploaded-image';
-                                        previewContainer.appendChild(img);
-                                    }
-                                });
-                            </script>
 
 
 
@@ -222,4 +195,34 @@
 
 
 
+        {% endblock %}
+
+        ----------------------------
+
+        questo funziona!!
+        
+        {% extends 'base.html.twig' %}
+
+        {% block title %}Register{% endblock %}
+
+        {% block body %}
+            <h1>Registrati</h1>
+
+            {{ form_start(registrationForm) }}
+            {{ form_errors(registrationForm) }}
+
+            {{ form_row(registrationForm.nickname, { 'label': 'Nickname' }) }}
+            {{ form_row(registrationForm.email, { 'label': 'Email' }) }}
+            {{ form_row(registrationForm.plainPassword, { 'label': 'Password' }) }}
+            {{ form_row(registrationForm.description, { 'label': 'Descrizione' }) }}
+            {{ form_widget(registrationForm.conoscenzeImages,
+              {
+                  label: 'Carica immagini delle tue competenze (max 6)',
+                    attr: {'class': 'custom-file-input'}
+              }
+              ) }}
+
+            <button type="submit">Registrati</button>
+
+            {{ form_end(registrationForm) }}
         {% endblock %}
