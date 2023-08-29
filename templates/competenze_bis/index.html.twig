@@ -12,11 +12,19 @@
         {% endfor %}
     {% endif %}
 
-    <div class="bg-white text-center align-items-center my-5">
+
+
+
+      <section class="section bg-light">
+        <div class="section-content">
+          <!-- contenuto di esempio START -->
+          <div class="container">
+
+    <div class=" text-center align-items-center">
       <div class="container-fluid">
         <div class="row mb-5">
           <div class="col-7 mx-auto">
-            <h1 class="title-xxlarge mb-4 mt-5 mb-lg-10 primary-color">Esplora tutte le conoscenze<br>della nuova <span class="color-red">BaCo Community</</span></h1>
+            <h1 class="title-xxlarge mb-4 mb-lg-10 primary-color">Esplora tutte le conoscenze<br>della <span class="color-red">BaCo Community</</span></h1>
             <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             </div>
         </div>
@@ -24,11 +32,11 @@
         <div class="row">
             <div class="col-md-4">
               <form class="form-inline mb-3" method="GET" action="{{ path('app_competenze_bis_index') }}">
-                <div class="form-row align-items-center">
-                    <div class="col-auto">
+                <div class="col-auto d-flex align-items-center">
+                    <!-- <div class="col-auto">
                         <label for="category" class="mr-2">Filtra per categoria:</label>
-                    </div>
-                    <div class="col-auto">
+                    </div> -->
+                    <div class="">
                         <select name="category" id="category" class="form-control">
                             <option value="">Tutte le categorie</option>
                             {% for category in categories %}
@@ -36,19 +44,19 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary">Filtra categoria</button>
+                    <div class="">
+                        <button type="submit" class="btn btn-primary">Filtra</button>
                     </div>
                 </div>
             </form>
           </div>
           <div class="col-md-4">
             <form class="form-inline mb-3" method="GET" action="{{ path('app_competenze_bis_index') }}">
-              <div class="form-row align-items-center">
-                  <div class="col-auto">
+              <div class="col-auto d-flex align-items-center">
+                  <!-- <div class="col-auto">
                       <label for="city" class="mr-2">Filtra per città:</label>
-                  </div>
-                  <div class="col-auto">
+                  </div> -->
+                  <div class="  ">
                       <select name="city" id="city" class="form-control">
                           <option value="">Tutte le città</option>
                           {% for city in cities %}
@@ -56,8 +64,8 @@
                           {% endfor %}
                       </select>
                   </div>
-                  <div class="col-auto">
-                      <button type="submit" class="btn btn-primary">Filtra città</button>
+                  <div class="">
+                      <button type="submit" class="btn btn-primary">Filtra</button>
                   </div>
               </div>
           </form>
@@ -67,15 +75,15 @@
             <form class="form-inline " method="GET" action="{{ path('app_competenze_bis_index') }}">
 
 
-            <div class="form-row align-items-center">
-                <div class="col-auto">
+            <div class="col-auto d-flex align-items-center">
+                <!-- <div class="col-auto">
                     <label for="cerca" class="mr-2">Filtra per titolo o descrizione</label>
-                </div>
-                <div class="col-auto">
+                </div> -->
+                <div class="">
 
                   <input type="text" name="search" id="search" class="form-control" placeholder="Cerca competenze">
                   </div>
-              <div class="col-auto">
+              <div class="">
                   <button type="submit" class="btn btn-primary ml-2">Cerca</button>
               </div>
             </div>
@@ -90,9 +98,16 @@
       </div>
 
     </div>
+    </div>
+    </div>
+</section>
 
 
 
+<section class="section bg-primary" aria-describedby="" id="">
+  <div class="section-content">
+    <div class="container">
+      <div class="row">
 
     <div class="row">
         {% for competenze_bi in competenze_bis %}
@@ -167,7 +182,10 @@
         {% endfor %}
     </div>
 
-
+</div>
+</div>
+</div>
+</section>
 
     <div class="container py-5 bg-white">
             <h2 class="title-xxlarge text-center mb-4 mx-auto">Esplora per categoria</h2>

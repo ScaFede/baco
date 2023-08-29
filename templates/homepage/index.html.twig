@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomepageController!{% endblock %}
+{% block title %}Benvento su Baco!{% endblock %}
 
 {% block body %}
 <style>
@@ -8,13 +8,185 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/fede/FedericaMac/Corsi/Tesi/Project/baco/src/Controller/HomepageController.php'|file_link(0) }}">src/Controller/HomepageController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/fede/FedericaMac/Corsi/Tesi/Project/baco/templates/homepage/index.html.twig'|file_link(0) }}">templates/homepage/index.html.twig</a></code></li>
-    </ul>
-</div>
+  <section class="it-hero-wrapper it-text-centered">
+     <div class="container-fluid">
+        <div class="row">
+           <div class="col-12">
+              <div class="it-hero-text-wrapper">
+                 <span class="it-Categoria">Benvenuto in BaCo</span>
+                 <h2>Siamo una digital community che si vuole prendere cura di te, di noi.</h2>
+                 <p class="">Come? Scambiando con altri utenti saperi e conoscenze.</p>
+                 <div class="it-btn-container">
+                   <a class="btn btn-sm btn-secondary" href="{{ path('app_competenze_bis_index') }}">Scopri cosa offre la community</a>
+                   <a class="btn btn-sm btn-outline-secondary" href="#">Il Manifeso di BaCo</a>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+  </section>
+
+
+
+  <section class="section" aria-describedby="principi" id="principi">
+    <div class="section-content">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h2 id="principititle">Ecco perchè dovresti unirti a noi, ora</h2>
+          </div>
+        </div>
+        <div class="row mt-3">
+
+          <div class="col-md-4">
+               <div class="d-flex align-items-center">
+                 <div class="icon-circle bg-primary text-white mb-4">
+                   <i class="bi bi-handshake h1"></i>
+                 </div>
+                 <h3 class="mb-0">Connessione</h3>
+               </div>
+               <p>Rafforziamo i legami tra membri, condividendo esperienze e risorse per una crescita collettiva.</p>
+             </div>
+
+
+
+             <div class="col-md-4">
+               <div class="d-flex align-items-center">
+                 <div class="icon-circle bg-primary text-white mb-4">
+                   <i class="bi bi-handshake h1"></i>
+                 </div>
+                 <h3 class="mb-0">Diversità</h3>
+               </div>
+               <p>Valorizziamo la diversità delle competenze e delle conoscenze, riconoscendo il valore di ciascun membro.</p>
+             </div>
+             <div class="col-md-4">
+               <div class="d-flex align-items-center">
+                 <div class="icon-circle bg-primary text-white mb-4">
+                   <i class="bi bi-handshake h1"></i>
+                 </div>
+                 <h3 class="mb-0">Scambio</h3>
+               </div>
+               <p>Condividiamo conoscenze liberamente e promuoviamo il benessere collettivo attraverso il dono volontario.</p>
+             </div>
+           </div>
+           <div class="row mt-5">
+             <div class="col-md-4">
+               <div class="d-flex align-items-center">
+                 <div class="icon-circle bg-primary text-white mb-4">
+                   <i class="bi bi-handshake h1"></i>
+                 </div>
+                 <h3 class="mb-0">Uguaglianza</h3>
+               </div>
+               <p>Ispiriamoci alla "banca del tempo", dove il valore è nel tempo e nell'impegno dedicato agli altri.</p>
+             </div>
+             <div class="col-md-4">
+               <div class="d-flex align-items-center">
+                 <div class="icon-circle bg-primary text-white mb-4">
+                   <i class="bi bi-handshake h1"></i>
+                 </div>
+                 <h3 class="mb-0">Condivisione</h3>
+               </div>
+               <p>Creiamo un'eco-comunità attraverso la condivisione delle conoscenze, sostenendo un'economia basata sulla condivisione.</p>
+             </div>
+             <div class="col-md-4">
+               <div class="d-flex align-items-center">
+                 <div class="icon-circle bg-primary text-white mb-4">
+                   <i class="bi bi-handshake h1"></i>
+                 </div>
+                 <h3 class="mb-0">Responsabilità</h3>
+               </div>
+               <p>Ciascun membro contribuisce a un ambiente di rispetto, gentilezza e fiducia reciproca per un impatto positivo.</p>
+             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+          {# <div class="col-6 col-xl-4 pe-0 pe-md-5">
+
+              <div class="callout">
+                <div class="callout-inner">
+                  <div class="callout-title">
+                    <svg class="icon"><use href="/dist/svg/sprites.svg#it-info-circle"></use></svg>
+                    <span class="visually-hidden">Confermato</span>
+                    <span class="text">Solidarietà e Connessione</span>
+                  </div>
+                  <p>Maecenas vulputate ante dictum vestibulum volutpat.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean non augue non purus vestibulum varius.</p>
+                </div>
+              </div>
+           </div> #}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class=" bg-light section">
+    <div class="container text-center">
+      <h2 class="mb-5">Statistiche di BaCo</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="counter-icon">
+            <i class="bi bi-people"></i>
+          </div>
+          <div class="counter-number">
+            <h3 class="h2"><span class="counter">1234</span>+</h3>
+            <p class="text-muted">Membri Attivi</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="counter-icon">
+            <i class="bi bi-clock"></i>
+          </div>
+          <div class="counter-number">
+            <h3 class="h2"><span class="counter">20000</span>+</h3>
+            <p class="text-muted">Ore Dedicate</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="counter-icon">
+            <i class="bi bi-tag"></i>
+          </div>
+          <div class="counter-number">
+            <h3 class="h2"><span class="counter">5000</span>+</h3>
+            <p class="text-muted">Scambi conclusi</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="">
+    <div class="bg-primary">
+        <div class="container">
+          <div class="row d-flex justify-content-center text-center">
+            <div class="col-12 col-lg-6">
+              <div class="cmp-rating pt-lg-80 pb-lg-80" id="rating">
+                <div class="card shadow card-wrapper" data-element="feedback">
+                  <div class="cmp-rating__card-first">
+                    <div class="card-header border-0">
+                        <h2 class="title-medium-2-semi-bold mb-3" data-element="feedback-title">Sei pronto ad unirti a noi?</h2>
+                        <div class="it-btn-container pt-3">
+                          <a class="btn btn-sm btn-primary" href="#">Voglio registrarmi</a>
+                          <a class="btn btn-sm btn-outline-primary" href="#">FAQ</a>
+                        </div>
+                    </div>
+
+              </div>
+             </div>
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+  </section>
 {% endblock %}

@@ -31,13 +31,17 @@
 
 
 
-<header class="it-header-wrapper it-header-sticky  mb-4" data-bs-toggle="sticky" data-bs-position-type="fixed" data-bs-sticky-class-name="is-sticky" data-bs-target="#header-nav-wrapper" style="">
+<header class="it-header-wrapper it-header-sticky" data-bs-toggle="sticky" data-bs-position-type="fixed" data-bs-sticky-class-name="is-sticky" data-bs-target="#header-nav-wrapper" style="">
 <div class="it-header-slim-wrapper">
     <div class="container">
       <div class="row">
         <div class="col-12">
           <div class="it-header-slim-wrapper-content">
-            <a class="d-none d-lg-block navbar-brand" href="{{ path('app_competenze_bis_index') }}">BaCo</a>
+            <a class="navbar-brand" href="{{ path('app_homepage') }}">
+              <img src=" {{ asset('img/bozza-logo_white.png')}}" class="logo " alt="logo BaCo">
+
+
+              </a>
             <div class="nav-mobile">
               <nav aria-label="Navigazione secondaria">
                 <a class="it-opener d-lg-none" data-bs-toggle="collapse" href="#menuC1" role="button" aria-expanded="false" aria-controls="menuC1">
@@ -82,8 +86,8 @@
 
 
 
-                    <a href="{{ path('app_login') }}" type="button" class="btn btn-primary  btn-sm">Accedi</a>
-                    <a href="{{ path('app_register') }}" type="button" class="btn   btn-outline-primary btn-sm">Registrati</a>
+                    <a href="{{ path('app_login') }}" type="button" class="btn btn-secondary  btn-sm">Accedi</a>
+                    <a href="{{ path('app_register') }}" type="button" class="btn   btn-outline-secondary btn-sm">Registrati</a>
 
                 {% endif %}
 
@@ -97,7 +101,7 @@
   </div>
 </header>
 
-    <main class="container">
+    <main class="">
       {% block body %}{% endblock %}
 
     </main>
