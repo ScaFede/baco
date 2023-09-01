@@ -82,4 +82,62 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+public function findByFilters($categoryId, $cityId, $competenzeId)
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        if ($categoryId) {
+            $qb
+                ->join('u.categorieRelation', 'cat')
+                ->andWhere('cat.id = :categoryId')
+                ->setParameter('categoryId', $categoryId);
+        }
+
+
+        if ($cityId) {
+            $qb
+                ->andWhere('u.cittaRel = :cityId')
+                ->setParameter('cityId', $cityId);
+        }
+
+        if ($competenzeId) {
+            $qb
+                ->join('u.CompetenzeBisRel', 'cb')
+                ->andWhere('cb.id = :competenzeId')
+                ->setParameter('competenzeId', $competenzeId);
+
+
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+
+
+
+/*      public function findByCity($cityId)
+      {
+          $qb = $this->createQueryBuilder('u');
+
+          if ($cityId) {
+              $qb
+                  ->andWhere('u.cittaRel = :cityId')
+                  ->setParameter('cityId', $cityId);
+          }
+
+          return $qb->getQuery()->getResult();
+      }
+*/
+
+
+
+
+
+
+
+
+
 }

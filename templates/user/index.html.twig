@@ -3,19 +3,111 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>BaCo Community</h1>
+
+
+
+    <section class="section" aria-describedby="principi" id="principi">
+      <div class="section-content">
+      <div class="container">
+
+
+        <div class=" text-center align-items-center">
+          <div class="container-fluid">
+            <div class="row mb-5">
+              <div class="col-7 mx-auto">
+                <h1 class="title-xxlarge mb-4 mb-lg-10 primary-color">Conosci la BaCo Community</span></h1>
+                <p class="lead">Orientati nel cuore della comunità: personalizza la tua esperienza filtrando e cercando il membro di BaCo che fa per te</p>
+                </div>
+            </div>
+
+<div class="row">
+
+
+
+  <div class="row">
+   <div class="col-md-4">
+          <form class="form-inline mb-3" method="GET" action="{{ path('app_user_index') }}">
+              <div class="col-auto d-flex align-items-center">
+                  <div class="">
+                      <select name="competenze" id="competenze" class="form-control">
+                          <option value="">Tutte le competenze</option>
+                          {% for competenze in competenze_bis %}
+                              <option value="{{ competenze.id }}" {{ app.request.query.get('competenze') == competenze.id ? 'selected' : '' }}>{{ competenze.Titolo }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                  <div class="">
+                      <button type="submit" class="btn btn-primary">Filtra </button>
+                  </div>
+              </div>
+          </form>
+      </div>
+      <div class="col-md-4">
+          <form class="form-inline mb-3" method="GET" action="{{ path('app_user_index') }}">
+              <div class="col-auto d-flex align-items-center">
+                  <div class="">
+                      <select name="categoria" id="categoria" class="form-control">
+                          <option value="">Tutte le categorie</option>
+                          {% for categoria in categories %}
+                              <option value="{{ categoria.id }}" {{ app.request.query.get('categoria') == categoria.id ? 'selected' : '' }}>{{ categoria.nome }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                  <div class="">
+                      <button type="submit" class="btn btn-primary">Filtra</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+
+      <div class="col-md-4">
+          <form class="form-inline mb-3" method="GET" action="{{ path('app_user_index') }}">
+              <div class="col-auto d-flex align-items-center">
+                  <div class="  ">
+
+                      <select name="city" id="city" class="form-control">
+                          <option value="">Tutte le città</option>
+                          {% for city in cities %}
+                              <option value="{{ city.id }}" {{ app.request.query.get('city') == city.id ? 'selected' : '' }}>{{ city.nome }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                  <div class="">
+                      <button type="submit" class="btn btn-primary">Filtra</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+
+      <!-- Altri filtri simili per ricerca o altro -->
+  </div>
+
+
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section bg-primary" aria-describedby="" id="">
+  <div class="section-content">
+    <div class="container">
+
 
 <div class="row">
   {% for user in users %}
-    <div class="col-md-4 mb-4">
-      <div class="card card-bg card-big rounded shadow">
+    <div class="col-lg-3 col-mb-4 mb-4">
+      <div class="card card-bg card-big rounded shadow h-100 d-flex flex-column">
         <div class="card-body">
 
-                      <div class="card-grid-2-image-left">
+                      <div class="">
 
 
 
-                            {% if user.avatar %}
+                          {#   {% if user.avatar %}
                                 {% set avatarPath = asset('uploads/avatar/' ~ user.avatar) %}
 
                                 <div class="avatar size-xxl">
@@ -24,22 +116,21 @@
                                   </a>
                                 </div>
                             {% endif %}
+                             #}
 
 
 
-                        <div class="card-profile pt-10">
+                        <div class="card-profile">
                           <a href="{{ path('app_user_profile', {'id': user.id}) }}">
-                            <h5 class="card-title">{{ user.nickname }}</h5></a>
+                            <h6 class="card-title">{{ user.nickname }}</h5></a>
                             {% if app.user %}
                             <span class="font-xs color-text-mutted">{{ user.email }}</span>
                             {% endif %}
-                          <div class="rate-reviews-small pt-5">
-                              <svg class="icon icon-sm"><use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-check-circle') }}"></use></svg><span class="ml-10 color-text-mutted font-xs">Scambi conclusi: {{ user.scambiConclusi }}</span>
-                          </div>
+
                         </div>
                       </div>
 
-                      <div class="card-block-info">
+                      <div class="">
                         <p class="card-text">{{ user.description | slice(0, 100) | length < 100 ? user.description : user.description | slice(0, 100) ~ '...' }}</p>
                         <div class="card-2-bottom card-2-bottom-candidate mt-30">
 
@@ -59,15 +150,28 @@
                         </div>
 
 
-                        {% if user.cittaRel %}
-                        <div class="align-items-center justify-content-center mt-15">
+
+                        <div class="align-items-center justify-content-center mt-3 ">
                           <div class="row">
+                              {% if user.cittaRel %}
                             <div class="col-12">
-                                <svg class="icon icon-sm"><use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-map-marker') }}"></use></svg>{{ user.cittaRel}}
+                              <p class="card-text">
+                                 <svg class="icon icon-xs mr-10"><use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-map-marker') }}"></use></svg>
+                              {{ user.cittaRel}}</p>
+
                           </div>
+                            {% endif %}
+                            {% if user.scambiConclusi %}
+                              <div class="col-12">
+                                <p class="card-text">
+                                   <svg class="icon icon-xs mr-10"><use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-check-circle') }}"></use></svg>
+                                   Scambi conclusi: {{ user.scambiConclusi }}</p>
+                              </div>
+                                {% endif %}
                           </div>
                         </div>
-                        {% endif %}
+
+
 
                       </div>
                       <a class="read-more" href="{{ path('app_user_profile', {'id': user.id}) }}">
@@ -81,9 +185,15 @@
                   </div>
                   </div>
 
-        {% endfor %}
+                  {% else %}
+                      <p class="col-md-12">Nessun record trovato.</p>
+                  {% endfor %}
 
 </div>
+</div>
+</div>
+
+</section>
 
 
 
@@ -91,7 +201,7 @@
 
 
 
-
+{#
     <table class="table">
         <thead>
             <tr>
@@ -140,4 +250,6 @@
     </table>
 
     <a href="{{ path('app_user_new') }}">Create new</a>
+
+    #}
 {% endblock %}

@@ -15,6 +15,10 @@ use App\Repository\ScambiRepository;
 use Vich\UploaderBundle\Handler\UploadHandler;
 use App\Entity\CompetenzeBis;
 use App\Entity\UserConoscenzeImage;
+use App\Entity\Citta;
+use App\Repository\CategorieRepository;
+use App\Repository\CittaRepository;
+use App\Repository\CompetenzeBisRepository;
 
 
 #[Route('/user')]
@@ -31,10 +35,29 @@ class UserController extends AbstractController
     }
 
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    public function index(Request $request, UserRepository $userRepository, CompetenzeBisRepository $competenzeBisRepository, CategorieRepository $categorieRepository,  CittaRepository $cittaRepository): Response
     {
+
+          $categories = $categorieRepository->findAll(); // Recupera tutte le categorie
+          $selectedCategoryId = $request->query->get('category'); // ID category
+
+          $selectedCityId = $request->query->get('city'); // ID città
+          $cities = $cittaRepository->findAll(); // Recupera tutte le città
+        //  $users = $userRepository->findByCity($selectedCityId);
+
+          //
+          $competenze_bis = $competenzeBisRepository->findAll();
+          $selectedCompetenze_bis = $request->query->get('competenze');
+
+         $users = $userRepository->findByFilters($selectedCategoryId, $selectedCityId, $selectedCompetenze_bis);
+
+
+
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $users,
+            'competenze_bis' => $competenze_bis,
+            'categories' => $categories,
+            'cities' => $cities,
         ]);
     }
 
@@ -69,6 +92,21 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+
+
+
+            if (!$user) {
+                        throw $this->createNotFoundException('User not found');
+                    }
+
+              // Verifica se l'utente è l'amministratore o sta cercando di modificare se stesso
+              if ($this->isGranted('ROLE_ADMIN') || $this->getUser() === $user) {
+                  // Permetti l'accesso
+              } else {
+                  $this->denyAccessUnlessGranted('ROLE_ADMIN'); // Accesso negato se non è soddisfatto il controllo sopra
+              }
+
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -161,6 +199,19 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+
+      if (!$user) {
+                  throw $this->createNotFoundException('User not found');
+              }
+
+        // Verifica se l'utente è l'amministratore o sta cercando di modificare se stesso
+        if ($this->isGranted('ROLE_ADMIN') || $this->getUser() === $user) {
+            // Permetti l'accesso
+        } else {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN'); // Accesso negato se non è soddisfatto il controllo sopra
+        }
+
+
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();
