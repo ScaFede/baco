@@ -78,6 +78,8 @@ class CittaController extends AbstractController
     #[Route('/new', name: 'app_citta_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $cittum = new Citta();
         $form = $this->createForm(CittaType::class, $cittum);
         $form->handleRequest($request);
@@ -106,6 +108,8 @@ class CittaController extends AbstractController
     #[Route('/{id}/edit', name: 'app_citta_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Citta $cittum, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(CittaType::class, $cittum);
         $form->handleRequest($request);
 
@@ -124,6 +128,7 @@ class CittaController extends AbstractController
     #[Route('/{id}', name: 'app_citta_delete', methods: ['POST'])]
     public function delete(Request $request, Citta $cittum, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$cittum->getId(), $request->request->get('_token'))) {
             $entityManager->remove($cittum);
             $entityManager->flush();

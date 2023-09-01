@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CompetenzeBis index{% endblock %}
+{% block title %}Competenze{% endblock %}
 
 {% block body %}
 
@@ -186,7 +186,7 @@
 </div>
 </div>
 </section>
-
+{#
     <div class="container py-5 bg-white">
             <h2 class="title-xxlarge text-center mb-4 mx-auto">Esplora per categoria</h2>
             <p class="text-center mb-4 mx-auto">Trova la conoscenza che fa per te navigando tra per argomenti</p>
@@ -218,6 +218,8 @@
 
             </div>
           </div>
+#}
 
-    <a href="{{ path('app_competenze_bis_new') }}" class="btn btn-success mt-3">Crea nuovo</a>
+
+  <a href="{{ path('app_competenze_bis_new') }}" class="btn btn-success mt-3">Crea nuovo</a>
 {% endblock %}

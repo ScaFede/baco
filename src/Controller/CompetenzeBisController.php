@@ -70,6 +70,8 @@ class CompetenzeBisController extends AbstractController
     #[Route('/new', name: 'app_competenze_bis_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CompetenzeBisRepository $competenzeBisRepository): Response
     {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $competenzeBi = new CompetenzeBis();
         $form = $this->createForm(CompetenzeBisType::class, $competenzeBi);
         $form->handleRequest($request);
@@ -99,6 +101,7 @@ class CompetenzeBisController extends AbstractController
     #[Route('/{id}/edit', name: 'app_competenze_bis_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, CompetenzeBis $competenzeBi, CompetenzeBisRepository $competenzeBisRepository, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(CompetenzeBisType::class, $competenzeBi);
 
         // Aggiungi il campo categorieRelation come EntityType nel form
@@ -137,6 +140,9 @@ class CompetenzeBisController extends AbstractController
     #[Route('/{id}', name: 'app_competenze_bis_delete', methods: ['POST'])]
     public function delete(Request $request, CompetenzeBis $competenzeBi, CompetenzeBisRepository $competenzeBisRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+
         if ($this->isCsrfTokenValid('delete'.$competenzeBi->getId(), $request->request->get('_token'))) {
             $competenzeBisRepository->remove($competenzeBi, true);
         }
