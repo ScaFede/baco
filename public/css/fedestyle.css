@@ -19,6 +19,7 @@
   --bs-link-hover-color: #008055;
   --bg-gray:  #AABFB5;
   --bs-light: #F2F2F2;
+  --bs-dark: #132d21;
 }
 
 
@@ -31,7 +32,7 @@ body {
 
 h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 	font-family: 'Poppins', sans-serif;
-
+font-weight: 700;
 }
 
 input, button, select, optgroup, textarea {
@@ -45,6 +46,10 @@ a, a.read-more {
 
 a:hover {
 	color: var(--bs-link-hover-color);
+}
+
+.bg-dark {
+	background-color: var(--bs-dark) !important;
 }
 
 .navbar-brand .logo{
@@ -221,6 +226,28 @@ a:hover {
 
 .form-control {
   padding: 0.675rem .75rem;
+}
+
+.accordion-item {
+	 background-color: transparent;
+}
+
+.accordion-header .accordion-button, .accordion-header .accordion-button::after {
+	color: var(--bs-primary);
+}
+
+.it-footer-small-prints {
+	background-color: #132d21;
+}
+
+.logo-icon{
+  max-width: 20px;
+}
+
+#principi p{
+	font-size: 0.9rem;
+	line-height: 1.3;
+  font-weight: 500;
 }
 /*
 .upload[type="file"]  {

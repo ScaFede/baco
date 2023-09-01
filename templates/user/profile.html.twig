@@ -41,7 +41,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
       <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifica profilo</a>
       {% endif %}
 
-
+{#
     {% if app.user is not null %}
       {% if app.user.id != user.id %}
           <a  href="{{ path('app_scambi_new', { 'userTarget' : user } )}}"
@@ -54,6 +54,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
         </button>
         <p class="title-xsmall-semi-bold text-secondary">È necessario <a href="{{ path('app_register') }}">registrarsi</a> o <a href="{{ path('app_login') }}">accedere al sito</a> per proporre scambi</p>
   {% endif %}
+  #}
 
     </div>
     <div class="col-lg-2 offset-lg-1">
@@ -490,7 +491,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 </div>
 
 
-<div class="bg-grey-card shadow-contacts">
+<div class="bg-primary">
   <div class="container">
     <div class="row d-flex justify-content-center p-contacts">
       <div class="col-12 col-lg-6">
@@ -536,6 +537,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
 
+<div class="d-none" hidden>
 
 
 
@@ -614,7 +616,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
                 {% endif %}
 
-
+</div>
 
 
 {% endblock %}

@@ -56,7 +56,8 @@
                     <!-- <li><a class="list-item" href="{{ path('app_scambi_index') }}" aria-current="page">Scambi</a></li> -->
                     <li><a class="list-item " href="{{ path('app_user_index') }}" aria-current="page">Community</a></li>
                   {#   <li><a class="dropdown-item list-item" href="#">Progetto</a></li> #}
-                    <li><a class="list-item active" href="{{ path('app_faq') }}" aria-current="page">Faq</a></li>
+                    <li><a class="list-item" href="{{ path('app_faq') }}" aria-current="page">Faq</a></li>
+                    <li><a class="list-item" href="{{ path('app_manifesto') }}" aria-current="page">Manifesto</a></li>
                   </ul>
                 </div>
               </nav>
@@ -109,7 +110,7 @@
 
 
     </body>
-    <footer></footer>
+    {% include 'footer.html.twig' %}
     <script src="  {{ asset('css/bootstrap-italia/js/bootstrap-italia.bundle.min.js')}}"></script>
     <script>bootstrap.loadFonts("  {{ asset('css/bootstrap-italia/fonts')}}")</script>
     <script src="{{ asset('css/bootstrap-italia/js/scripts_comuni.js')}}"></script></body>
