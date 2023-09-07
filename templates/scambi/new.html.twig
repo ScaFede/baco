@@ -1,13 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nuova proposta di scambio{% endblock %}
+{% block title %}Nuovo scambio{% endblock %}
 
 {% block body %}
-    <h1>Confermi di mandare una richiesta di scambio a {{ userTarget }} per la sua competenza {{ scambi.userTargetCompetenzaRel.Titolo }} ?</td></h1>
 
-    <p>Il sistema invierà una mail all'utente selezionato, potrai sempre controllare l'elenco delle
-    proposte di scambio dalla tua pagina personale</p>
-    {{ include('scambi/_form.html.twig') }}
+<section class="section" aria-describedby="principi" id="principi">
+  <div class="section-content">
+      <div class="container">
+          <div class="row">
+              <div class="col-12 col-lg-8 mx-auto offset-lg-1">
+                  <div class="steppers-content" aria-live="polite">
+                      <div class="it-page-sections-container">
+                          <section class="it-page-section" id="applicant">
+                              <div class="cmp-card">
+                                  <div class="card has-bkg-grey shadow-sm p-big">
+                                      <div class="card-header border-0 p-0 mb-lg-30 m-0">
+                                          <div class="d-flex">
+                                              <h1 class="title-xxlarge mb-3">Proposta di scambio</h1>
+                                          </div>
+                                      </div>
+                                      <div class="card-body p-0">
 
-    <a href="{{ path('app_user_nickname', {'username': userTarget}) }}">Torna indietro</a>
+
+
+                                            <p class="lead">Confermi di mandare una richiesta di scambio a <strong>{{ userTarget }}</strong> per la sua competenza <strong>{{ scambi.userTargetCompetenzaRel.Titolo }}</strong>?</p>
+
+                                            <p class="text-small">Il sistema invierà una <strong>e-mail</strong> all'utente selezionato, potrai sempre controllare l'elenco delle
+                                            proposte di scambio dalla tua pagina personale</p>
+                                            {{ include('scambi/_form.html.twig') }}
+
+
+
+
+
+
+                                          <div class="it-btn-container mt-3">
+                                            <a class="btn btn-xs btn-outline-primary" href="{{ path('app_user_nickname', {'username': userTarget}) }}">Torna indietro</a>
+                                          </div>
+
+
+                                      </div>
+                                  </div>
+                              </div>
+                          </section>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</section>
+
 {% endblock %}
