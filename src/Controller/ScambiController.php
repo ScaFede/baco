@@ -48,6 +48,7 @@ class ScambiController extends AbstractController
 
      // Verifica che l'utente autenticato sia uno dei partecipanti allo scambio
      $user = $this->getUser();
+     $userId = $user->getId();
      if (!$scambi->getUserSender() === $user && !$scambi->getUserTarget()->contains($user)) {
          throw $this->createAccessDeniedException();
      }
@@ -79,8 +80,8 @@ class ScambiController extends AbstractController
           //  $this->addFlash('success', 'Scambio rifiutato con successo.');
        }
 
-
-    return $this->redirectToRoute('app_scambi_index');
+      return $this->redirectToRoute('app_user_profile', ['id' => $userId, '_fragment' => 'proposte-ricevute']);
+    //return $this->redirectToRoute('app_scambi_index');
 }
 
 #[Route('/{id}/reject', name: 'app_scambi_reject', methods: ['POST'])]
@@ -124,8 +125,9 @@ public function confirmSender(Scambi $scambio, ScambiRepository $scambiRepositor
 
 
     }
+    return $this->redirectToRoute('app_user_profile', ['id' => $user->getId(), '_fragment' => 'scambitab']);
 
-    return $this->redirectToRoute('app_scambi_index');
+  //  return $this->redirectToRoute('app_scambi_index');
 }
 
 #[Route('/{id}/save_competenza', name: 'app_scambi_save_competenza', methods: ['POST'])]
@@ -143,9 +145,9 @@ public function saveCompetenza(Request $request, Scambi $scambio, ScambiReposito
          $scambio->setStatusString('In attesa');
          $scambiRepository->save($scambio, true);
 
-          $this->entityManager->flush();
+        $this->entityManager->flush();
 
-      //    $this->addFlash('proposta_success', 'Proposta avviata con successo!');
+        $this->addFlash('proposta_success', 'Proposta avviata con successo!');
     }
 
   dump($competenzaSender);
@@ -154,6 +156,7 @@ public function saveCompetenza(Request $request, Scambi $scambio, ScambiReposito
     //return $this->redirectToRoute('app_scambi_index');
     return $this->redirectToRoute('app_user_profile', ['id' => $userId, '_fragment' => 'proposte-ricevute']);
 }
+
 
 
 #[Route('/{id}/confirm_target', name: 'app_scambi_confirm_target', methods: ['GET'])]
@@ -175,8 +178,44 @@ public function confirmTarget(Scambi $scambio, ScambiRepository $scambiRepositor
       $this->entityManager->flush();
     }
 
-    return $this->redirectToRoute('app_scambi_index');
+  //  return $this->redirectToRoute('app_scambi_index');    
+    return $this->redirectToRoute('app_user_profile', ['id' => $user->getId(), '_fragment' => 'scambitab']);
+
 }
+
+
+
+#[Route('/donazione/{id}', name: 'app_scambi_donazione', methods: ['GET'])]
+public function donazioneAction($id, ScambiRepository $scambiRepository, EntityManagerInterface $entityManager)
+{
+
+    $user = $this->getUser();
+    $userId = $user->getId();
+    // Recupera l'oggetto scambio dal repository
+    $scambio = $scambiRepository->find($id);
+
+    if (!$scambio) {
+        // Gestisci il caso in cui lo scambio non esista
+        throw $this->createNotFoundException('Scambio non trovato');
+    }
+
+    // Imposta il campo "donazione" su true
+    $scambio->setDonazione(true);
+
+    $scambio->setStatusString('Donato');
+
+    // Salva le modifiche nel database
+    $entityManager->persist($scambio);
+    $entityManager->flush();
+
+
+    return $this->redirectToRoute('app_user_profile', ['id' => $user->getId(), '_fragment' => 'avviati']);
+}
+
+
+
+
+
 
   private function incrementScambiConclusi(User $user, Scambi $scambio, ScambiRepository $scambiRepository): void
   {
@@ -403,7 +442,10 @@ public function confirmTarget(Scambi $scambio, ScambiRepository $scambiRepositor
     dump('Email inviata correttamente'); // Debugging output
 //}
 
+      $this->addFlash('scambio_start', 'Scambio avviato con successo!');
 
+      // Reindirizza alla pagina dello user dopo aver compilato il form
+      return $this->redirectToRoute('app_user_profile', ['id' => $user->getId(), '_fragment' => 'avviati']);
           //  return $this->redirectToRoute('app_scambi_index', [], Response::HTTP_SEE_OTHER);
         }
 

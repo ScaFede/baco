@@ -55,6 +55,9 @@ class Scambi
     #[ORM\ManyToOne(inversedBy: 'ScambiUserSenderRel')]
     private ?CompetenzeBis $userSenderCompetenzaRel = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $Donazione = null;
+
 
 
     public function __construct()
@@ -222,6 +225,18 @@ class Scambi
     public function setUserSenderCompetenzaRel(?CompetenzeBis $userSenderCompetenzaRel): static
     {
         $this->userSenderCompetenzaRel = $userSenderCompetenzaRel;
+
+        return $this;
+    }
+
+    public function isDonazione(): ?bool
+    {
+        return $this->Donazione;
+    }
+
+    public function setDonazione(?bool $Donazione): static
+    {
+        $this->Donazione = $Donazione;
 
         return $this;
     }
