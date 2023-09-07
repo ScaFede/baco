@@ -3,6 +3,64 @@
 {#  {{ form_end(form) }}  #}
 
 
+
+<section class="section" id="">
+  <div class="section-content">
+      <div class="container">
+          <div class="row">
+              <div class="col-12 col-lg-8 mx-auto offset-lg-1">
+                  <div class="steppers-content" aria-live="polite">
+                      <div class="it-page-sections-container">
+                          <section class="it-page-section" id="edit-profile">
+                              <div class="cmp-card">
+                                  <div class="card has-bkg-grey shadow-sm p-big">
+                                      <div class="card-header border-0 p-0 mb-lg-30 m-0">
+                                          <div class="d-flex">
+                                              <h1 class="title-xxlarge mb-3">Modifica il tuo profilo</h1>
+                                          </div>
+                                      </div>
+                                      <div class="card-body p-0">
+                                          <div class="form-wrapper  p-4">
+                                              <form method="post" enctype="multipart/form-data">
+                                                {{ form_start(form) }}
+                                                  {{ form_row(form._token) }}
+                                                  {{ form_row(form.email) }}
+                                                  {{ form_row(form.nickname) }}
+                                                  {{ form_row(form.description) }}
+                                                  {{ form_row(form.CompetenzeBisRel) }}
+                                                  {{ form_row(form.cittaRel) }}
+                                                  {{ form_row(form.avatar) }}
+                                                  {{ form_widget(form.conoscenzeImages, {
+                                                      label: 'Carica immagini delle tue competenze (max 6)',
+                                                      attr: {'class': 'custom-file-input'}
+                                                  }) }}
+
+                                                  <div class="form-group cmp-input mb-0">
+                                                    <button class="btn  btn-sm btn-primary" type="submit">
+                                                      Salva
+                                                    </button>
+
+
+                                                  </div>
+
+
+                                                  {{ form_end(form) }}
+                                              </form>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </section>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</section>
+
+
+{#
 {{ form_start(form) }}
     {{ form_row(form.email) }}
     {{ form_row(form.nickname) }}
@@ -20,6 +78,8 @@
 
 {{ form_end(form) }}
 
+
+
 <!-- Visualizza i campi non gestiti -->
 <div>
     <p>Scambi Conclusi: {{ user.scambiConclusi }}</p>
@@ -29,3 +89,4 @@
         {% endfor %}
     </p>
 </div>
+#}

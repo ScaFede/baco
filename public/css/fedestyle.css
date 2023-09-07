@@ -118,6 +118,18 @@ a:hover {
 	background-color: var(--bs-light) !important;
 }
 
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+	border-bottom-color: var(--bs-primary);
+	color: var(--bs-primary);
+	cursor: inherit;
+}
+
+.button-group{
+  display: flex;
+   flex-direction: row;
+   align-items: center;
+   gap: 10px; /* Aggiunge spazio tra i pulsanti */
+}
 
 .it-header-slim-wrapper .it-header-slim-wrapper-content a.navbar-brand {
 	padding-top: 1.5rem;
