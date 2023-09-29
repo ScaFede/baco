@@ -8,14 +8,21 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Doctrine\ORM\EntityManagerInterface;
 
-use App\Entity\BlogPost;
-use App\Entity\Category;
-use App\Entity\Comment;
 use App\Entity\User;
-use App\Entity\Competenze;
 use App\Entity\CompetenzeBis;
 use App\Entity\Scambi;
+use App\Entity\Categorie;
+use App\Entity\Citta;
+
+
+use App\Repository\UserRepository;
+use App\Repository\CompetenzeBisRepository;
+use App\Repository\ScambiRepository;
+use App\Repository\CategorieRepository;
+use App\Repository\CittaRepository;
+
 
 class DashboardController extends AbstractDashboardController
 {
@@ -25,8 +32,10 @@ class DashboardController extends AbstractDashboardController
  */
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin', name: 'admin')]
-    public function index(): Response
-    {
+    public function index(): Response  {
+
+
+
         //return parent::index();
       //  return $this->render('competenze_bis/index.html.twig');
        return $this->render('admin/index.html.twig'); //Redirect in admin per autenticati
@@ -116,26 +125,25 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Competenze', 'fas fa-list', Competenze::class);
+        //yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
         yield MenuItem::linkToCrud('CompetenzeBis', 'fa fa-list', CompetenzeBis::class);
         yield MenuItem::linkToCrud('Scambi', 'fa fa-solid fa-shuffle', Scambi::class);
+        yield MenuItem::linkToCrud('Categorie', 'fa fa-solid fa-tag', Categorie::class);
+        yield MenuItem::linkToCrud('Città', 'fa fa-solid fa-building', Citta::class);
 
 
         return [
           MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
 
-           MenuItem::section('Blog'),
+        /*   MenuItem::section('Blog'),
            MenuItem::linkToCrud('Categories', 'fa fa-tags', Category::class),
            MenuItem::linkToCrud('Blog Posts', 'fa fa-file-text', BlogPost::class),
 
            MenuItem::section('Users'),
            MenuItem::linkToCrud('Comments', 'fa fa-comment', Comment::class),
-           MenuItem::linkToCrud('Users', 'fa fa-user', User::class),
+           MenuItem::linkToCrud('Users', 'fa fa-user', User::class),*/
 
-           MenuItem::section('Competenze'),
-           MenuItem::linkToCrud('Competenze', 'fa fa-comment', Competenze::class),
 
            // MenuItem::section('CompetenzeBis'),
            // MenuItem::linkToCrud('CompetenzeBis', 'fa fa-comment', CompetenzeBis::class),
