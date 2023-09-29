@@ -22,9 +22,9 @@
     <div class="col-lg-8 px-lg-4 py-lg-2">
       <h1 data-audio="">{{ competenze_bi.Titolo }}</h1>
       <!-- <h2 class="h4 py-2" data-audio="">Il sottotitilo della competenza</h2> -->
-      <p data-audio="">
+      <!-- <p data-audio="">
 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
+      </p> -->
 
       {% if is_granted('ROLE_ADMIN') %}
       <div class="mt-3">
@@ -85,7 +85,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                   <div class="accordion-item">
                     <span class="accordion-header" id="accordion-title-one">
                       <button class="accordion-button pb-10 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-one" aria-expanded="true" aria-controls="collapse-one">
-                        Indice della pagina
+                        Indice
                         <svg class="icon icon-xs right">
 
                           <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-expand') }}"></use>
@@ -100,7 +100,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                         <ul class="link-list" data-element="page-index">
                           <li class="nav-item">
                             <a class="nav-link active" href="#cos-e">
-                              <span class="title-medium">Cos'è</span>
+                              <span class="title-medium">Descrizione</span>
                             </a>
                           </li>
                           <li class="nav-item">
@@ -122,7 +122,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
       </div>      </aside>
     <section class="col-lg-8 it-page-sections-container border-light">
       <article id="cos-e" class="it-page-section mb-5" data-audio="">
-        <h2 class="mb-3">Cos'è?</h2>
+        <h2 class="mb-3">Descrizione</h2>
         <p class="">
           {{ competenze_bi.Descrizione }}
         </p>
