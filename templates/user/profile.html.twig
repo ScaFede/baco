@@ -41,20 +41,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
       <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifica profilo</a>
       {% endif %}
 
-{#
-    {% if app.user is not null %}
-      {% if app.user.id != user.id %}
-          <a  href="{{ path('app_scambi_new', { 'userTarget' : user } )}}"
-              class="mt-3 btn btn-primary btn-xs"
-              data-focus-mouse="false">Proponi scambio</a>
-      {% endif %}
-    {% else %}
-        <button class="mt-3 btn btn-secondary btn-xs" disabled>
-          Proponi scambio
-        </button>
-        <p class="title-xsmall-semi-bold text-secondary">È necessario <a href="{{ path('app_register') }}">registrarsi</a> o <a href="{{ path('app_login') }}">accedere al sito</a> per proporre scambi</p>
-  {% endif %}
-  #}
+
 
     </div>
     <div class="col-lg-2 offset-lg-1">
@@ -231,9 +218,28 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                             class="mt-3 btn btn-primary btn-xs"
                             data-focus-mouse="false">Proponi scambio</a>
                     {% endif %}
+                    {% else %}
+                        <button class="mt-3 btn btn-secondary btn-xs" disabled>
+                          Proponi scambio
+                        </button>
+                        <p class="title-xsmall-semi-bold text-secondary">È necessario <a href="{{ path('app_register') }}">registrarsi</a> o <a href="{{ path('app_login') }}">accedere al sito</a> per proporre scambi</p>
+
                   {% endif %}
 
-
+                  {#
+                      {% if app.user is not null %}
+                        {% if app.user.id != user.id %}
+                            <a  href="{{ path('app_scambi_new', { 'userTarget' : user } )}}"
+                                class="mt-3 btn btn-primary btn-xs"
+                                data-focus-mouse="false">Proponi scambio</a>
+                        {% endif %}
+                      {% else %}
+                          <button class="mt-3 btn btn-secondary btn-xs" disabled>
+                            Proponi scambio
+                          </button>
+                          <p class="title-xsmall-semi-bold text-secondary">È necessario <a href="{{ path('app_register') }}">registrarsi</a> o <a href="{{ path('app_login') }}">accedere al sito</a> per proporre scambi</p>
+                    {% endif %}
+                    #}
 
 
 
