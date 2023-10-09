@@ -39,7 +39,7 @@ class UserController extends AbstractController
     {
 
           $categories = $categorieRepository->findAll(); // Recupera tutte le categorie
-          $selectedCategoryId = $request->query->get('category'); // ID category
+          $selectedCategoryId = $request->query->get('categoria'); // ID category
 
           $selectedCityId = $request->query->get('city'); // ID città
           $cities = $cittaRepository->findAll(); // Recupera tutte le città
@@ -64,6 +64,7 @@ class UserController extends AbstractController
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);

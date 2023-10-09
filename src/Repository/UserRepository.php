@@ -88,12 +88,6 @@ public function findByFilters($categoryId, $cityId, $competenzeId)
     {
         $qb = $this->createQueryBuilder('u');
 
-        if ($categoryId) {
-            $qb
-                ->join('u.categorieRelation', 'cat')
-                ->andWhere('cat.id = :categoryId')
-                ->setParameter('categoryId', $categoryId);
-        }
 
 
         if ($cityId) {
@@ -110,6 +104,17 @@ public function findByFilters($categoryId, $cityId, $competenzeId)
 
 
         }
+
+
+        if ($categoryId) {
+            $qb
+
+             ->join('u.CompetenzeBisRel', 'cb') // Unisci con le competenze
+             ->join('cb.categorieRelation', 'cat') // Unisci con le categorie delle competenze
+             ->andWhere('cat.id = :categoryId') // Filtra per categoria
+             ->setParameter('categoryId', $categoryId);
+        }
+
 
         return $qb->getQuery()->getResult();
     }
