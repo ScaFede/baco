@@ -35,6 +35,10 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 font-weight: 700;
 }
 
+.card.card-teaser .card-body .card-text, .card.card-teaser .card-body .card-text > p {
+		font-family: 'Lato', sans-serif;
+}
+
 input, button, select, optgroup, textarea {
   font-family: 'Poppins', sans-serif;
 }
@@ -147,6 +151,28 @@ a:hover {
 .chip:not(.chip-disabled), .chip .chip-label,  {
 	border-color:  var(  --bs-secondary)	;
 }
+
+.nav-tabs .nav-link.active .icon, .nav-tabs .nav-link:hover{
+	fill: var(  --bs-primary);
+}
+
+.nav-tabs .nav-link:hover {
+	color: var(  --bs-primary);
+}
+
+.nav-tabs .nav-link .icon:hover {
+	fill: var(--bs-primary);
+}
+
+.link-list-wrapper ul li a:hover:not(.disabled) span {
+	color:  var(--bs-primary);
+	text-decoration: underline;
+}
+
+.card.border-bottom-card::before {
+	background: var(  --bs-secondary);
+}
+
 
 .it-header-slim-wrapper {
 	background:  var(--bs-primary);
