@@ -100,11 +100,10 @@
 <div class="row">
   {% for user in users %}
     <div class="col-lg-3 col-mb-4 mb-4">
-      <div class="card card-bg card-big rounded shadow h-100 d-flex flex-column">
+      <div class="card card-bg card-big rounded shadow h-100 d-flex flex-column border-bottom-card">
         <div class="card-body">
 
                       <div class="">
-
 
 
                           {#   {% if user.avatar %}
@@ -135,16 +134,7 @@
                         <div class="card-2-bottom card-2-bottom-candidate mt-30">
 
 
-                        <ul class="d-flex flex-wrap gap-1 mt-2">
-                          {% for competenza in user.CompetenzeBisRel %}
-                          <li>
-                            <a class="chip chip-simple" href="{{ path('app_competenze_bis_show', {'id': competenza.id}) }}" data-focus-mouse="false">
-                              <span class="chip-label">{{ competenza.titolo }}</span>
-                            </a>
-                          </li>
-                          {% endfor %}
 
-                      </ul>
 
 
                         </div>
@@ -168,6 +158,21 @@
                                    Scambi conclusi: {{ user.scambiConclusi }}</p>
                               </div>
                                 {% endif %}
+
+
+                                  <div class="col-12">
+                                    <p class="card-text">
+                                       <svg class="icon icon-xs mr-10"><use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-pin') }}"></use></svg>
+
+                                       {% for competenza in user.CompetenzeBisRel %}
+                                           <span class="" href="{{ path('app_competenze_bis_show', {'id': competenza.id}) }}" data-focus-mouse="false">
+                                         {{ competenza.titolo }}{% if not loop.last %}, {% endif %}
+                                         </span>
+
+                                       {% endfor %}
+
+                                     </p>
+                                  </div>
                           </div>
                         </div>
 
