@@ -127,7 +127,7 @@
 
 
 
-                        <p class="card-text">{{ competenze_bi.Descrizione }}</p>
+                        <p class="card-text">{{ competenze_bi.Descrizione | slice(0, 100) | length < 100 ? competenze_bi.Descrizione : competenze_bi.Descrizione | slice(0, 100) ~ '...' }}</p>
 
                       {#  <div class="card-text">
                             <strong>Categoria:</strong>
