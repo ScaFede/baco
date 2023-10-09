@@ -56,7 +56,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                    {% else %}
                        {{ user.scambiConclusi }} scambi
                    {% endif %}
-                  
+
                 </span>
             </a>
         {% else %}
@@ -276,19 +276,19 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
       <ul class="nav nav-tabs nav-tabs-icon-text" id="scambitab" role="tablist">
         <li class="nav-item">
           <a class="nav-link active" id="scambi-ricevuti-tab" data-bs-toggle="tab" href="#scambi-ricevuti" role="tab" aria-controls="scambi-ricevuti" aria-selected="true">
-           <svg class="icon"><use href="/dist/svg/sprites.svg#it-link"></use></svg> Ricevuti
+           <svg class="icon"><use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-hearing') }}"></use></svg> Ricevuti
           </a>
         </li>
 
         <li class="nav-item">
           <a class="nav-link " id="scambi-avviati-tab" data-bs-toggle="tab" href="#scambi-avviati" role="tab" aria-controls="scambi-avviati" aria-selected="false">
-            <svg class="icon"><use href="/dist/svg/sprites.svg#it-link"></use></svg> Avviati
+            <svg class="icon"><use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-horn') }}"></use></svg> Avviati
           </a>
         </li>
 
         <li class="nav-item">
           <a class="nav-link" id="scambi-conclusi-tab" data-bs-toggle="tab" href="#scambi-conclusi" role="tab" aria-controls="scambi-ricevuti" aria-selected="false">
-           <svg class="icon"><use href="/dist/svg/sprites.svg#it-link"></use></svg> Conclusi
+           <svg class="icon"><use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-box  ') }}"></use></svg> Conclusi
           </a>
         </li>
       </ul>
@@ -309,6 +309,8 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
                 {% for proposta in proposteInviate|reverse %}
+
+                    {% if proposta.statusString != 'Concluso' %}
 
 
                         <div class="mb-4">
@@ -342,11 +344,11 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                                 {% endfor %}</h3>
                                 <p class="card-text">
                                 {% if proposta.userTargetCompetenzaRel %}
-                                  Chiesto: {{ proposta.userTargetCompetenzaRel.Titolo }}
+                                  Hai chiesto: {{ proposta.userTargetCompetenzaRel.Titolo }}
                                  {% endif %}<br>
 
                                  {% if proposta.userSenderCompetenzaRel %}
-                                  Proposto: {{ proposta.userSenderCompetenzaRel.Titolo }}
+                                  Ti ha proposto: {{ proposta.userSenderCompetenzaRel.Titolo }}
                               {% endif %}
                                 </p>
 
@@ -371,14 +373,17 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                                   <input type="hidden" name="confirmTargetId" value="{{ proposta.id }}">
                                   <button type="submit" class="btn btn-success btn-xs mt-3">Conferma lo scambio</button>
                               </form>
-                              {% elseif proposta.statusString == 'Confermato'  %}
+
+
+
+                            {#  {% elseif proposta.statusString == 'Confermato'  %}
                               <i>Scambio confermato da entrambi, ora potete accordare via email i dettagli dell'incontro!</i>
 
                               <div class="button-group">
 
 
                                 <div type="button" class="btn btn-outline-primary btn-xs mt-3">
-                                  <a href="mailto:{% for user in proposta.userTarget %}{{ user.email }}{% endfor %}"> E-mail</a>
+                                  <a href="mailto:{% for user in proposta.userTarget %}{{ user.email }}{% endfor %}?subject= Dettagli scambio {{ proposta.id }} con {% for user in proposta.userTarget %}{{ user.nickname }}{% endfor }%"> E-mail</a>
 
                                 </div>
 
@@ -390,10 +395,30 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                                         <button type="submit" class="btn btn-primary btn-xs mt-3">Dichiara concluso lo scambio</button>
                                     </form>
                                   {% endif %}
-                                </div>
+                                </div> #}
 
-                            {% elseif proposta.statusString == 'Concluso' %}
-                            <i>Scambio concluso, bene!</i>
+  {% elseif proposta.statusString == 'Confermato'  %}
+    {% if proposta.confermaSender is null %}
+        <i>Scambio confermato da entrambi, ora potete accordare via email i dettagli dell'incontro!</i>
+        <div class="button-group">
+            <div type="button" class="btn btn-outline-primary btn-xs mt-3">
+                <!-- <a href="mailto:{% for user in proposta.userTarget %}{{ user.email }}{% endfor %}"> E-mail</a> -->
+                <a href="mailto:{% for user in proposta.userTarget %}{{ user.email }}{% endfor %}?subject= BaCo: richiesta dettagli scambio id {{ proposta.id }} da {{proposta.userSender.nickname}}"> E-mail</a>
+
+            </div>
+            <form method="get" action="{{ path('app_scambi_confirm_sender', {'id': proposta.id}) }}" id="concludi-{{proposta.id}}">
+                <button type="submit" class="btn btn-primary btn-xs mt-3">Dichiara concluso lo scambio</button>
+            </form>
+        </div>
+    {% else %}
+    <p class="mt-3 border-top"><i>Hai dichiarato concluso lo scambio, grazie! Attendiamo la conferma dell'altro utente</i></p>
+
+
+    {% endif %}
+
+
+                          {#  {% elseif proposta.statusString == 'Concluso' %}
+                            <i>Scambio concluso, bene!</i> #}
                             {% elseif proposta.statusString == 'Rifiutato' %}
                             <i>L'utente ha rifiutato lo scambio</i>
 
@@ -420,7 +445,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
 
-
+                  {% endif %}
 
                 {% endfor %}
 
@@ -450,6 +475,8 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
                           {% for proposta in proposteRicevute|reverse %}
+
+                            {% if proposta.statusString != 'Concluso' %}
 
 
                                   <div class="mb-4">
@@ -486,7 +513,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
                                          Scambio da <a class="text-decoration-none" href="{{ path('app_user_profile', {'id': proposta.userSender.id}) }}">
                                            {{ proposta.userSender.nickname }}</a> </h3>
-                                           <p class="card-text"> Chiesto:
+                                           <p class="card-text"> Ti ha chiesto:
                                            {% if proposta.userTargetCompetenzaRel is not null %}
                                               {{ proposta.userTargetCompetenzaRel.Titolo }}
                                           {% endif %}
@@ -500,7 +527,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                                            {% endfor %}
                                            {% endif %}
                                            {% if proposta.userSenderCompetenzaRel %}
-                                            Proposto: {{ proposta.userSenderCompetenzaRel.Titolo }}
+                                            Hai proposto: {{ proposta.userSenderCompetenzaRel.Titolo }}
                                             {% endif %}
                                         </p>
 
@@ -552,6 +579,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
                                                 <div type="button" class="btn btn-outline-primary btn-xs mt-3">
                                                   <a href="mailto:{{proposta.userSender.email}}"> E-mail</a>
+                                                  <a href="mailto:{{proposta.userSender.email}}?subject= BaCo: richiesta dettagli scambio id {{ proposta.id }} da user {% for user in proposta.userTarget %}{{ user.nickname }}{% endfor %}"> E-mail</a>
 
                                                 </div>
 
@@ -560,8 +588,8 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                                                 </form>
                                                 </div>
                                               {% endif %}
-                                          {% elseif proposta.statusString == 'Concluso' %}
-                                          <i>Scambio concluso, bene!</i>
+                                        {#  {% elseif proposta.statusString == 'Concluso' %}
+                                          <i>Scambio concluso, bene!</i> #}
                                           {% elseif proposta.statusString == 'Rifiutato' %}
                                           <i>Hai rifiutato questo scambio</i>
                                           {% endif %}
@@ -589,11 +617,15 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                <div class="modal fade" id="acceptModal-{{proposta.id}}" tabindex="-1" aria-labelledby="acceptModalLabel-{{proposta.id}}" aria-hidden="true">
                    <div class="modal-dialog">
                        <div class="modal-content">
+
                            <div class="modal-header">
-                               <h5 class="modal-title" id="acceptModalLabel-{{proposta.id}}">Seleziona competenza da scambiare con {{ proposta.userSender.nickname }} </h5>
+
+                               <h6 class="modal-title" id="acceptModalLabel-{{proposta.id}}"> {{ proposta.userSender.nickname }} ti ha chiesto {{ proposta.userTargetCompetenzaRel.Titolo }}. <br>Seleziona la tua competenza da scambiare:</h6>
                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
                            </div>
                            <div class="modal-body">
+
                                <form id="acceptForm-{{proposta.id}}" method="post" action="{{ path('app_scambi_save_competenza', {'id': proposta.id}) }}">
                                    {#{{ csrf_token('save_competenza') }}#}
                                   <input type="hidden" name="_token" value="{{ csrf_token('save_competenza') }}">
@@ -628,7 +660,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
 
-
+                              {% endif %}
                           {% endfor %}
 
 
@@ -644,7 +676,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
         <h3>Scambi Conclusi</h3>
 
 {% if proposteInviate is defined or proposteRicevute is defined %}
-    {% for proposta in proposteInviate %}
+    {% for proposta in proposteInviate|reverse %}
         {% if proposta.statusString == 'Concluso' %}
             <div class="mb-4">
                 <div class="card card-teaser shadow rounded">
@@ -677,7 +709,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
         {% endif %}
     {% endfor %}
 
-    {% for proposta in proposteRicevute %}
+    {% for proposta in proposteRicevute|reverse %}
         {% if proposta.statusString == 'Concluso' %}
             <div class="mb-4">
                 <div class="card card-teaser rounded">
@@ -689,20 +721,33 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                             <span class="data">{{ proposta.createdAt ? proposta.createdAt|date('d/m/Y H:i') }} - ID proposta {{ proposta.id }}</span>
                         </div>
                         <h3 class="card-title h5">
-                            {% for user in proposta.userTarget %}
-                                Hai chiesto a  <a href="{{ path('app_user_profile', {'id': user.id}) }}" class="text-decoration-none">
-                                    {{ user.nickname }}
+                            {% if proposta.userSender %}
+                                Hai scambiato con  <a href="{{ path('app_user_profile', {'id': proposta.userSender.id}) }}" class="text-decoration-none">
+                                    {{ proposta.userSender }}
                                 </a>
-                            {% endfor %}
-                            {% if proposta.userTargetCompetenzaRel %}
-                                uno scambio per: {{ proposta.userTargetCompetenzaRel.Titolo }}
                             {% endif %}
+
                         </h3>
+
+
+
+
+                        <p class="card-text">
+
+                            {% if proposta.userSenderCompetenzaRel %}
+                                Hai ottenuto: {{ proposta.userSenderCompetenzaRel.Titolo }}
+                            {% endif %}<br>
+                            {% if proposta.userTargetCompetenzaRel %}
+                              In cambio di: {{ proposta.userTargetCompetenzaRel.Titolo }}
+                            {% endif %}
+                        </p>
+
+
                         <!-- Resto del contenuto -->
                         <div class="card-text">
-                            {% if proposta.statusString == 'Concluso' %}
+
                                 <i>Scambio concluso, bene!</i>
-                            {% endif %}
+
                             <!-- Altre condizioni e contenuti specifici -->
                         </div>
                     </div>
