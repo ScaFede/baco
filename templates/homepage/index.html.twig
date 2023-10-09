@@ -14,12 +14,12 @@
         <div class="row">
            <div class="col-12">
               <div class="it-hero-text-wrapper">
-                 <span class="it-Categoria">Benvenuto in BaCo</span>
-                 <h2>Siamo una digital community che si vuole prendere cura di te, di noi.</h2>
+                 <span class="it-Categoria">Ti diamo il benvenuto su BaCo</span>
+                 <h2>Siamo una community sociale che si vuole prendere cura di te, di noi.</h2>
                  <p class="">Come? Scambiando con altri utenti saperi e conoscenze.</p>
                  <div class="it-btn-container">
                    <a class="btn btn-sm btn-secondary" href="{{ path('app_competenze_bis_index') }}">Scopri cosa offre la community</a>
-                   <a class="btn btn-sm btn-outline-secondary" href="#">Il Manifeso di BaCo</a>
+                   <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_manifesto') }}">Il Manifeso di BaCo</a>
                  </div>
               </div>
            </div>
@@ -177,8 +177,8 @@
                     <div class="card-header border-0">
                         <h2 class="title-medium-2-semi-bold mb-3" data-element="feedback-title">Sei pronto ad unirti a noi?</h2>
                         <div class="it-btn-container pt-3">
-                          <a class="btn btn-sm btn-primary" href="#">Voglio registrarmi</a>
-                          <a class="btn btn-sm btn-outline-primary" href="#">FAQ</a>
+                          <a class="btn btn-sm btn-primary" href="{{ path('app_register') }}">Voglio registrarmi</a>
+                          <a class="btn btn-sm btn-outline-primary" href="{{ path('app_faq') }}">FAQ</a>
                         </div>
                     </div>
 
