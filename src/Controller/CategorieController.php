@@ -17,6 +17,7 @@ class CategorieController extends AbstractController
     #[Route('/', name: 'app_categorie_index', methods: ['GET'])]
     public function index(CategorieRepository $categorieRepository): Response
     {
+      $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('categorie/index.html.twig', [
             'categories' => $categorieRepository->findAll(),
         ]);
@@ -47,6 +48,8 @@ class CategorieController extends AbstractController
     #[Route('/{id}', name: 'app_categorie_show', methods: ['GET'])]
     public function show(Categorie $categorie): Response
     {
+      $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return $this->render('categorie/show.html.twig', [
             'categorie' => $categorie,
         ]);
@@ -77,7 +80,7 @@ class CategorieController extends AbstractController
     public function delete(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        
+
         if ($this->isCsrfTokenValid('delete'.$categorie->getId(), $request->request->get('_token'))) {
             $entityManager->remove($categorie);
             $entityManager->flush();

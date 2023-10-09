@@ -70,6 +70,8 @@ class CittaController extends AbstractController
     #[Route('/', name: 'app_citta_index', methods: ['GET'])]
     public function index(CittaRepository $cittaRepository): Response
     {
+      $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return $this->render('citta/index.html.twig', [
             'cittas' => $cittaRepository->findAll(),
         ]);
