@@ -41,11 +41,19 @@ class ScambiCrudController extends AbstractCrudController
            IdField::new('id')->onlyOnIndex(),
            Field::new('statusString'),
             Field::new('fromUser')->onlyOnIndex(),
+
+            Field::new('scambioConfermato')->onlyOnIndex(),
+            Field::new('confermaTarget')->onlyOnIndex(),
+            Field::new('confermaSender')->onlyOnIndex(),
           //  Field::new('fromUser')->fromUser,
           //  $fromUser = $this->security->getUser(),
 
           // Choi::new('status')->setChoices(['started' => 'started','closed' => 'closed', ]),
-           AssociationField::new('userTarget')->autocomplete(),
+           AssociationField::new('userSender'),
+           AssociationField::new('userSenderCompetenzaRel'),
+
+           AssociationField::new('userTarget'),
+           AssociationField::new('userTargetCompetenzaRel'),
 
         ];
     }

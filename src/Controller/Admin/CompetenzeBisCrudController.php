@@ -10,7 +10,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+
 //use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
 
@@ -27,11 +30,15 @@ class CompetenzeBisCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             Field::new('titolo'),
-            Field::new('descrizione'),
+            TextareaField::new('descrizione'),
             BooleanField::new('status_active'),
             Field::new('CreateAt'),
         //      DateTimeField::new('CreateAt')->setFormat('short', 'none'),
             AssociationField::new('UserRelation')->autocomplete(),
+            AssociationField::new('categorieRelation')
+             ->setFormTypeOptions([
+                 'by_reference' => false, // Assicura che la relazione ManyToMany venga gestita correttamente
+             ]),
 
             // TextField::new('title'),
             // TextEditorField::new('description'),
