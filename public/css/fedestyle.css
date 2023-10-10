@@ -39,13 +39,31 @@ font-weight: 700;
 		font-family: 'Lato', sans-serif;
 }
 
+.card .card-body a h5.card-title, .card .card-body a .card-title.h5 {
+	color:  var(--bs-primary);
+}
+
+.card .categoryicon-top .icon {
+	fill:  var(--bs-primary);
+}
+
+.icon-primary {
+	fill: var(--bs-primary) !important;
+}
+
+.logo-xs {
+	max-width: 45px;
+}
+
+
+
 input, button, select, optgroup, textarea {
   font-family: 'Poppins', sans-serif;
 }
 
 a, a.read-more {
 	color: var(--bs-primary);
-	text-decoration: underline;
+	text-decoration: none;
 }
 
 a:hover {
