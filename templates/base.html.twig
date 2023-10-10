@@ -37,17 +37,18 @@
       <div class="row">
         <div class="col-12">
           <div class="it-header-slim-wrapper-content">
-            <a class="navbar-brand" href="{{ path('app_homepage') }}">
+            <a class="d-none d-lg-block navbar-brand" href="{{ path('app_homepage') }}">
               <img src=" {{ asset('img/bozza-logo_white.png')}}" class="logo " alt="logo BaCo">
 
 
               </a>
             <div class="nav-mobile">
               <nav aria-label="Navigazione secondaria">
-                <a class="it-opener d-lg-none" data-bs-toggle="collapse" href="#menuC1" role="button" aria-expanded="false" aria-controls="menuC1">
-                  <span>Baco</span>
+                <a class="it-opener d-lg-none collapsed" data-bs-toggle="collapse" href="#menuC1" role="button" aria-expanded="false" aria-controls="menuC1">
+                  <!-- <span>BaCo</span> -->
+                    <img src=" {{ asset('img/bozza-logo_white.png')}}" class="logo-xs " alt="logo BaCo">
                   <svg class="icon" aria-hidden="true">
-                    <use href="/dist/svg/sprites.svg#it-expand"></use>
+                    <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-expand') }}"></use>
                   </svg>
                 </a>
                 <div class="link-list-wrapper collapse" id="menuC1">
