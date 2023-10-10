@@ -40,9 +40,19 @@ class CompetenzeBisController extends AbstractController
     public function index(CompetenzeBisRepository $competenzeBisRepository, CategorieRepository $categorieRepository,  CittaRepository $cittaRepository, Request $request): Response
     {
         $categories = $categorieRepository->findAll(); // Recupera tutte le categorie
+        // Ordina le categorie in ordine alfabetico basato sul campo 'nome'
+        usort($categories, function($a, $b) {
+            return strcmp($a->getNome(), $b->getNome());
+        });
+
         $selectedCategoryId = $request->query->get('category'); // ID category
 
         $cities = $cittaRepository->findAll(); // Recupera tutte le città
+        // Ordina le città in ordine alfabetico basato sul campo 'nome'
+        usort($cities, function($a, $b) {
+            return strcmp($a->getNome(), $b->getNome());
+        });
+
         $selectedCityId = $request->query->get('city'); // ID città
 
         //$searchTerm = $request->query->get('search');

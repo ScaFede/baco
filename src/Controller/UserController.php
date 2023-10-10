@@ -39,14 +39,32 @@ class UserController extends AbstractController
     {
 
           $categories = $categorieRepository->findAll(); // Recupera tutte le categorie
+          // Ordina le categorie in ordine alfabetico basato sul campo 'nome'
+          usort($categories, function($a, $b) {
+              return strcmp($a->getNome(), $b->getNome());
+          });
+
+
           $selectedCategoryId = $request->query->get('categoria'); // ID category
 
           $selectedCityId = $request->query->get('city'); // ID città
+
           $cities = $cittaRepository->findAll(); // Recupera tutte le città
+          // Ordina le categorie in ordine alfabetico basato sul campo 'nome'
+          usort($cities, function($a, $b) {
+              return strcmp($a->getNome(), $b->getNome());
+          });
+
+
         //  $users = $userRepository->findByCity($selectedCityId);
 
           //
           $competenze_bis = $competenzeBisRepository->findAll();
+          // Ordina le competenze in ordine alfabetico basato sul campo 'nome'
+          usort($competenze_bis, function($a, $b) {
+              return strcmp($a->getTitolo(), $b->getTitolo());
+          });
+
           $selectedCompetenze_bis = $request->query->get('competenze');
 
          $users = $userRepository->findByFilters($selectedCategoryId, $selectedCityId, $selectedCompetenze_bis);
