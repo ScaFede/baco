@@ -66,4 +66,8 @@ class Categorie
 
         return $this;
     }
+
+        public function __toString() {
+        return $this->getNome(); // Dove getNome() ritorna il nome dell'oggetto
+    }
 }
