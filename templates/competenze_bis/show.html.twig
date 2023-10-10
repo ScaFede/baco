@@ -103,12 +103,13 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                               <span class="title-medium">Descrizione</span>
                             </a>
                           </li>
+                          {% if competenze_bi.userRelation.count() > 0 %}
                           <li class="nav-item">
                             <a class="nav-link" href="#contatti">
                               <span class="title-medium">Community</span>
                             </a>
                           </li>
-
+                          {% endif %}
 
                         </ul>
                       </div>
@@ -132,7 +133,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
       </article>
 
-
+{% if competenze_bi.userRelation.count() > 0 %}
       <article id="contatti" class="it-page-section mb-5">
         <h2 class="mb-3">Community</h2>
 
@@ -205,11 +206,9 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
       </article>
 
+{% endif %}
 
-
-      <article id="ultimo-aggiornamento" class="it-page-section mt-5">
-        <h4 class="h6">Creato il: <span class="h6 fw-normal">{{ competenze_bi.CreateAt ? competenze_bi.CreateAt|date('d/m/Y H:i') : '' }}</span></h4>
-      </article>
+    
     </section>
   </div>
 </div>
@@ -224,17 +223,17 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
             <div class="card-body">
               <h2 class="title-medium-2-semi-bold">Qualche dubbio?</h2>
               <ul class="contact-list p-0">
-                <li><a class="list-item" href="#">
+                <li><a class="list-item" href="{{ path('app_faq') }}">
                     <svg class="icon icon-primary icon-sm" aria-hidden="true">
 
                       <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-help-circle') }}"></use>
                     </svg><span>Leggi le domande frequenti</span></a></li>
 
-                <li><a class="list-item" href="#" data-element="contacts">
+                <li><a class="list-item" href="mailto:assistenza@baco.community" data-element="contacts">
                     <svg class="icon icon-primary icon-sm" aria-hidden="true">
 
                       <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-mail') }}"></use>
-                    </svg><span>Richiedi assistenza</span></a></li>
+                    </svg><span>Richiedi assistenza o segnala</span></a></li>
 
 
               </ul>
@@ -249,74 +248,21 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
   </div>
 </div>
 
+{% if is_granted('ROLE_ADMIN') %}
+<div class="mt-3">
+  <a href="{{ path('app_competenze_bis_new') }}" class="btn btn-primary">Crea nuova</a>
 
 
 
 
+      <a href="{{ path('app_competenze_bis_index') }}" class="btn btn-secondary">Torna alla lista</a>
+
+      <a href="{{ path('app_competenze_bis_edit', {'id': competenze_bi.id}) }}" class="btn btn-warning">Modifica</a>
+
+      {{ include('competenze_bis/_delete_form.html.twig') }}
 
 
+</div>
+{% endif %}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h1>CompetenzeBis</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ competenze_bi.id }}</td>
-            </tr>
-            <tr>
-                <th>Titolo</th>
-                <td>{{ competenze_bi.Titolo }}</td>
-            </tr>
-            <tr>
-                <th>Descrizione</th>
-                <td>{{ competenze_bi.Descrizione }}</td>
-            </tr>
-            <tr>
-                <th>StatusActive</th>
-                <td>{{ competenze_bi.StatusActive ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>CreateAt</th>
-                <td>{{ competenze_bi.CreateAt ? competenze_bi.CreateAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_competenze_bis_index') }}">back to list</a>
-
-    <a href="{{ path('app_competenze_bis_edit', {'id': competenze_bi.id}) }}">edit</a>
-
-    {{ include('competenze_bis/_delete_form.html.twig') }}
 {% endblock %}
