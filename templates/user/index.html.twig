@@ -99,11 +99,19 @@
 
 <div class="row">
   {% for user in users %}
-    <div class="col-lg-3 col-mb-4 mb-4">
+    <div class="col-md-4 col-mb-3 mb-4">
       <div class="card card-bg card-big rounded shadow h-100 d-flex flex-column border-bottom-card">
         <div class="card-body">
 
                       <div class="">
+
+                        <div class="categoryicon-top">
+                          <svg class="icon avatar size-lg ">
+                            <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-user ') }}"></use>
+                          </svg>
+                          <span class="">  <a href="{{ path('app_user_profile', {'id': user.id}) }}">
+                              <h5 class="card-title">{{ user.nickname }}</h5></a></span>
+                        </div>
 
 
                           {#   {% if user.avatar %}
@@ -119,14 +127,14 @@
 
 
 
-                        <div class="card-profile">
+                      {#  <div class="card-profile">
                           <a href="{{ path('app_user_profile', {'id': user.id}) }}">
-                            <h6 class="card-title">{{ user.nickname }}</h5></a>
+                            <h5 class="card-title">{{ user.nickname }}</h5></a>
                             {% if app.user %}
                             <span class="font-xs color-text-mutted">{{ user.email }}</span>
                             {% endif %}
 
-                        </div>
+                        </div>#}
                       </div>
 
                       <div class="">
