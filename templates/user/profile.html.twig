@@ -118,11 +118,13 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
                           {# Mostra le proposte di scambio inviate solo all'utente autenticato #}
                           {% if app.user and app.user.id == user.id %}
 
+                          {% if user.scambiConclusi > 0 %}
                           <li class="nav-item">
                             <a class="nav-link" href="#scambitab">
                               <span class="title-medium">Scambi</span>
                             </a>
                           </li>
+                          {% endif %}
                           <!-- <li class="nav-item">
                             <a class="nav-link" href="#ricevute">
                               <span class="title-medium">Proposte di scambio ricevute</span>
@@ -270,8 +272,8 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
       {# Mostra le proposte di scambio inviate solo all'utente autenticato #}
       {% if app.user and app.user.id == user.id %}
 
-
-    <h2 class="mb-3">Scambi</h2>
+        {% if user.scambiConclusi > 0 %}
+        <h2 class="mb-3">Scambi</h2>
 
       <ul class="nav nav-tabs nav-tabs-icon-text" id="scambitab" role="tablist">
         <li class="nav-item">
@@ -765,7 +767,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
       </div>
-
+      {% endif %}
       {% endif %}
 
 
@@ -790,14 +792,14 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
             <div class="card-body">
               <h2 class="title-medium-2-semi-bold">Qualche dubbio?</h2>
               <ul class="contact-list p-0">
-                <li><a class="list-item" href="#">
+                <li><a class="list-item" href="{{ path('app_faq') }}">
                     <svg class="icon icon-primary icon-sm" aria-hidden="true">
-                      <use href="../assets/bootstrap-italia/dist/svg/sprites.svg#it-help-circle"></use>
+                      <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-help-circle') }}"></use>
                     </svg><span>Leggi le domande frequenti</span></a></li>
 
-                <li><a class="list-item" href="#" data-element="contacts">
+                <li><a class="list-item" href="mailto:assistenza@baco.community" data-element="contacts">
                     <svg class="icon icon-primary icon-sm" aria-hidden="true">
-                      <use href="../assets/bootstrap-italia/dist/svg/sprites.svg#it-mail"></use>
+                      <use href="{{ asset('css/bootstrap-italia/svg/sprites.svg#it-mail') }}"></use>
                     </svg><span>Richiedi assistenza</span></a></li>
 
 
